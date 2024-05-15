@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:13:50 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/15 16:47:01 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/15 17:48:26 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	line = readline("minishell$");
-	if (!line)
-		line = readline("minishell$");
-	printf("user input: %s\n", line);
+	while ((line = readline("minishell$")) != NULL)
+	{
+		add_history(line);
+		
+	}
 	//PSEUDO CODE
 	//1. read input
 	//2. parse input(make parsing tree)
