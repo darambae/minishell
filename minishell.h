@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/15 15:16:59 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/15 16:46:52 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
@@ -24,8 +26,6 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include "libft/libft.h"
-
-# define PROMPT "minishell$ "
 
 enum e_token
 {
@@ -53,28 +53,28 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**args;
-	char	*input;
-	char	*output;
-}			t_cmd;
+// typedef struct s_cmd
+// {
+// 	char	*cmd;
+// 	char	**args;
+// 	char	*input;
+// 	char	*output;
+// }			t_cmd;
 
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**args;
-	char	*input;
-	char	*output;
-}			t_cmd;
+// typedef struct s_cmd
+// {
+// 	char	*cmd;
+// 	char	**args;
+// 	char	*input;
+// 	char	*output;
+// }			t_cmd;
 
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**args;
-	char	*input;
-	char	*output;
-}			t_cmd;
+// typedef struct s_cmd
+// {
+// 	char	*cmd;
+// 	char	**args;
+// 	char	*input;
+// 	char	*output;
+// }			t_cmd;
 
 #endif

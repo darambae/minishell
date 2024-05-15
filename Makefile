@@ -6,7 +6,7 @@
 #    By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/15 15:11:53 by dabae             #+#    #+#              #
-#    Updated: 2024/05/15 15:15:30 by dabae            ###   ########.fr        #
+#    Updated: 2024/05/15 16:45:05 by dabae            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
-SRC = src/
+SRC = src/main.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
