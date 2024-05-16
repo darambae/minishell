@@ -1,0 +1,37 @@
+minishell$ls -a
+minishell$ls -l
+minishell$ls -la
+minishell$ls -l -a
+minishell$ls non_existent_directory
+minishell$cat file.txt
+minishell$cat file1.txt file2.txt
+minishell$echo "Hello, world!"
+minishell$echo "Hello, world!" > output.txt
+minishell$echo "Hello, world!" >> output.txt
+minishell$grep "pattern" file.txt
+minishell$grep -i "pattern" file.txt
+minishell$grep -r "pattern" directory
+minishell$wc file.txt
+minishell$wc -l file.txt
+minishell$wc -w file.txt
+minishell$wc -c file.txt
+minishell$mkdir test_directory
+minishell$cd test_directory
+minishell$pwd
+minishell$touch new_file.txt
+minishell$mv new_file.txt moved_file.txt
+minishell$rm moved_file.txt
+minishell$cd ..
+minishell$rmdir test_directory
+minishell$ls -l | grep "pattern" | wc -l
+minishell$cat file.txt | grep "pattern" | sed 's/old/new/' | sort
+minishell$ls -l | grep "pattern" | awk '{print $9}' | xargs rm
+minishell$cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr
+minishell$sort < input.txt > output_sorted.txt
+minishell$ls -l >> output.txt 2>> error_log.txt
+minishell$grep "pattern" file.txt > output.txt 2>&1
+minishell$cat file.txt > /dev/null 2>&1
+minishell$cat file1.txt | grep "pattern" > output.txt
+minishell$cat file.txt | grep "pattern" | sed 's/old/new/' > modified_output.txt 2>> error_log.txt
+minishell$cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr > analysis_report.txt
+minishell$

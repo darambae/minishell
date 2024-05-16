@@ -1,6 +1,0 @@
-ls
-pwd
-echo "Hello, world!"
-mkdir test_directory
-cd test_directory
-ls -l
