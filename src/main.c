@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:13:50 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/15 17:48:26 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/16 09:09:13 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(int argc, char **argv)
 	while ((line = readline("minishell$")) != NULL)
 	{
 		add_history(line);
-		
 	}
 	//PSEUDO CODE
 	//1. read input
