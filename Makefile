@@ -4,7 +4,7 @@ NAME = minishell
 CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
-SRC = src/main.c
+SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

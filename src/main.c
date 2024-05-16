@@ -10,6 +10,7 @@ int	main(int argc, char **argv)
 	(void)argv;
 	while ((line = readline("minishell$")) != NULL)
 	{
+		
 		add_history(line);
 	}
 	//PSEUDO CODE

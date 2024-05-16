@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/15 14:57:29 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/16 13:34:26 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,7 @@ typedef struct s_env
 // 	char	*input;
 // 	char	*output;
 // }			t_cmd;
+
+bool	peek(char **start_str, char *end_str, char *c);
 
 #endif
