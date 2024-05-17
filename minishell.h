@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/17 08:37:50 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/17 15:27:18 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ typedef struct s_redircmd
 
 bool	peek(char **start_str, char *end_str, char *c);
 int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
+
 
 #endif
