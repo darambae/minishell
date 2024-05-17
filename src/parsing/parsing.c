@@ -59,3 +59,8 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	*start_line = cur; //update where to start scanning
 	return (res);
 }
+
+void	parse_line(char *line)
+{
+	if (get_token())
+}
