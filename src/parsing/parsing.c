@@ -1,98 +1,50 @@
 
 #include "../minishell.h"
 
-/*Check a str through and skip whitespace. 
-Set start_str on the non-whitespace char and check if it's a token.*/
-bool	peek(char **start_str, char *end_str, char *c)
+int	parse(char *line)
 {
-	char	*tmp;
+	char	*end_line;
+	t_cmd	*cmd;
 
-	tmp = *start_str;
-	while (tmp < end_str && ft_strchr(" \t\n\v\r", *tmp))
-		tmp++;
-	*start_str = tmp;
-	return (*tmp && ft_strchr(c , *tmp));
+	end_line = line + ft_strlen(line);
+	cmd = parse_redire(cmd, &line, end_line);
+
 }
 
-int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
+t_cmd	*parse_pipe(t_cmd *cmd, char **start_line, char *end_line)
 {
-	char	*whitespace;
-	char	*symbols;
-	char	*cur;
-	int		res;
-
-	whitespace = " \t\n\v\r";
-	symbols = "$|><";
-	cur = *start_line;
-	while (cur < end_line && ft_strchr(whitespace, *cur))
-		cur++;
-	if (start_t)
-		*start_t = cur;
-	res = *cur;
-	if (*cur == '|')
-		res = '-';
-	else if (*cur == '<')
-	{
-		cur++;
-		if (*cur == '<')
-			res = '{'; //For <<
-		else
-			res = '['; //For <
-	}
-	else if (*cur == '>')
-	{
-		cur++;
-		if (*cur == '>')
-			res = '}'; //For >>
-		else
-			res = ']'; //For >
-	}
-	else
-	{
-		res = 'a'; //For any other argv including CMD, ARG, ETC,,,
-		while (cur < end_line && !ft_strchr(whitespace, *cur) && !ft_strchr(symbols, *cur))
-			cur++;
-	}
-	if (end_t)
-		*end_t = cur;
-	while (cur < end_line && ft_strchr(whitespace, *cur))
-		cur++;
-	*start_line = cur; //update where to start scanning
-	return (res);
-}
-
-<<<<<<< HEAD:src/parsing.c
-int	parse_line(char **line)
-{
-	char	*start;
-	char	*end;
+	char	*start_t;
+	char	*end_t;
 	int		token;
 
-	start = line;
-	end = line + ft_strlen(line);
-	token = get_token(&start, end, NULL, &end);
-	if (token == 'a')
+	cmd = parse_redire(cmd, start_line, end_line);
+	while (peek(start_line, end_line, "|"))
 	{
-		execcmd->type = EXEC;
-		execcmd->argv[0] = ft_substr(start, 0, end - start);
-		execcmd->argv[1] = NULL;
+		get_token(start_line, end_line, &start_t, &end_t);
+		cmd = pipecmd(cmd, parse_redire(0, start_t, end_t));
 	}
-	else if (token == '-')
-	{
-		execcmd->type = PIPE;
-	}
-	else if (token == '[' || token == '{' || token == ']' || token == '}')
-	{
-		execcmd->type = REDIR;
-	}
-	else if (token == '$')
-	{
-		execcmd->type = ENVIRONMENT;
-	}
-	return (0);
-=======
-void	parse_line(char *line)
+	return (cmd);
+}
+
+t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 {
-	if (get_token())
->>>>>>> 89ec3409b6fcc62ee97375239636d58e5d4bec57:src/parsing/parsing.c
+	char	*start_t;
+	char	*end_t;
+	int		token;
+
+	start_t = 0;
+	end_t = 0;
+	while (peek(start_line, end_line, "<>"))
+	{
+		token = get_token(start_line, end_line, &start_t, &end_t);
+		if (token == '[')
+			cmd = redircmd(cmd, start_t, end_t, O_RDONLY, 0);
+		else if (token == ']')
+			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_TRUNC, 1);
+		else if (token == '{')
+			cmd = redircmd(cmd, start_t, end_t, O_RDONLY, 0);
+		else if (token == '}')
+			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_APPEND, 1);
+	}
+	return (cmd);
 }
