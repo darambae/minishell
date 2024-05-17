@@ -61,6 +61,7 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	return (res);
 }
 
+<<<<<<< HEAD:src/parsing.c
 int	parse_line(char **line)
 {
 	char	*start;
@@ -89,4 +90,9 @@ int	parse_line(char **line)
 		execcmd->type = ENVIRONMENT;
 	}
 	return (0);
+=======
+void	parse_line(char *line)
+{
+	if (get_token())
+>>>>>>> 89ec3409b6fcc62ee97375239636d58e5d4bec57:src/parsing/parsing.c
 }

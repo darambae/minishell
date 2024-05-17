@@ -10,6 +10,7 @@ t_cmd	*execcmd(void)
 	execcmd->type = EXEC;
 	return ((t_cmd *)execcmd);
 }
+
 t_cmd	*execcmd(void)
 {
 	t_execcmd	*execcmd;

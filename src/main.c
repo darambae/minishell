@@ -8,10 +8,10 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-	while ((line = readline("minishell$")) != NULL)
+	while ((line = readline("minishell$ ")) != NULL)
 	{
-		
-		add_history(line);
+		add_history(line);	
+		parse_line(line);
 	}
 	rl_clear_history();
 	//PSEUDO CODE

@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/17 09:33:37 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/17 09:45:42 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,40 +43,28 @@ typedef struct s_cmd
 typedef struct s_execcmd
 {
 	enum e_token	type;
-	char			*argv[10];
-	char			*end_argv[10];
+	char			*argv[100];
+	char			*end_argv[100];
 }				t_execcmd;
 
-typedef struct s_env
+typedef struct s_pipecmd
 {
-	char	*name;
-	char	*value;
-}			t_env;
+	enum e_token	type;
+	t_cmd			*left;
+	t_cmd			*right;
+}				t_pipecmd;
 
-// typedef struct s_cmd
-// {
-// 	char	*cmd;
-// 	char	**args;
-// 	char	*input;
-// 	char	*output;
-// }			t_cmd;
-
-// typedef struct s_cmd
-// {
-// 	char	*cmd;
-// 	char	**args;
-// 	char	*input;
-// 	char	*output;
-// }			t_cmd;
-
-// typedef struct s_cmd
-// {
-// 	char	*cmd;
-// 	char	**args;
-// 	char	*input;
-// 	char	*output;
-// }			t_cmd;
+typedef struct s_redircmd
+{
+	enum e_token	type;
+	t_cmd			*cmd;
+	char			*start_file;
+	char			*end_file;
+	int				mode;
+	int				fd;
+}				t_redircmd;
 
 bool	peek(char **start_str, char *end_str, char *c);
+int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
 
 #endif
