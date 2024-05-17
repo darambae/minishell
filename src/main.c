@@ -11,7 +11,7 @@ int	main(int argc, char **argv)
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		add_history(line);	
-		parse_line(line);
+		parse(line);
 	}
 	rl_clear_history();
 	//PSEUDO CODE
