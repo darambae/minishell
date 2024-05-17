@@ -1,7 +1,8 @@
 
 #include "../minishell.h"
 
-//Check a str through and skip whitespace. Set start_str on the non-whitespace char and check if it's a token.
+/*Check a str through and skip whitespace. 
+Set start_str on the non-whitespace char and check if it's a token.*/
 bool	peek(char **start_str, char *end_str, char *c)
 {
 	char	*tmp;
@@ -58,4 +59,34 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 		cur++;
 	*start_line = cur; //update where to start scanning
 	return (res);
+}
+
+int	parse_line(char **line)
+{
+	char	*start;
+	char	*end;
+	int		token;
+
+	start = line;
+	end = line + ft_strlen(line);
+	token = get_token(&start, end, NULL, &end);
+	if (token == 'a')
+	{
+		execcmd->type = EXEC;
+		execcmd->argv[0] = ft_substr(start, 0, end - start);
+		execcmd->argv[1] = NULL;
+	}
+	else if (token == '-')
+	{
+		execcmd->type = PIPE;
+	}
+	else if (token == '[' || token == '{' || token == ']' || token == '}')
+	{
+		execcmd->type = REDIR;
+	}
+	else if (token == '$')
+	{
+		execcmd->type = ENVIRONMENT;
+	}
+	return (0);
 }

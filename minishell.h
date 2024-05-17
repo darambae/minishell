@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/16 13:34:26 by dabae            ###   ########.fr       */
+/*   Updated: 2024/05/17 09:33:37 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ enum e_token
 	ENVIRONMENT,
 };
 
-typedef struct s_type
+typedef struct s_cmd
 {
 	enum e_token	type;
-}			t_type;
+}			t_cmd;
 
 typedef struct s_execcmd
 {

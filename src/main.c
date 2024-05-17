@@ -13,6 +13,7 @@ int	main(int argc, char **argv)
 		
 		add_history(line);
 	}
+	rl_clear_history();
 	//PSEUDO CODE
 	//1. read input
 	//2. parse input(make parsing tree)
