@@ -17,7 +17,7 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 	end_t = 0;
 	res = execcmd();
 	cmd = (t_execcmd *)res;
-	while (!peek(start_line, end_line, "|"))
+	while (peek(start_line, end_line, "|") == 0 && *start_line < end_line)
 	{
 		token = get_token(start_line, end_line, &start_t, &end_t);
 		if (!token)
@@ -39,7 +39,7 @@ t_cmd	*parse_pipe(char **start_line, char *end_line)
 	t_cmd	*cmd;
 
 	cmd = parse_exec(start_line, end_line);
-	if (peek(start_line, end_line, "|"))
+	if (peek(start_line, end_line, "|") && *start_line < end_line)
 	{
 		get_token(start_line, end_line, 0, 0);
 		cmd = pipecmd(cmd, parse_pipe(start_line, end_line));
@@ -55,7 +55,7 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 
 	// start_t = 0;
 	// end_t = 0;
-	while (peek(start_line, end_line, "<>"))
+	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
 	{
 		token = get_token(start_line, end_line, &start_t, &end_t);
 		if (token != 'a')
