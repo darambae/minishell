@@ -52,17 +52,19 @@ typedef struct s_redircmd
 	int				fd;
 }				t_redircmd;
 
+void 	err_msg(char *msg);
+
 //constructor
 t_cmd	*execcmd(void);
 t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode, int fd);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
+t_cmd	*nul_terminator(t_cmd *cmd);
 
 
 
 // parsing
 bool	peek(char **start_str, char *end_str, char *c);
 int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
-int		parse(char *line);
-
+t_cmd	*parse(char *line);
 
 #endif

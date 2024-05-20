@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line);
+
 t_cmd	*parse_exec(char **start_line, char *end_line)
 {
 	t_cmd		*res;
@@ -24,10 +26,7 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 		cmd->end_argv[i] = end_t;
 		i++;
 		if (i >= 100)
-		{
-			ft_putstr_fd("too many argv\n", 2);
-			return (0);
-		}
+			err_msg("too many args\n");
 	}
 	cmd->argv[i] = 0;
 	cmd->end_argv[i] = 0;
@@ -54,11 +53,13 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 	char	*end_t;
 	int		token;
 
-	start_t = 0;
-	end_t = 0;
+	// start_t = 0;
+	// end_t = 0;
 	while (peek(start_line, end_line, "<>"))
 	{
 		token = get_token(start_line, end_line, &start_t, &end_t);
+		if (token != 'a')
+			err_msg("missing file for redirection\n");
 		if (token == '[')
 			cmd = redircmd(cmd, start_t, end_t, O_RDONLY, 0);
 		else if (token == ']')
@@ -79,9 +80,7 @@ t_cmd	*parse(char *line)
 	end_line = line + ft_strlen(line);
 	cmd = parse_pipe(&line, end_line);
 	if (line != end_line)
-	{
-		ft_putstr_fd("syntax error\n", 2);
-		return (0);
-	}
+		err_msg("syntax error\n");
+	nul_terminator(cmd);
 	return (cmd);
 }

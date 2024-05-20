@@ -22,7 +22,7 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	int		res;
 
 	whitespace = " \t\n\v\r";
-	symbols = "$|><";
+	symbols = "|><";
 	cur = *start_line;
 	res = 0;
 	while (cur < end_line && ft_strchr(whitespace, *cur))

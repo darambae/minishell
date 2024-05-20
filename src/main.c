@@ -1,9 +1,16 @@
 
 #include "../minishell.h"
 
+void	err_msg(char *msg)
+{
+	ft_putstr_fd(msg, 2);
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
 	char	*line;
+	t_cmd	*cmd;
 	//int	pipe[2];
 
 	(void)argc;
@@ -11,9 +18,10 @@ int	main(int argc, char **argv)
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		add_history(line);	
-		parse(line);
+		cmd = parse(line);
+		printf("cmd->type: %d\n", cmd->type);
 	}
-	rl_clear_history();
+	//rl_clear_history();
 	//PSEUDO CODE
 	//1. read input
 	//2. parse input(make parsing tree)

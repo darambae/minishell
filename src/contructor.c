@@ -37,3 +37,33 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	pipecmd->right = right;
 	return ((t_cmd *)pipecmd);
 }
+t_cmd	*nul_terminator(t_cmd *cmd)
+{
+	t_execcmd	*execcmd;
+	t_redircmd	*redircmd;
+	t_pipecmd	*pipecmd;
+	int			i;
+
+	if (!cmd)
+		return (0);
+	if (cmd->type == EXEC)
+	{
+		execcmd = (t_execcmd *)cmd;
+		i = 0;
+		while (execcmd->argv[i])
+			execcmd->end_argv[i++] = 0;
+	}
+	else if (cmd->type == REDIR)
+	{
+		redircmd = (t_redircmd *)cmd;
+		nul_terminator(redircmd->cmd);
+		*redircmd->end_file = 0;
+	}
+	else if (cmd->type == PIPE)
+	{
+		pipecmd = (t_pipecmd *)cmd;
+		nul_terminator(pipecmd->left);
+		nul_terminator(pipecmd->right);
+	}
+	return (cmd);
+}
