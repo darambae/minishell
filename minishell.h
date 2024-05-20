@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 10:53:34 by dabae             #+#    #+#             */
-/*   Updated: 2024/05/17 11:43:22 by dabae            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -75,5 +63,6 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 bool	peek(char **start_str, char *end_str, char *c);
 int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
 int		parse(char *line);
+
 
 #endif
