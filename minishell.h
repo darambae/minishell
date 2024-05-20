@@ -63,7 +63,7 @@ t_cmd	*nul_terminator(t_cmd *cmd);
 
 
 // parsing
-bool	peek(char **start_str, char *end_str, char *c);
+int		peek(char **start_str, char *end_str, char *c);
 int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
 t_cmd	*parse(char *line);
 

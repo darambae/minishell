@@ -17,7 +17,8 @@ int	main(int argc, char **argv)
 	(void)argv;
 	while ((line = readline("minishell$ ")) != NULL)
 	{
-		add_history(line);	
+		add_history(line);
+		line = ft_strjoin(line, "\0");
 		cmd = parse(line);
 		printf("cmd->type: %d\n", cmd->type);
 	}
