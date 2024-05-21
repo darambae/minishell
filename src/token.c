@@ -3,16 +3,17 @@
 
 /*Check a str through and skip whitespace. 
 Set start_str on the non-whitespace char and check if it's a token.*/
+
 int	peek(char **start_str, char *end_str, char *c)
 {
-	char	*res;
+	char	*tmp;
 
 	tmp = *start_str;
 	while (tmp < end_str && ft_strchr(" \t\n\v\r", *tmp))
 		tmp++;
 	*start_str = tmp;
 	if (tmp == end_str)
-		return (-1); 
+		return (-1);
 	return (*tmp && ft_strchr(c, *tmp));
 }
 
@@ -44,35 +45,35 @@ int	give_token(char **cur, char *end_line)
 	return (res);
 }
 
+void	skip_whitespace(char **cur, char *end_line)
+{
+	while (*cur < end_line && ft_strchr(" \t\n\v\r", **cur))
+		(*cur)++;
+}
+
 int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 {
-	char	*whitespace;
-	char	*symbols;
 	char	*cur;
 	int		res;
 
-	whitespace = " \t\n\v\r";
-	symbols = "|><";
 	if (*start_line >= end_line)
 		return (0);
 	cur = *start_line;
-	res = 0;
-	while (cur < end_line && ft_strchr(whitespace, *cur))
-		cur++;
+	skip_whitespace(&cur, end_line);
 	if (start_t)
 		*start_t = cur;
 	res = give_token(&cur, end_line);
 	if (res == 'a')
 	{
-		while (cur < end_line && !ft_strchr(whitespace, *cur) && !ft_strchr(symbols, *cur))
+		while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
+			&& !ft_strchr("|><", *cur))
 			cur++;
 	}
 	else
 		cur++;
 	if (end_t)
 		*end_t = cur;
-	while (cur < end_line && ft_strchr(whitespace, *cur))
-		cur++;
+	skip_whitespace(&cur, end_line);
 	*start_line = cur;
 	if (start_t && end_t && *end_t)
 		**end_t = '\0';
