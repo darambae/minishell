@@ -17,32 +17,31 @@ int	peek(char **start_str, char *end_str, char *c)
 	return (*tmp && ft_strchr(c, *tmp));
 }
 
-int	give_token(char **cur, char *end_line)
+void	give_token(char **cur, int *res)
 {
-	int		res;
-
-	res = **cur;
-	if (**cur == '|')
-		res = '-';
+	*res = **cur;
+	if (!**cur)
+		*res = 0;
+	else if (**cur == '|')
+		*res = '-';
 	else if (**cur == '<')
 	{
 		(*cur)++;
 		if (**cur == '<')
-			res = '{'; //For <<
+			*res = '{'; //For <<
 		else
-			res = '['; //For <
+			*res = '['; //For <
 	}
 	else if (**cur == '>')
 	{
 		(*cur)++;
 		if (**cur == '>')
-			res = '}'; //For >>
+			*res = '}'; //For >>
 		else
-			res = ']'; //For >
+			*res = ']'; //For >
 	}
 	else
-		res = 'a'; //For any other argv including CMD, ARG, ETC,,,
-	return (res);
+		*res = 'a'; //For any other argv including CMD, ARG, ETC,,,
 }
 
 void	skip_whitespace(char **cur, char *end_line)
@@ -62,7 +61,7 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	skip_whitespace(&cur, end_line);
 	if (start_t)
 		*start_t = cur;
-	res = give_token(&cur, end_line);
+	give_token(&cur, &res);
 	if (res == 'a')
 	{
 		while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
