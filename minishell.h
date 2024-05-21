@@ -56,7 +56,7 @@ void 	err_msg(char *msg);
 
 //constructor
 t_cmd	*execcmd(void);
-t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode, int fd);
+t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*nul_terminator(t_cmd *cmd);
 

@@ -11,7 +11,7 @@ t_cmd	*execcmd(void)
 	return ((t_cmd *)execcmd);
 }
 
-t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode, int fd)
+t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode)
 {
 	t_redircmd	*redircmd;
 
@@ -22,7 +22,10 @@ t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode, int fd)
 	redircmd->start_file = s_file;
 	redircmd->end_file = e_file;
 	redircmd->mode = mode;
-	redircmd->fd = fd;
+	if (mode == O_RDONLY)
+		redircmd->fd = 0;
+	else
+		redircmd->fd = 1;
 	return ((t_cmd *)redircmd);
 }
 

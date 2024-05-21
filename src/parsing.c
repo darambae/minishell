@@ -53,21 +53,19 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 	char	*end_t;
 	int		token;
 
-	// start_t = 0;
-	// end_t = 0;
 	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
 	{
 		token = get_token(start_line, end_line, &start_t, &end_t);
 		if (token != 'a')
 			err_msg("missing file for redirection\n");
 		if (token == '[')
-			cmd = redircmd(cmd, start_t, end_t, O_RDONLY, 0);
+			cmd = redircmd(cmd, start_t, end_t, O_RDONLY);
 		else if (token == ']')
-			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_TRUNC, 1);
+			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_TRUNC);
 		else if (token == '{')
-			cmd = redircmd(cmd, start_t, end_t, O_RDONLY, 0);
+			cmd = redircmd(cmd, start_t, end_t, O_RDONLY);
 		else if (token == '}')
-			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_APPEND, 1);
+			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_APPEND);
 	}
 	return (cmd);
 }
