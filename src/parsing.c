@@ -9,8 +9,7 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 	t_execcmd	*cmd;
 	char		*start_t;
 	char		*end_t;
-	int			token;
-	int 		i;
+	int			i;
 
 	i = 0;
 	start_t = 0;
@@ -19,8 +18,7 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 	cmd = (t_execcmd *)res;
 	while (peek(start_line, end_line, "|") == 0 && *start_line < end_line)
 	{
-		token = get_token(start_line, end_line, &start_t, &end_t);
-		if (!token)
+		if (!get_token(start_line, end_line, &start_t, &end_t))
 			break ;
 		cmd->argv[i] = start_t;
 		cmd->end_argv[i] = end_t;
