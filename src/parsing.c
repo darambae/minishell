@@ -53,8 +53,6 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 	char	*end_t;
 	int		token;
 
-	// start_t = 0;
-	// end_t = 0;
 	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
 	{
 		token = get_token(start_line, end_line, &start_t, &end_t);
