@@ -5,7 +5,7 @@ make re
 # Test command execution
 echo "Testing basic command execution:"
 ./minishell
-< input_commands.txt > output_actual.txt
+echo < input_commands.txt > output_actual.txt
 diff output_actual.txt expected_output.txt
 
 # Test Valgrind

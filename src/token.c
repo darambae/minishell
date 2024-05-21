@@ -1,11 +1,11 @@
 
 #include "../minishell.h"
+
 /*Check a str through and skip whitespace. 
 Set start_str on the non-whitespace char and check if it's a token.*/
-
 int	peek(char **start_str, char *end_str, char *c)
 {
-	char	*tmp;
+	char	*res;
 
 	tmp = *start_str;
 	while (tmp < end_str && ft_strchr(" \t\n\v\r", *tmp))
@@ -14,6 +14,34 @@ int	peek(char **start_str, char *end_str, char *c)
 	if (tmp == end_str)
 		return (-1); 
 	return (*tmp && ft_strchr(c, *tmp));
+}
+
+int	give_token(char **cur, char *end_line)
+{
+	int		res;
+
+	res = **cur;
+	if (**cur == '|')
+		res = '-';
+	else if (**cur == '<')
+	{
+		(*cur)++;
+		if (**cur == '<')
+			res = '{'; //For <<
+		else
+			res = '['; //For <
+	}
+	else if (**cur == '>')
+	{
+		(*cur)++;
+		if (**cur == '>')
+			res = '}'; //For >>
+		else
+			res = ']'; //For >
+	}
+	else
+		res = 'a'; //For any other argv including CMD, ARG, ETC,,,
+	return (res);
 }
 
 int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
@@ -33,32 +61,13 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 		cur++;
 	if (start_t)
 		*start_t = cur;
-	res = *cur;
-	if (*cur == '|')
-		res = '-';
-	else if (*cur == '<')
+	res = give_token(&cur, end_line);
+	if (res == 'a')
 	{
-		cur++;
-		if (*cur == '<')
-			res = '{'; //For <<
-		else
-			res = '['; //For <
-	}
-	else if (*cur == '>')
-	{
-		cur++;
-		if (*cur == '>')
-			res = '}'; //For >>
-		else
-			res = ']'; //For >
-	}
-	else
-	{
-		res = 'a'; //For any other argv including CMD, ARG, ETC,,,
 		while (cur < end_line && !ft_strchr(whitespace, *cur) && !ft_strchr(symbols, *cur))
 			cur++;
 	}
-	if (res != 'a')
+	else
 		cur++;
 	if (end_t)
 		*end_t = cur;
