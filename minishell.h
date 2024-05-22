@@ -72,4 +72,7 @@ bool    check_closed_quotes(char *line, int num_double, int num_single);
 bool	valid_quote(char *line);
 char	*remove_quotes(char *word);
 
+
+//execution
+void    run_cmd(t_cmd *cmd, char **envp);
 #endif
