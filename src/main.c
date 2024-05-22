@@ -19,11 +19,12 @@ int	main(int argc, char **argv)
 	{
 		add_history(line);
 		line = ft_strjoin(line, "\0");
-		cmd = parse(line);
 		if (valid_quote(line))
 			printf("Yes, it's valide\n");
 		else
 			printf("No, it's not valide\n");
+		cmd = parse(line);
+		
 	}
 	//rl_clear_history();
 	//PSEUDO CODE
