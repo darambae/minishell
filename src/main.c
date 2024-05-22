@@ -18,16 +18,18 @@ int	main(int argc, char **argv)
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		add_history(line);
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			printf("exit\n");
-			exit(1);
-		}
-		line = ft_strjoin(line, "\0");
-		if (valid_quote(line))
-			printf("Yes, it's valide\n");
-		else
-			printf("No, it's not valide\n");
+		//check if the word "exit" was given ->to make a function
+		// printf("%s\n", remove_quotes(line));
+		// if (ft_strcmp(line, "exit") == 0)
+		// {
+		// 	printf("exit\n");
+		// 	exit(1);
+		// }
+		// line = ft_strjoin(line, "\0");
+		// if (valid_quote(line))
+		// 	printf("Yes, it's valide\n");
+		// else
+		// 	printf("No, it's not valide\n");
 		cmd = parse(line);
 		
 	}

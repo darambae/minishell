@@ -67,11 +67,13 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 		while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
 			&& !ft_strchr("|><", *cur))
 			cur++;
+		//check if it's an argument or command
 	}
 	else
 		cur++;
 	if (end_t)
 		*end_t = cur;
+
 	skip_whitespace(&cur, end_line);
 	*start_line = cur;
 	if (start_t && end_t && *end_t)

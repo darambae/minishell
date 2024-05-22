@@ -29,19 +29,7 @@ int quote_position(char *line, int last)
 		return (-1);
 }
 
-int		count_quotes(char *line, char quote)
-{
-	int     count;
 
-	count = 0;
-	while (*line)
-	{
-		if (*line == quote)
-			count++;
-		line++;
-	}
-	return (count);
-}
 
 bool    check_closed_quotes(char *line, int num_double, int num_single)
 {
@@ -66,10 +54,31 @@ bool	valid_quote(char *line)
 	int	num_double;
 	int	num_single;
 
-	num_double = count_quotes(line, '"');
-	num_single = count_quotes(line, '\'');
+	num_double = ft_count_char(line, '"');
+	num_single = ft_count_char(line, '\'');
 	if (num_double % 2 != 0 && num_single % 2 != 0)
 		return (false);
 	else
 		return (check_closed_quotes(line, num_double, num_single));
+}
+
+char	*remove_quotes(char *word)
+{
+	char	*res;
+	int		num_quotes;
+	int		i;
+
+	num_quotes = ft_count_char(word, '\'') + ft_count_char(word, '\"');
+	res = malloc(sizeof(char *) * (ft_strlen(word) - num_quotes + 1));
+	i = 0;
+	while (*word)
+	{
+		if (*word != '\'' && *word != '\"')
+		{
+			res[i] = *word;
+			i++;
+		}
+		word++;
+	}
+	return (res);
 }
