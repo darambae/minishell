@@ -7,7 +7,7 @@ void	err_msg(char *msg)
 	exit(1);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_cmd	*cmd;
@@ -30,8 +30,9 @@ int	main(int argc, char **argv)
 		// 	printf("Yes, it's valide\n");
 		// else
 		// 	printf("No, it's not valide\n");
+
 		cmd = parse(line);
-		
+		run_cmd(cmd, envp);
 	}
 	//rl_clear_history();
 	//PSEUDO CODE
