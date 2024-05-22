@@ -52,13 +52,13 @@ bool    check_closed_quotes(char *line, int num_double, int num_single)
 	last_pos = quote_position(line, 1);
 	// Check if any quote exists
 	if (first_pos == 0)
-		return true; // No quote found, so they are closed
+		return (true); // No quote found, so they are closed
 	//Check if first and last quote positions are the same and the num of the quotes are even number
 	if ((first_pos == 2 && last_pos == 2 && num_double % 2 == 0) || \
 		(first_pos == 1 && last_pos == 1 && num_single % 2 == 0))
-		return true; // All quotes are closed
+		return (true); // All quotes are closed
 	else
-		return false; // Quotes are not closed
+		return (false); // Quotes are not closed
 }
 
 bool	valid_quote(char *line)
