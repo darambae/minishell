@@ -4,7 +4,7 @@
 void	err_msg(char *msg)
 {
 	ft_putstr_fd(msg, 2);
-	exit(0);
+	exit(1);
 }
 
 int	main(int argc, char **argv)
