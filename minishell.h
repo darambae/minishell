@@ -48,6 +48,7 @@ typedef struct s_redircmd
 	t_cmd			*cmd;
 	char			*start_file;
 	char			*end_file;
+	int				token;
 	int				mode;
 	int				fd;
 }				t_redircmd;
@@ -76,4 +77,9 @@ char	*remove_quotes(char *word);
 //execution
 int		fork1(void);
 void    run_cmd(t_cmd *cmd, char **envp);
+int		execute_cmd(char **cmds, char **envp);
+
+//builtins
+bool	check_builtin(char *cmd);
+
 #endif

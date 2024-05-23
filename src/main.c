@@ -16,19 +16,36 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	while ((line = readline("minishell$ ")) != NULL)
 	{
-		add_history(line);
+		if (*line)
+            add_history(line);
+    //     // Simulate a condition where we replace the line and clear history
+    //     if (strcmp(line, "replace") == 0) {
+    //         rl_replace_line("This is the replaced line", 1);
+    //         rl_redisplay();
+    //     } else if (strcmp(line, "clear") == 0) {
+    //         rl_clear_history();
+    //         printf("\nHistory cleared.\n");
+    //         rl_on_new_line();
+    //         rl_redisplay();
+    //     }
+
+    //     // Continue with your shell logic...
+    //     printf("You entered: %s\n", line);
+
+    //     // Free the allocated line
+    //     free(line);
+    // }
 		//check if the word "exit" was given ->to make a function
-		// if (ft_strcmp(line, "exit") == 0)
-		// {
-		// 	printf("exit\n");
-		// 	exit(1);
-		// }
-		// line = ft_strjoin(line, "\0");
+		if (ft_strcmp(line, "exit") == 0)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		line = ft_strjoin(line, "\0");
 		if (fork1() == 0)
 			run_cmd(parse(line), envp);
 		wait(NULL);
 	}
-	//rl_clear_history();
 	//PSEUDO CODE
 	//1. read input
 	//2. parse input(make parsing tree)

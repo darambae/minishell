@@ -49,7 +49,7 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 	char	*start_t;
 	char	*end_t;
 	int		token;
-
+	
 	start_t = 0;
 	end_t = 0;
 	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
@@ -58,14 +58,7 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 		//check if the word that start_t is pointing at is cmd or not
 		//if (check_filename(start_line, &start_t, &end_t) == false)
 		//	err_msg("missing filename");
-		if (token == '[')
-			cmd = redircmd(cmd, start_t, end_t, O_RDONLY);
-		else if (token == ']')
-			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_TRUNC);
-		else if (token == '{')
-			cmd = redircmd(cmd, start_t, end_t, O_RDONLY);
-		else if (token == '}')
-			cmd = redircmd(cmd, start_t, end_t, O_WRONLY | O_CREAT | O_APPEND);
+		cmd = redircmd(cmd, start_t, end_t, token);
 	}
 	return (cmd);
 }

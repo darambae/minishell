@@ -29,8 +29,6 @@ int quote_position(char *line, int last)
 		return (-1);
 }
 
-
-
 bool    check_closed_quotes(char *line, int num_double, int num_single)
 {
 	int first_pos;
@@ -62,6 +60,7 @@ bool	valid_quote(char *line)
 		return (check_closed_quotes(line, num_double, num_single));
 }
 
+//need to free later.
 char	*remove_quotes(char *word)
 {
 	char	*res;
