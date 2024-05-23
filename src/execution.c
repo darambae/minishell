@@ -90,8 +90,8 @@ void    run_cmd(t_cmd *cmd, char **envp)
     if (cmd->type == EXEC)
     {
         ecmd = (t_execcmd *) cmd;
-        // if (ecmd->argv[0] == 0)
-        //     exit(0);
+        if (ecmd->argv[0] == 0)
+            exit(0);
         execute_cmd(ecmd->argv, envp);
     }
     else if (cmd->type == PIPE)
@@ -131,5 +131,5 @@ void    run_cmd(t_cmd *cmd, char **envp)
 		}
 		run_cmd(rcmd->cmd, envp);
     }
-    //exit(0);
+    exit(0);
 }

@@ -74,5 +74,6 @@ char	*remove_quotes(char *word);
 
 
 //execution
+int		fork1(void);
 void    run_cmd(t_cmd *cmd, char **envp);
 #endif
