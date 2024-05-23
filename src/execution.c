@@ -67,10 +67,20 @@ int	execute_cmd(char **cmds, char **envp)
 	return (EXIT_SUCCESS);
 }
 
+int	fork1(void)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		err_msg("fork failed");
+	return (pid);
+}
+
 void    run_cmd(t_cmd *cmd, char **envp)
 {
-    //int fd[2];
-
+    int p[2];
+	
     t_execcmd   *ecmd;
     t_pipecmd   *pcmd;
     t_redircmd  *rcmd;
@@ -80,17 +90,46 @@ void    run_cmd(t_cmd *cmd, char **envp)
     if (cmd->type == EXEC)
     {
         ecmd = (t_execcmd *) cmd;
-        if (ecmd->argv[0] == 0)
-            exit(0);
+        // if (ecmd->argv[0] == 0)
+        //     exit(0);
         execute_cmd(ecmd->argv, envp);
     }
     else if (cmd->type == PIPE)
     {
         pcmd = (t_pipecmd *) cmd;
+		if (pipe(p) < 0)
+			err_msg("pipe failed");
+		if (fork1() == 0)
+		{
+			close(1);
+			dup(p[1]);
+			close(p[0]);
+			close(p[1]);
+			run_cmd(pcmd->left, envp);
+		}
+		if (fork1() == 0)
+		{
+			close(0);
+			dup(p[0]);
+			close(p[0]);
+			close(p[1]);
+			run_cmd(pcmd->right, envp);
+		}
+		close(p[0]);
+		close(p[1]);
+		wait(NULL);
+		wait(NULL);
     }
     else if (cmd->type == REDIR)
     {
         rcmd = (t_redircmd *) cmd;
+		close(rcmd->fd);
+		if (open(rcmd->start_file, rcmd->mode) < 0)
+		{
+			printf("failed to open %s\n", rcmd->start_file);
+			exit(1);
+		}
+		run_cmd(rcmd->cmd, envp);
     }
-    exit(0);
+    //exit(0);
 }
