@@ -4,7 +4,10 @@ NAME = minishell
 CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
-SRC = $(wildcard src/*.c)
+rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+# Collect all .c files in src and its subdirectories
+SRC := $(call rwildcard,src/,*.c)
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

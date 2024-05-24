@@ -60,7 +60,6 @@ void    run_cmd(t_cmd *cmd, char **envp)
         ecmd = (t_execcmd *) cmd;
         if (ecmd->argv[0] == 0)
             exit(0);
-		printf("%s\n", ecmd->argv[0]);
         execute_cmd(ecmd->argv, envp);
     }
     else if (cmd->type == PIPE)

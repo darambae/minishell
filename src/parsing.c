@@ -17,13 +17,13 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 	res = parse_redire(res, start_line, end_line);
 	while (peek(start_line, end_line, "|") == 0 && *start_line < end_line)
 	{
+		if (i >= 100)
+			err_msg("too many args\n");
 		if (!get_token(start_line, end_line, &start_t, &end_t))
 			break ;
 		cmd->argv[i] = start_t;
 		cmd->end_argv[i] = end_t;
 		i++;
-		if (i >= 100)
-			err_msg("too many args\n");
 		res = parse_redire(res, start_line, end_line);
 	}
 	cmd->argv[i] = 0;

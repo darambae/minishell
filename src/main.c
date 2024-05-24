@@ -14,38 +14,39 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		if (*line)
             add_history(line);
-        // Simulate a condition where we replace the line and clear history
-        if (strcmp(line, "replace") == 0) {
-            rl_replace_line("This is the replaced line", 1);
-            rl_redisplay();
-        } else if (strcmp(line, "clear") == 0) {
-            rl_clear_history();
-            printf("\nHistory cleared.\n");
-            rl_on_new_line();
-            rl_redisplay();
-        }
-		(void)envp;
-        // Continue with your shell logic...
-        printf("You entered: %s\n", line);
+    //     // Simulate a condition where we replace the line and clear history
+    //     if (strcmp(line, "replace") == 0) {
+    //         rl_replace_line("This is the replaced line", 1);
+	// 		rl_on_new_line();
+    //         rl_redisplay();
+    //     } else if (strcmp(line, "clear") == 0) {
+    //         rl_clear_history();
+    //         printf("\nHistory cleared.\n");
+    //         rl_on_new_line();
+    //         rl_redisplay();
+    //     }
+    //     // Continue with your shell logic...
+    //     printf("You entered: %s\n", line);
 
-        // Free the allocated line
-        free(line);
-    }
+    //     // Free the allocated line
+    //     free(line);
+    // }
 		//check if the exact word "exit" was given
-		// if (ft_strcmp(line, "exit") == 0)
-		// {
-		// 	printf("exit\n");
-		// 	exit(0);
-		// }
-		// line = ft_strjoin(line, "\0");
-		// if (fork1() == 0)
-		// 	run_cmd(parse(line), envp);
-		// wait(NULL);
-	//}
+		if (ft_strcmp(line, "exit") == 0)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		line = ft_strjoin(line, "\0");
+		if (fork1() == 0)
+			run_cmd(parse(line), envp);
+		wait(NULL);
+	}
 	//PSEUDO CODE
 	//1. read input
 	//2. parse input(make parsing tree)

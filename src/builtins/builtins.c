@@ -1,6 +1,6 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
-bool	check_builtin(char *cmd)
+int	run_builtin(char *cmd)
 {
 	(void)cmd;
 	// if (ft_strcmp(cmd, "echo"))
@@ -12,10 +12,6 @@ bool	check_builtin(char *cmd)
 	// else if (ft_strcmp(cmd, "exit"))
 	// 	exit(0);
 	// else
-	return (false);
+	return (1);
 }
-void	run_builtin(t_cmd *cmd)
-{
-	(void)cmd;
-} 
 
