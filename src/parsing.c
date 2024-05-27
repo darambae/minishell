@@ -55,9 +55,11 @@ t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
 	{
 		token = get_token(start_line, end_line, 0, 0);
-		//check if the word that start_t is pointing at is cmd or not
-		//if (check_filename(start_line, &start_t, &end_t) == false)
-		//	err_msg("missing filename");
+		if(get_token(start_line, end_line, &start_t, &end_t) != 'a')
+		{
+			printf("minishell: syntax error near unexpected token '%s'\n", *start_line);
+			exit(1);
+		}
 		cmd = redircmd(cmd, start_t, end_t, token);
 	}
 	return (cmd);

@@ -23,9 +23,18 @@ enum e_token
 	ENVIRONMENT,
 };
 
+typedef struct s_minishell
+{
+	pid_t	child_pids[100];
+	int		child_count;
+	int		exit_status;
+	char	**env_variables;
+}				t_minishell;
+
 typedef struct s_cmd
 {
 	enum e_token	type;
+	
 }			t_cmd;
 
 typedef struct s_execcmd
@@ -49,9 +58,12 @@ typedef struct s_redircmd
 	char			*start_file;
 	char			*end_file;
 	int				token;
+	char			**here_doc;
 	int				mode;
 	int				fd;
 }				t_redircmd;
+
+extern t_minishell	*g_param;
 
 void 	err_msg(char *msg);
 
@@ -81,5 +93,8 @@ int		execute_cmd(char **cmds, char **envp);
 
 //builtins
 bool	check_builtin(char *cmd);
+
+//signal
+void    handle_signal();
 
 #endif

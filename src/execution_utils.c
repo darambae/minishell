@@ -57,7 +57,8 @@ int	execute_cmd(char **cmds, char **envp)
 	char	*cmd_path;
 
 	cmd_path = NULL;
-    //run_builtin(cmds[0]);
+	//if (check_builtin(cmds) == true)
+	//run_builtin(cmds[0]);
 	cmd_path = get_cmd_path(cmds[0], envp);
 	if (!cmd_path || execve(cmd_path, cmds, envp) == -1)
 	{
