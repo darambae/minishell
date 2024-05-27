@@ -3,30 +3,38 @@
 static void	run_pipe(t_cmd *cmd, int *p, char **envp)
 {
     t_pipecmd   *pcmd;
-
+	pid_t		pid1;
+	pid_t		pid2;
+	
 	pcmd = (t_pipecmd *) cmd;
 	if (pipe(p) < 0)
 		err_msg("pipe failed");
-	if (fork1() == 0)
+	g_param->child_pids[g_param->child_count] = fork1();
+	if (g_param->child_pids[g_param->child_count] == 0)
 	{
 		close(1);
 		dup(p[1]);
 		close(p[0]);
 		close(p[1]);
 		run_cmd(pcmd->left, envp);
+		exit(EXIT_SUCCESS);
 	}
-	if (fork1() == 0)
+	g_param->child_count++;
+	g_param->child_pids[g_param->child_count] = fork1();
+	if (g_param->child_pids[g_param->child_count] == 0)
 	{
 		close(0);
 		dup(p[0]);
 		close(p[0]);
 		close(p[1]);
 		run_cmd(pcmd->right, envp);
+		exit(EXIT_SUCCESS);
 	}
+	g_param->child_count++;
 	close(p[0]);
 	close(p[1]);
-	wait(NULL);
-	wait(NULL);
+	waitpid(g_param->child_pids[g_param->child_count - 2], NULL, 0);
+    waitpid(g_param->child_pids[g_param->child_count - 1], NULL, 0);
 }
 
 static void	run_redire(t_cmd *cmd, char **envp)
