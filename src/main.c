@@ -10,11 +10,19 @@ void	err_msg(char *msg)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	//int	p[2];
+	int	fd;
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	//(void)envp;
+	while((fd = open("console", O_RDWR)) >= 0)
+	{
+		if(fd >= 3)
+		{
+			close(fd);
+			break;
+		}
+  	}
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		if (*line)
@@ -46,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		if (fork1() == 0)
 			run_cmd(parse(line), envp);
 		wait(NULL);
+		
 	}
 	//PSEUDO CODE
 	//1. read input
