@@ -57,6 +57,7 @@ int	execute_cmd(char **cmds, char **envp)
 	char	*cmd_path;
 
 	cmd_path = NULL;
+	//run builtins that print sth with fork()
     //run_builtin(cmds[0]);
 	cmd_path = get_cmd_path(cmds[0], envp);
 	if (!cmd_path || execve(cmd_path, cmds, envp) == -1)

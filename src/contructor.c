@@ -22,13 +22,14 @@ t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int token)
 	redircmd->start_file = s_file;
 	redircmd->end_file = e_file;
 	redircmd->token = token;
+	redircmd->here_doc = NULL;
 	if (token == '[')
 		redircmd->mode = O_RDONLY;
 	else if (token == ']')
 		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
-	else if (token == '{')
+	else if (token == '{') // << here_doc
 		redircmd->mode = O_RDONLY;
-	else if (token == '}')
+	else if (token == '}') // >> append
 		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
 	if (redircmd->mode == O_RDONLY)
 		redircmd->fd = 0;
