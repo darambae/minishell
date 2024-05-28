@@ -76,8 +76,8 @@ t_cmd	*nul_terminator(t_cmd *cmd);
 
 
 // parsing
-//peek skip whitespace and tabs, return true if first carac == c or False if not
-//or if there is no carac
+/*peek : skip whitespace and tabs, return true if first carac == c or False if not
+or if there is no carac*/
 int		peek(char **start_str, char *end_str, char *c);
 int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
 t_cmd	*parse(char *line);

@@ -1,9 +1,9 @@
 
 #include "../minishell.h"
 
-/*Check a str through and skip whitespace. 
-Set start_str on the non-whitespace char and check if it's a token.*/
-
+/*skip whitespace and tabs, return true if first carac == c or False if not
+or if there is no carac
+Set start_str on the next non-whitespace char and check if it's a token.*/
 int	peek(char **start_str, char *end_str, char *c)
 {
 	char	*tmp;
@@ -50,6 +50,9 @@ void	skip_whitespace(char **cur, char *end_line)
 		(*cur)++;
 }
 
+/*set start_t on the next non whitespace char, indentify this char and
+return a token (redire or word or pipe) and set start_line on the
+non whitespace char after start_end*/
 int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 {
 	char	*cur;

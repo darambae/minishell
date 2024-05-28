@@ -3,6 +3,9 @@
 
 t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line);
 
+/*initialise an execcmd and fill argv[i] with option and args.
+if redire, return an redirecmd wich point on the execcmd.
+if no redire, return the execcmd*/
 t_cmd	*parse_exec(char **start_line, char *end_line)
 {
 	t_cmd		*res;
@@ -30,7 +33,10 @@ t_cmd	*parse_exec(char **start_line, char *end_line)
 	cmd->end_argv[i] = 0;
 	return (res);
 }
-
+/*if no pipe, return an execcmd or a redirecmd.
+if pipe, retturn a pipecmd wich left point to the first execcmd
+and right point to the second execcmd or a second pipecmd etc...
+at the end of parse_pipe, line is entirely parsed*/
 t_cmd	*parse_pipe(char **start_line, char *end_line)
 {
 	t_cmd	*cmd;
@@ -44,12 +50,13 @@ t_cmd	*parse_pipe(char **start_line, char *end_line)
 	return (cmd);
 }
 
+/*if no redire, return cmd; if redire, return a redircmd which point on cmd*/
 t_cmd	*parse_redire(t_cmd *cmd, char **start_line, char *end_line)
 {
 	char	*start_t;
 	char	*end_t;
 	int		token;
-	
+
 	start_t = 0;
 	end_t = 0;
 	while (peek(start_line, end_line, "<>") == 1 && *start_line < end_line)
