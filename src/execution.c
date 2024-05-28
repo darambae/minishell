@@ -5,7 +5,7 @@ static void	run_pipe(t_cmd *cmd, int *p, char **envp)
     t_pipecmd   *pcmd;
 	pid_t		pid1;
 	pid_t		pid2;
-	
+
 	pcmd = (t_pipecmd *) cmd;
 	if (pipe(p) < 0)
 		err_msg("pipe failed");
@@ -70,11 +70,11 @@ static void	run_redire(t_cmd *cmd, char **envp)
 void    run_cmd(t_cmd *cmd, char **envp)
 {
     int p[2];
-	
+
     t_execcmd   *ecmd;
 
     if (!cmd)
-        err_msg("cdm doesn't exist\n");
+        err_msg("cmd doesn't exist\n");
     if (cmd->type == EXEC)
     {
         ecmd = (t_execcmd *) cmd;

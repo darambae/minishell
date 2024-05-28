@@ -1,0 +1,36 @@
+ls -a
+ls -l
+ls -la
+ls -l -a
+ls non_existent_directory
+cat file.txt
+cat file1.txt file2.txt
+echo "Hello, world!"
+echo "Hello, world!" > output.txt
+echo "Hello, world!" >> output.txt
+grep "pattern" file.txt
+grep -i "pattern" file.txt
+grep -r "pattern" directory
+wc file.txt
+wc -l file.txt
+wc -w file.txt
+wc -c file.txt
+mkdir test_directory
+cd test_directory
+pwd
+touch new_file.txt
+mv new_file.txt moved_file.txt
+rm moved_file.txt
+cd ..
+rmdir test_directory
+ls -l | grep "pattern" | wc -l
+cat file.txt | grep "pattern" | sed 's/old/new/' | sort
+ls -l | grep "pattern" | awk '{print $9}' | xargs rm
+cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr
+sort < input.txt > output_sorted.txt
+ls -l >> output.txt 2>> error_log.txt
+grep "pattern" file.txt > output.txt 2>&1
+cat file.txt > /dev/null 2>&1
+cat file1.txt | grep "pattern" > output.txt
+cat file.txt | grep "pattern" | sed 's/old/new/' > modified_output.txt 2>> error_log.txt
+cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr > analysis_report.txt
