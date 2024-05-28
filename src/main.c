@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, handle_signal);
+	signal(SIGTERM, handle_signal);
 	signal(SIGQUIT, handle_signal);
 	init_param(envp);
 	if (pipe(g_param->pipe_fds) == -1) {
@@ -68,6 +69,11 @@ int	main(int argc, char **argv, char **envp)
         //     }
         // }
         // g_param->child_count = 0; // Reset child count for next command line
+	}
+	if (line == NULL)
+	{
+        printf("exit\n");
+        exit(0);
 	}
 	return (0);
 }

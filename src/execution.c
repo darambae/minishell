@@ -33,8 +33,13 @@ static void run_pipe(t_cmd *cmd) {
     close(g_param->pipe_fds[1]);
 
     // Wait for both child processes to finish
-    waitpid(g_param->child_pids[g_param->child_count - 2], NULL, 0);
-    waitpid(g_param->child_pids[g_param->child_count - 1], NULL, 0);
+    waitpid(g_param->child_pids[g_param->child_count - 2], &g_param->exit_status, 0);
+    waitpid(g_param->child_pids[g_param->child_count - 1], &g_param->exit_status, 0);
+    if (WIFEXITED(g_param->exit_status)) {
+        g_param->exit_status = WEXITSTATUS(g_param->exit_status);
+    } else {
+        g_param->exit_status = 1; // Non-normal exit status
+    }
 }
 
 
