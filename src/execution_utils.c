@@ -52,15 +52,15 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	return (NULL);
 }
 
-int	execute_cmd(char **cmds, char **envp)
+int	execute_cmd(char **cmds)
 {
 	char	*cmd_path;
 
 	cmd_path = NULL;
 	//if (check_builtin(cmds) == true)
 	//run_builtin(cmds[0]);
-	cmd_path = get_cmd_path(cmds[0], envp);
-	if (!cmd_path || execve(cmd_path, cmds, envp) == -1)
+	cmd_path = get_cmd_path(cmds[0], g_param->env_variables);
+	if (!cmd_path || execve(cmd_path, cmds, g_param->env_variables) == -1)
 	{
 		free(cmd_path);
 		return (EXIT_FAILURE);
