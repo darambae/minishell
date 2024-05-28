@@ -10,33 +10,70 @@ t_cmd	*execcmd(void)
 	execcmd->type = EXEC;
 	return ((t_cmd *)execcmd);
 }
+t_cmd *redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int token) {
+    t_redircmd *redircmd;
 
-t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int token)
-{
-	t_redircmd	*redircmd;
+    redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
+    if (!redircmd) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+    ft_memset(redircmd, 0, sizeof(*redircmd));
+    redircmd->type = REDIR;
+    redircmd->cmd = sub_cmd;
+    redircmd->start_file = s_file;
+    redircmd->end_file = e_file;
+    redircmd->token = token;
+    redircmd->here_doc = NULL;
 
-	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
-	ft_memset(redircmd, 0, sizeof(*redircmd));
-	redircmd->type = REDIR;
-	redircmd->cmd = sub_cmd;
-	redircmd->start_file = s_file;
-	redircmd->end_file = e_file;
-	redircmd->token = token;
-	redircmd->here_doc = NULL;
-	if (token == '[')
-		redircmd->mode = O_RDONLY;
-	else if (token == ']')
-		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
-	else if (token == '{') // << here_doc
-		redircmd->mode = O_RDONLY;
-	else if (token == '}') // >> append
-		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
-	if (redircmd->mode == O_RDONLY)
-		redircmd->fd = 0;
-	else
-		redircmd->fd = 1;
-	return ((t_cmd *)redircmd);
+    if (token == '[') {  // Input redirection
+        redircmd->mode = O_RDONLY;
+    } else if (token == ']') {  // Output redirection
+        redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
+    } else if (token == '{') {  // Here document
+        redircmd->mode = O_RDONLY;
+    } else if (token == '}') {  // Append output redirection
+        redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
+    } else {
+        err_msg("Unknown redirection token");
+    }
+
+    // Open the file and store the file descriptor
+    if ((redircmd->fd = open(s_file, redircmd->mode, 0644)) < 0) {
+        perror("open");
+        free(redircmd);
+        exit(EXIT_FAILURE);
+    }
+
+    return (t_cmd *)redircmd;
 }
+
+// t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int token)
+// {
+// 	t_redircmd	*redircmd;
+
+// 	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
+// 	ft_memset(redircmd, 0, sizeof(*redircmd));
+// 	redircmd->type = REDIR;
+// 	redircmd->cmd = sub_cmd;
+// 	redircmd->start_file = s_file;
+// 	redircmd->end_file = e_file;
+// 	redircmd->token = token;
+// 	redircmd->here_doc = NULL;
+// 	if (token == '[')
+// 		redircmd->mode = O_RDONLY;
+// 	else if (token == ']')
+// 		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
+// 	else if (token == '{') // << here_doc
+// 		redircmd->mode = O_RDONLY;
+// 	else if (token == '}') // >> append
+// 		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
+// 	if (redircmd->mode == O_RDONLY)
+// 		redircmd->fd = 0;
+// 	else
+// 		redircmd->fd = 1;
+// 	return ((t_cmd *)redircmd);
+// }
 
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 {

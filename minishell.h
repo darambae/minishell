@@ -29,6 +29,7 @@ typedef struct s_minishell
 	int		child_count;
 	int		exit_status;
 	char	**env_variables;
+	int     pipe_fds[2];
 }				t_minishell;
 
 typedef struct s_cmd
@@ -88,8 +89,8 @@ char	*remove_quotes(char *word);
 
 //execution
 int		fork1(void);
-void    run_cmd(t_cmd *cmd, char **envp);
-int		execute_cmd(char **cmds, char **envp);
+void    run_cmd(t_cmd *cmd);
+int		execute_cmd(char **cmds);
 
 //builtins
 bool	check_builtin(char *cmd);
