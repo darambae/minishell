@@ -10,8 +10,6 @@ static void	init_param(char **envp)
         perror("malloc");
         exit(1);
     }
-    g_param->child_count = 0;
-    g_param->exit_status = 0;
 	g_param->env_variables = envp;
 }
 
@@ -24,7 +22,10 @@ void	err_msg(char *msg)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	int	fd;
+	int		fd;
+	int		status;
+	pid_t	pid;
+	int		exit_code;
 
 	(void)argc;
 	(void)argv;
@@ -32,10 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGTERM, handle_signal);
 	signal(SIGQUIT, handle_signal);
 	init_param(envp);
-	if (pipe(g_param->pipe_fds) == -1) {
-        perror("pipe");
-        exit(1);
-    }
+	
 	while((fd = open("console", O_RDWR)) >= 0)
 	{
 		if(fd >= 3)
@@ -55,20 +53,14 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		line = ft_strjoin(line, "\0");
-		if (fork1() == 0)
+		pid = fork1();
+		if (pid == 0)
 			run_cmd(parse(line));
-		wait(NULL);
-		// When all child processes need to quit and go back to parent process (example: ft_exit())
-		// for (int i = 0; i < g_param->child_count; i++)
-		// {
-        //     waitpid(g_param->child_pids[i], &g_param->exit_status, 0); // Wait for each child process to finish
-        //     if (WIFEXITED(g_param->exit_status)) {
-        //         printf("Child %d exited with status: %d\n", g_param->child_pids[i], WEXITSTATUS(g_param->exit_status));
-        //     } else {
-        //         printf("Child %d terminated abnormally\n", g_param->child_pids[i]);
-        //     }
-        // }
-        // g_param->child_count = 0; // Reset child count for next command line
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+        	exit_code = WEXITSTATUS(status);
+		printf("Exit status of the last child process is %i\n", exit_code);
+		free(line);
 	}
 	if (line == NULL)
 	{

@@ -1,47 +1,41 @@
 #include "../minishell.h"
 
-static void run_pipe(t_cmd *cmd) {
+static int run_pipe(t_cmd *cmd) {
     t_pipecmd *pcmd = (t_pipecmd *)cmd;
+    pid_t   first_pid;
+    pid_t   second_pid;
+    int     p[2];
+    int     exit_status;
 
-    if (pipe(g_param->pipe_fds) < 0)
+    if (pipe(p) < 0)
         err_msg("pipe failed");
 
     // Fork first child process
-    g_param->child_pids[g_param->child_count] = fork1();
-    if (g_param->child_pids[g_param->child_count] == 0) {
-        close(g_param->pipe_fds[0]); // Close unused read end of the pipe
-        dup2(g_param->pipe_fds[1], STDOUT_FILENO); // Redirect stdout to write end of the pipe
-        close(g_param->pipe_fds[1]); // Close write end of the pipe
+    first_pid = fork1();
+    if (first_pid == 0) {
+        close(p[0]); // Close unused read end of the pipe
+        dup2(p[1], STDOUT_FILENO); // Redirect stdout to write end of the pipe
+        close(p[1]); // Close write end of the pipe
         run_cmd(pcmd->left); // Execute left command
-        exit(EXIT_SUCCESS);
     }
-    g_param->child_count++;
-
     // Fork second child process
-    g_param->child_pids[g_param->child_count] = fork1();
-    if (g_param->child_pids[g_param->child_count] == 0) {
-        close(g_param->pipe_fds[1]); // Close unused write end of the pipe
-        dup2(g_param->pipe_fds[0], STDIN_FILENO); // Redirect stdin to read end of the pipe
-        close(g_param->pipe_fds[0]); // Close read end of the pipe
+    second_pid = fork1();
+    if (second_pid == 0) {
+        close(p[1]); // Close unused write end of the pipe
+        dup2(p[0], STDIN_FILENO); // Redirect stdin to read end of the pipe
+        close(p[0]); // Close read end of the pipe
         run_cmd(pcmd->right); // Execute right command
-        exit(EXIT_SUCCESS);
     }
-    g_param->child_count++;
-
     // Close both ends of the pipe in the parent process
-    close(g_param->pipe_fds[0]);
-    close(g_param->pipe_fds[1]);
-
-    // Wait for both child processes to finish
-    waitpid(g_param->child_pids[g_param->child_count - 2], &g_param->exit_status, 0);
-    waitpid(g_param->child_pids[g_param->child_count - 1], &g_param->exit_status, 0);
-    if (WIFEXITED(g_param->exit_status)) {
-        g_param->exit_status = WEXITSTATUS(g_param->exit_status);
-    } else {
-        g_param->exit_status = 1; // Non-normal exit status
-    }
+    close(p[0]);
+    close(p[1]);
+    
+    waitpid(first_pid, &exit_status, 0);
+    waitpid(second_pid, &exit_status, 0);
+    if (WIFEXITED(exit_status))
+        exit_status = WEXITSTATUS(exit_status);
+    return (exit_status);
 }
-
 
 // static void	run_pipe(t_cmd *cmd, int *p, char **envp)
 // {
@@ -130,22 +124,24 @@ static void run_redire(t_cmd *cmd) {
     run_cmd(rcmd->cmd); // Execute the command
 }
 
-void    run_cmd(t_cmd *cmd)
+int    run_cmd(t_cmd *cmd)
 {	
     t_execcmd   *ecmd;
+    int         exit_code;
 
+    exit_code = 0;
     if (!cmd)
         err_msg("cdm doesn't exist\n");
     if (cmd->type == EXEC)
     {
         ecmd = (t_execcmd *) cmd;
         if (ecmd->argv[0] == 0)
-            exit(0);
-        execute_cmd(ecmd->argv);
+            exit(125);
+        exit_code = execute_cmd(ecmd->argv);
     }
     else if (cmd->type == PIPE)
-		run_pipe(cmd);
+		exit_code = run_pipe(cmd);
     else if (cmd->type == REDIR)
 		run_redire(cmd);
-    exit(0);
+    exit(exit_code);
 }
