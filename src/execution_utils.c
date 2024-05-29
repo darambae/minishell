@@ -1,7 +1,7 @@
 #include "../minishell.h"
 
 //temporary functions to get path
-static char	**whole_paths(char **envp)
+char	**whole_paths(char *var)
 {
 	int		j;
 	char	*whole_path;
