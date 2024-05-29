@@ -1,5 +1,7 @@
 #include "../minishell.h"
 
+
+/*
 int quote_position(char *line, int last)
 {
 	char	*double_quote;
@@ -81,3 +83,4 @@ char	*remove_quotes(char *word)
 	}
 	return (res);
 }
+*/

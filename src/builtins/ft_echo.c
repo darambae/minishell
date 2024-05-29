@@ -1,5 +1,5 @@
 #include "../../minishell.h"
-
+/*
 //print the string after the cmd echo
 void	ft_echo(char **cmd)
 {
@@ -111,3 +111,4 @@ char	*get_paths(char **s, char *result)
 	path = ft_strjoin(result, path);
 	return (path);
 }
+*/

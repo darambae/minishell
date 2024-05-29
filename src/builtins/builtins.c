@@ -1,7 +1,8 @@
 #include "../../minishell.h"
 
-int	check_builtin(char **cmd)
+bool	check_builtin()
 {
+	/*
 	if (ft_strcmp(cmd, "echo"))
 		ft_echo(cmd);
 	else if (ft_strcmp(cmd, "cd"))
@@ -16,5 +17,7 @@ int	check_builtin(char **cmd)
 		ft_env(cmd);
 	else if (ft_strcmp(cmd, "exit"))
 		ft_exit(cmd);
+	*/
+
 	return (false);
 }

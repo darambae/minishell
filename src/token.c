@@ -57,6 +57,7 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 {
 	char	*cur;
 	int		res;
+	char	quote;
 
 	if (*start_line >= end_line)
 		return (0);
@@ -69,16 +70,35 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	{
 		//check if the command start with a quote, and then find the next one. Afterwards, set start_t right after the first quote and end_t just before the second one.
 		//And then check if start_t < end_t
-		while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
-			&& !ft_strchr("|><", *cur))
+		if (*cur == '\'' || *cur == '"')
+		{
+			quote = *cur;
 			cur++;
+			if (start_t)
+				*start_t = cur;
+			while (*cur && *cur != quote)
+				cur++;
+			if (*cur == '\0')
+				err_msg("a quote is not closed");
+			if (*start_t == cur)
+			{
+				cur++;
+				*start_line = cur;
+				return (get_token(start_line, end_line, start_t, end_t));
+			}
+		}
+		else
+		{
+			while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
+				&& !ft_strchr("|><", *cur))
+				cur++;
+		}
 		//check $ sign
 	}
 	else
 		cur++;
 	if (end_t)
 		*end_t = cur;
-
 	skip_whitespace(&cur, end_line);
 	*start_line = cur;
 	if (start_t && end_t && *end_t)

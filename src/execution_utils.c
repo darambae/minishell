@@ -64,6 +64,7 @@ int	execute_cmd(char **cmds)
 	if (!cmd_path)
 	{
 		exit_code = 40;
+		printf("%s : command not found\n", cmds[0]);
 		return (exit_code);
 	}
 	if (execve(cmd_path, cmds, g_param->env_variables) == -1)
@@ -74,7 +75,7 @@ int	execute_cmd(char **cmds)
 	}
 	free(cmd_path);
 	exit_code = EXIT_SUCCESS;
-	return (exit_code);	
+	return (exit_code);
 }
 
 int	fork1(void)

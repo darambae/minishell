@@ -91,7 +91,7 @@ int    run_cmd(t_cmd *cmd);
 int		execute_cmd(char **cmds);
 
 //builtins
-bool	check_builtin(char *cmd);
+bool	check_builtin();
 
 //signal
 void    handle_signal();
