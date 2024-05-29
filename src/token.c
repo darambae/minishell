@@ -67,10 +67,12 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	give_token(&cur, &res);
 	if (res == 'a')
 	{
+		//check if the command start with a quote, and then find the next one. Afterwards, set start_t right after the first quote and end_t just before the second one.
+		//And then check if start_t < end_t
 		while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
 			&& !ft_strchr("|><", *cur))
 			cur++;
-		//check if it's an argument or command
+		//check $ sign
 	}
 	else
 		cur++;

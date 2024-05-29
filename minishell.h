@@ -25,9 +25,6 @@ enum e_token
 
 typedef struct s_minishell
 {
-	pid_t	child_pids[100];
-	int		child_count;
-	int		exit_status;
 	char	**env_variables;
 }				t_minishell;
 
@@ -90,8 +87,8 @@ char	*remove_quotes(char *word);
 
 //execution
 int		fork1(void);
-void    run_cmd(t_cmd *cmd, char **envp);
-int		execute_cmd(char **cmds, char **envp);
+int    run_cmd(t_cmd *cmd);
+int		execute_cmd(char **cmds);
 
 //builtins
 bool	check_builtin(char *cmd);
