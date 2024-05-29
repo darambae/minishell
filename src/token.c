@@ -4,15 +4,15 @@
 /*skip whitespace and tabs, return true if first carac == c or False if not
 or if there is no carac
 Set start_str on the next non-whitespace char and check if it's a token.*/
-int	peek(char **start_str, char *end_str, char *c)
+int	peek(char *c)
 {
 	char	*tmp;
 
-	tmp = *start_str;
-	while (tmp < end_str && ft_strchr(" \t\n\v\r", *tmp))
+	tmp = g_param->start_line;
+	while (tmp < g_param->end_line && ft_strchr(" \t\n\v\r", *tmp))
 		tmp++;
-	*start_str = tmp;
-	if (tmp == end_str)
+	g_param->start_line = tmp;
+	if (tmp == g_param->end_line)
 		return (-1);
 	return (*tmp && ft_strchr(c, *tmp));
 }
@@ -44,52 +44,50 @@ void	give_token(char **cur, int *res)
 		*res = 'a'; //For any other argv including CMD, ARG, ETC,,,
 }
 
-void	skip_whitespace(char **cur, char *end_line)
+void	skip_whitespace(char **cur)
 {
-	while (*cur < end_line && ft_strchr(" \t\n\v\r", **cur))
+	while (*cur < g_param->end_line && ft_strchr(" \t\n\v\r", **cur))
 		(*cur)++;
 }
 
 /*set start_t on the next non whitespace char, indentify this char and
 return a token (redire or word or pipe) and set start_line on the
 non whitespace char after start_end*/
-int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
+int	get_token(int save)
 {
 	char	*cur;
 	int		res;
 	char	quote;
 
-	if (*start_line >= end_line)
+	if (g_param->start_line >= g_param->end_line)
 		return (0);
-	cur = *start_line;
-	skip_whitespace(&cur, end_line);
-	if (start_t)
-		*start_t = cur;
+	cur = g_param->start_line;
+	skip_whitespace(&cur);
+	if (save)
+		g_param->start_t = cur;
 	give_token(&cur, &res);
 	if (res == 'a')
 	{
-		//check if the command start with a quote, and then find the next one. Afterwards, set start_t right after the first quote and end_t just before the second one.
-		//And then check if start_t < end_t
 		if (*cur == '\'' || *cur == '"')
 		{
 			quote = *cur;
 			cur++;
-			if (start_t)
-				*start_t = cur;
+			if (save)
+				g_param->start_t = cur;
 			while (*cur && *cur != quote)
 				cur++;
 			if (*cur == '\0')
 				err_msg("a quote is not closed");
-			if (*start_t == cur)
+			if (g_param->start_t == cur)
 			{
 				cur++;
-				*start_line = cur;
-				return (get_token(start_line, end_line, start_t, end_t));
+				g_param->start_line = cur;
+				return (get_token(save));
 			}
 		}
 		else
 		{
-			while (cur < end_line && !ft_strchr(" \t\n\v\r", *cur) \
+			while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
 				&& !ft_strchr("|><", *cur))
 				cur++;
 		}
@@ -97,11 +95,11 @@ int	get_token(char **start_line, char *end_line, char **start_t, char **end_t)
 	}
 	else
 		cur++;
-	if (end_t)
-		*end_t = cur;
-	skip_whitespace(&cur, end_line);
-	*start_line = cur;
-	if (start_t && end_t && *end_t)
-		**end_t = '\0';
+	if (save)
+		g_param->end_t = cur;
+	skip_whitespace(&cur);
+	g_param->start_line = cur;
+	if (g_param->start_t && g_param->end_t && *(g_param->end_t))
+		*(g_param->end_t) = '\0';
 	return (res);
 }
