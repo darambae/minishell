@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+t_cmd	*parse_redire(t_cmd *cmd);
+
 /*initialise an execcmd and fill argv[i] with option and args.
 if redire, return an redirecmd wich point on the execcmd.
 if no redire, return the execcmd*/

@@ -1,5 +1,5 @@
 #include "../minishell.h"
-
+/*
 int	quote_parsing(char **cur, char **start_line, char **start_t, char **end_t)
 {
 	if (**cur == '\'' || **cur == '"')
@@ -19,7 +19,7 @@ int	quote_parsing(char **cur, char **start_line, char **start_t, char **end_t)
 				return (get_token(start_line, end_line, start_t, end_t));
 			}
 		}
-}
+}*/
 /*
 int quote_position(char *line, int last)
 {
