@@ -1,11 +1,36 @@
 #include "../minishell.h"
 
-void handle_signal()
+void    handle_exit_status(int status)
 {
-    // for (int i = 0; i < g_param->child_count; i++) {
-    //     kill(g_param->child_pids[i], SIGTERM); // Send SIGTERM to each child process
-    // }
-    while (waitpid(-1, NULL, 0) > 0); // Wait for all child processes to terminate
-    //printf("exit\n");
-    exit(0); // Exit the shell
+    if (WIFEXITED(status))
+        g_param->exit_status = WEXITSTATUS(status);
+    else
+    {
+        g_param->exit_status = 1;
+        errno = 1;
+        perror("ERROR");
+    }
+}
+
+void    handle_signal_before()
+{
+    printf("\n");
+    g_param->exit_status = 130;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void    handle_signal_after(int sig)
+{
+    if (sig == SIGINT)
+    {
+        g_param->exit_status = 130;
+        printf("^C");
+    }
+    else if (sig == SIGQUIT)
+    {
+        g_param->exit_status = 0;
+        printf("exit\n");
+    }
 }

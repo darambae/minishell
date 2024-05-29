@@ -52,29 +52,21 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	return (NULL);
 }
 
-int	execute_cmd(char **cmds)
+void	execute_cmd(char **cmds)
 {
 	char	*cmd_path;
-	int		exit_code;
 
 	cmd_path = NULL;
 	//if (check_builtin(cmds) == true)
 	//run_builtin(cmds[0]);
 	cmd_path = get_cmd_path(cmds[0], g_param->env_variables);
-	if (!cmd_path)
-	{
-		exit_code = 40;
-		return (exit_code);	
-	}
-	if (execve(cmd_path, cmds, g_param->env_variables) == -1)
+	if (!cmd_path || execve(cmd_path, cmds, g_param->env_variables) == -1)
 	{
 		free(cmd_path);
-		exit_code = 42;
-		return (exit_code);	
+		errno = 1;
+		perror("ERROR");
+		exit(EXIT_FAILURE);
 	}
-	free(cmd_path);
-	exit_code = EXIT_SUCCESS;
-	return (exit_code);	
 }
 
 int	fork1(void)

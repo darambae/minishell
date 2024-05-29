@@ -11,6 +11,7 @@ static void	init_param(char **envp)
         exit(1);
     }
 	g_param->env_variables = envp;
+	g_param->exit_status = 0;
 }
 
 void	err_msg(char *msg)
@@ -22,31 +23,19 @@ void	err_msg(char *msg)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	int		fd;
 	int		status;
 	pid_t	pid;
-	int		exit_code;
 
 	(void)argc;
 	(void)argv;
-	signal(SIGINT, handle_signal);
-	signal(SIGTERM, handle_signal);
-	signal(SIGQUIT, handle_signal);
 	init_param(envp);
-	
-	while((fd = open("console", O_RDWR)) >= 0)
-	{
-		if(fd >= 3)
-		{
-			close(fd);
-			break;
-		}
-  	}
+	signal(SIGINT, handle_signal_before);
+	signal(SIGQUIT, SIG_IGN);
 	while ((line = readline("minishell$ ")) != NULL)
 	{
+		//signal(SIGQUIT, handle_signal_after);
 		if (*line)
             add_history(line);
-		//check if the exact word "exit" was given
 		if (ft_strcmp(line, "exit") == 0)
 		{
 			printf("exit\n");
@@ -57,9 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		if (pid == 0)
 			run_cmd(parse(line));
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-        	exit_code = WEXITSTATUS(status);
-		printf("Exit status of the last child process is %i\n", exit_code);
+		handle_exit_status(status);
 		free(line);
 	}
 	if (line == NULL)
@@ -69,20 +56,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
-//     // Simulate a condition where we replace the line and clear history
-    //     if (strcmp(line, "replace") == 0) {
-    //         rl_replace_line("This is the replaced line", 1);
-	// 		rl_on_new_line();
-    //         rl_redisplay();
-    //     } else if (strcmp(line, "clear") == 0) {
-    //         rl_clear_history();
-    //         printf("\nHistory cleared.\n");
-    //         rl_on_new_line();
-    //         rl_redisplay();
-    //     }
-    //     // Continue with your shell logic...
-    //     printf("You entered: %s\n", line);
-
-    //     // Free the allocated line
-    //     free(line);
-    // }
