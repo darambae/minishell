@@ -35,5 +35,4 @@ void    ft_exit(char **cmds, int exit_code)
         perror("numeric argument required");
         exit(1);
     }
-
 }
