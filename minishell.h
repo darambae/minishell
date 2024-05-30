@@ -83,7 +83,10 @@ or if there is no carac*/
 int		peek(char *c);
 int		get_token(int save);
 t_cmd	*parse(char *line);
-bool    check_closed_quotes(char *line, int num_double, int num_single);
+int		quote_parsing(char **cur, int save, char quote);
+void	skip_whitespace(char **cur);
+int	dollars_parsing(char **cur, int save, char quote);
+char	*get_path(char *s);
 
 //quote handlers
 bool	valid_quote(char *line);
@@ -96,8 +99,9 @@ int		run_cmd(t_cmd *cmd, int exit_code);
 void	execute_cmd(char **cmds);
 
 //builtins
-void	run_builtin(char **cmd, int exit_code);
-void    ft_exit(char **cmds, int exit_code);
+void	run_builtin(char **cmd);
+int		ft_exit(char **cmds);
+int		ft_echo(char **argv);
 
 //signal
 void    handle_exit_status(int status);

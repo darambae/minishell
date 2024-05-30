@@ -1,105 +1,81 @@
 #include "../minishell.h"
-/*
-int	quote_parsing(char **cur, char **start_line, char **start_t, char **end_t)
-{
-	if (**cur == '\'' || **cur == '"')
-		{
-			quote = **cur;
-			*cur++;
-			if (start_t)
-				*start_t = *cur;
-			while (**cur && **cur != quote)
-				*cur++;
-			if (**cur == '\0')
-				err_msg("a quote is not closed");
-			if (*start_t == *cur)
-			{
-				*cur++;
-				*start_line = *cur;
-				return (get_token(start_line, end_line, start_t, end_t));
-			}
-		}
-}*/
-/*
-int quote_position(char *line, int last)
-{
-	char	*double_quote;
-	char	*single_quote;
 
-	if (last)
+int	quote_parsing(char **cur, int save, char quote)
+{
+	(*cur)++;
+	if (save)
+		g_param->start_t = *cur;
+	while (**cur && **cur != quote)
 	{
-		double_quote = ft_strrchr(line, '"');
-		single_quote = ft_strrchr(line, '\'');
+		if (quote == '"' && **cur == '$')
+			return (dollars_parsing(cur, save, quote));
+		(*cur)++;
+	}
+	if (**cur == '\0')
+		err_msg("a quote is not closed");
+	if (g_param->start_t == *cur)
+	{
+		(*cur)++;
+		g_param->start_line = *cur;
+		return (get_token(save));
+	}
+	if (save)
+		g_param->end_t = *cur;
+	skip_whitespace(cur);
+	g_param->start_line = *cur;
+	if (g_param->start_t && g_param->end_t && *(g_param->end_t))
+		*(g_param->end_t) = '\0';
+	return ('a');
+}
+
+int	dollars_parsing(char **cur, int save, char quote)
+{
+	char	*s;
+
+	s = *cur;
+	s++;
+	if (*s == '?')
+	{
+		s++;
+		*cur = s;
+		s = ft_itoa(g_param->exit_status);
 	}
 	else
 	{
-		double_quote = ft_strchr(line, '"');
-		single_quote = ft_strchr(line, '\'');
+		while (s < g_param->end_line && !ft_strchr(" \t\n\v\r", *s) \
+				&& *s != quote)
+				s++;
+		*cur = s;
+		*s = '\0';
+		(*cur)++;
+		s = get_path(ft_strjoin(s, "="));
 	}
-	if (!double_quote && !single_quote)
-		return (0);  // Neither quote found
-	else if (!double_quote && single_quote)
-		return (1);  // Single quote found
-	else if (double_quote && !single_quote)
-		return (2);  // Double quote found
-	if ((!last && double_quote < single_quote) || (last && double_quote > single_quote))
-		return (2);  // Double quote appears first/last
-	else if ((!last && single_quote < double_quote) || (last && double_quote < single_quote))
-		return (1);  // Single quote appears first/last
-	else
-		return (-1);
+	g_param->start_line = *cur;
+	if (!s)
+		return (get_token(save));
+	g_param->start_t = s;
+	g_param->end_t = s + strlen(s);
+	return ('a');
 }
 
-bool    check_closed_quotes(char *line, int num_double, int num_single)
+char	*get_path(char *s)
 {
-	int first_pos;
-	int last_pos;
+	int		j;
+	char	*env;
+	int	len;
 
-	first_pos = quote_position(line, 0);
-	last_pos = quote_position(line, 1);
-	// Check if any quote exists
-	if (first_pos == 0)
-		return (true); // No quote found, so they are closed
-	//Check if first and last quote positions are the same and the num of the quotes are even number
-	if ((first_pos == 2 && last_pos == 2 && num_double % 2 == 0) || \
-		(first_pos == 1 && last_pos == 1 && num_single % 2 == 0))
-		return (true); // All quotes are closed
-	else
-		return (false); // Quotes are not closed
-}
-
-bool	valid_quote(char *line)
-{
-	int	num_double;
-	int	num_single;
-
-	num_double = ft_count_char(line, '"');
-	num_single = ft_count_char(line, '\'');
-	if (num_double % 2 != 0 && num_single % 2 != 0)
-		return (false);
-	else
-		return (check_closed_quotes(line, num_double, num_single));
-}
-
-//need to free later.
-char	*remove_quotes(char *word)
-{
-	char	*res;
-	int		num_quotes;
-	int		i;
-
-	num_quotes = ft_count_char(word, '\'') + ft_count_char(word, '\"');
-	res = malloc(sizeof(char *) * (ft_strlen(word) - num_quotes + 1));
-	i = 0;
-	while (*word)
+	j = 0;
+	len = ft_strlen(s);
+	while (g_param->env_variables[j])
 	{
-		if (*word != '\'' && *word != '\"')
-		{
-			res[i] = *word;
-			i++;
-		}
-		word++;
+		if (ft_strncmp(s, g_param->env_variables[j], len) == 0)
+			env = ft_strdup(g_param->env_variables[j] + len);
+		j++;
 	}
-	return (res);
+	if (!env)
+	{
+		free(env);
+		return (NULL);
+	}
+	return (env);
 }
-*/

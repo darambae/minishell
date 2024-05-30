@@ -86,7 +86,7 @@ int    run_cmd(t_cmd *cmd, int exit_code)
         ecmd = (t_execcmd *) cmd;
         if (ecmd->argv[0] == 0)
             exit(0);
-        run_builtin(ecmd->argv, exit_code);
+        run_builtin(ecmd->argv);
         execute_cmd(ecmd->argv);
     }
     else if (cmd->type == PIPE)
