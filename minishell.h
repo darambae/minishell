@@ -83,7 +83,8 @@ or if there is no carac*/
 int		peek(char *c);
 int		get_token(int save);
 t_cmd	*parse(char *line);
-bool    check_closed_quotes(char *line, int num_double, int num_single);
+int	quote_parsing(char **cur, int save);
+void	skip_whitespace(char **cur);
 
 //quote handlers
 bool	valid_quote(char *line);

@@ -57,7 +57,6 @@ int	get_token(int save)
 {
 	char	*cur;
 	int		res;
-	char	quote;
 
 	if (g_param->start_line >= g_param->end_line)
 		return (0);
@@ -69,22 +68,7 @@ int	get_token(int save)
 	if (res == 'a')
 	{
 		if (*cur == '\'' || *cur == '"')
-		{
-			quote = *cur;
-			cur++;
-			if (save)
-				g_param->start_t = cur;
-			while (*cur && *cur != quote)
-				cur++;
-			if (*cur == '\0')
-				err_msg("a quote is not closed");
-			if (g_param->start_t == cur)
-			{
-				cur++;
-				g_param->start_line = cur;
-				return (get_token(save));
-			}
-		}
+			return (quote_parsing(&cur, save));
 		else
 		{
 			while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \

@@ -1,9 +1,9 @@
 #include "../../minishell.h"
 
-void    ft_exit(char **cmds, int exit_code)
+void    ft_exit(char **cmds)
 {
     if (!cmds[1])
     {
-        exit(exit_code);
+        exit(g_param->exit_status);
     }
 }
