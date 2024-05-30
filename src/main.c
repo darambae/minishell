@@ -37,20 +37,17 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while ((line = readline("minishell$ ")) != NULL)
 	{
-		//signal(SIGQUIT, handle_signal_after);
+		signal(SIGINT, handle_signal_before);
+		signal(SIGQUIT, handle_signal_after);
 		if (*line)
             add_history(line);
-		if (ft_strcmp(line, "exit") == 0)
-		{
-			printf("exit\n");
-			exit(0);
-		}
 		line = ft_strjoin(line, "\0");
 		pid = fork1();
 		if (pid == 0)
-			run_cmd(parse(line));
+			run_cmd(parse(line), g_param->exit_status);
 		waitpid(pid, &status, 0);
 		handle_exit_status(status);
+		printf("exit_code = %i\n", g_param->exit_status);
 		free(line);
 	}
 	if (line == NULL)

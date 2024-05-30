@@ -95,7 +95,7 @@ char	*remove_quotes(char *word);
 
 //execution
 int		fork1(void);
-int		run_cmd(t_cmd *cmd);
+int		run_cmd(t_cmd *cmd, int exit_code);
 void	execute_cmd(char **cmds);
 
 //builtins

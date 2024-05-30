@@ -17,3 +17,4 @@ void	run_builtin(char **argv)
 	else if (ft_strcmp(argv[0], "exit"))
 		g_param->exit_status = ft_exit(argv);
 }
+

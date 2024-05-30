@@ -1,10 +1,39 @@
 #include "../../minishell.h"
 
-int    ft_exit(char **cmds)
+static bool    only_digit(char *num)
 {
-    if (!cmds[1])
+    int i;
+
+    i = 0;
+    while (num[i])
     {
-        return(g_param->exit_status);
+        if (!ft_isdigit(num[i]))
+            return (false);
+        i++;
     }
-	return (g_param->exit_status);
+    return (true);
+}
+
+void    ft_exit(char **cmds, int exit_code)
+{
+    if (cmds[2])
+    {
+        errno = 1;
+        perror("too many arguments");
+        exit(1);
+    }
+    else if (!cmds[1])
+    {
+        printf("exit code = %i\n", exit_code);
+        exit(exit_code);
+    }
+    else if (cmds[1] && only_digit(cmds[1]))
+        exit(ft_atoi(cmds[1]) % 256);
+    else if (!only_digit(cmds[1]))
+    {
+        errno = 1;
+        perror("numeric argument required");
+        exit(1);
+    }
+
 }
