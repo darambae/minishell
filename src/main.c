@@ -24,8 +24,6 @@ void	err_msg(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -59,4 +57,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
-

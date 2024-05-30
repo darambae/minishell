@@ -103,7 +103,7 @@ void	run_builtin(char **argv, int exit_code);
 void    ft_exit(char **cmds, int exit_code);
 int		ft_echo(char **argv);
 int		ft_env(char **argv);
-
+int		ft_pwd();
 //signal
 void    handle_exit_status(int status);
 void    handle_signal_before();
