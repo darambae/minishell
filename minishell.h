@@ -98,7 +98,8 @@ void	execute_cmd(char **cmds);
 
 //builtins
 void	run_builtin(char **cmd);
-void    ft_exit(char **cmds);
+int		ft_exit(char **cmds);
+int		ft_echo(char **argv);
 
 //signal
 void    handle_exit_status(int status);
