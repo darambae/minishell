@@ -1,23 +1,20 @@
 #include "../../minishell.h"
 
-int	run_builtin(char *cmd)
+void	run_builtin(char **cmds, int exit_code)
 {
-	(void)cmd;
-	// if (ft_strcmp(cmd, "echo"))
-	// 	ft_echo();
-	// else if (ft_strcmp(cmd, "cd"))
-	// 	ft_cd();
-	// else if (ft_strcmp(cmd, "pwd"))
-	// 	ft_pwd();
-	// else if (ft_strcmp(cmd, "export"))
-	// 	ft_export();
-	// else if (ft_strcmp(cmd, "unset"))
-	// 	ft_unset();
-	// else if (ft_strcmp(cmd, "env"))
-	// 	ft_env();
-	// else if (ft_strcmp(cmd, "exit"))
-	// 	ft_exit();
-	// else
-		return (1);
+	if (ft_strcmp(cmds[0], "echo"))
+		ft_echo();
+	else if (ft_strcmp(cmds[0], "cd"))
+		ft_cd();
+	else if (ft_strcmp(cmds[0], "pwd"))
+		ft_pwd();
+	else if (ft_strcmp(cmds[0], "export"))
+		ft_export();
+	else if (ft_strcmp(cmds[0], "unset"))
+		ft_unset();
+	else if (ft_strcmp(cmds[0], "env"))
+		ft_env();
+	else if (ft_strcmp(cmds[0], "exit"))
+		ft_exit(cmds, exit_code);
 }
 

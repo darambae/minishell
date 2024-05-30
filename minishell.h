@@ -90,7 +90,8 @@ int		run_cmd(t_cmd *cmd);
 void	execute_cmd(char **cmds);
 
 //builtins
-bool	check_builtin(char *cmd);
+void	run_builtin(char **cmd);
+void    ft_exit(char **cmds);
 
 //signal
 void    handle_exit_status(int status);
