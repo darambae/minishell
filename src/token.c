@@ -68,14 +68,10 @@ int	get_token(int save)
 	if (res == 'a')
 	{
 		if (*cur == '\'' || *cur == '"')
-			return (quote_parsing(&cur, save));
-		else
-		{
-			while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
-				&& !ft_strchr("|><", *cur))
-				cur++;
-		}
-		//check $ sign
+			return (quote_parsing(&cur, save, *cur));
+		while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
+			&& !ft_strchr("|><", *cur))
+			cur++;
 	}
 	else
 		cur++;
