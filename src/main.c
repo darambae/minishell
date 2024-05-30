@@ -10,6 +10,10 @@ static void	init_param(char **envp)
         perror("malloc");
         exit(1);
     }
+	g_param->end_line = NULL;
+	g_param->end_t = NULL;
+	g_param->start_line = NULL;
+	g_param->start_t = NULL;
 	g_param->env_variables = envp;
 	g_param->exit_status = 0;
 }
@@ -56,3 +60,20 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+//     // Simulate a condition where we replace the line and clear history
+    //     if (strcmp(line, "replace") == 0) {
+    //         rl_replace_line("This is the replaced line", 1);
+	// 		rl_on_new_line();
+    //         rl_redisplay();
+    //     } else if (strcmp(line, "clear") == 0) {
+    //         rl_clear_history();
+    //         printf("\nHistory cleared.\n");
+    //         rl_on_new_line();
+    //         rl_redisplay();
+    //     }
+    //     // Continue with your shell logic...
+    //     printf("You entered: %s\n", line);
+
+    //     // Free the allocated line
+    //     free(line);
+    // }

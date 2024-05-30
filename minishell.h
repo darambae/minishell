@@ -27,12 +27,16 @@ typedef struct s_minishell
 {
 	char	**env_variables;
 	int		exit_status;
+	char	*start_line;
+	char	*end_line;
+	char	*start_t;
+	char	*end_t;
 }				t_minishell;
 
 typedef struct s_cmd
 {
 	enum e_token	type;
-	
+
 }			t_cmd;
 
 typedef struct s_execcmd
@@ -67,15 +71,17 @@ void 	err_msg(char *msg);
 
 //constructor
 t_cmd	*execcmd(void);
-t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int mode);
+t_cmd	*redircmd(t_cmd *sub_cmd, int mode);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*nul_terminator(t_cmd *cmd);
 
 
 
 // parsing
-int		peek(char **start_str, char *end_str, char *c);
-int		get_token(char **start_line, char *end_line, char **start_t, char **end_t);
+/*peek : skip whitespace and tabs, return true if first carac == c or False if not
+or if there is no carac*/
+int		peek(char *c);
+int		get_token(int save);
 t_cmd	*parse(char *line);
 bool    check_closed_quotes(char *line, int num_double, int num_single);
 

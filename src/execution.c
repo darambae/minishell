@@ -15,7 +15,7 @@ static void handle_dup(int *p, int in_out, t_pipecmd *pcmd)
         dup2(p[0], STDIN_FILENO);
         close(p[0]);
         run_cmd(pcmd->right);
-    } 
+    }
 }
 
 static int run_pipe(t_cmd *cmd)
@@ -30,7 +30,7 @@ static int run_pipe(t_cmd *cmd)
         err_msg("pipe failed");
     first_pid = fork1();
     if (first_pid == 0)
-        handle_dup(p, 1, pcmd);    
+        handle_dup(p, 1, pcmd);
     second_pid = fork1();
     if (second_pid == 0)
         handle_dup(p, 0, pcmd);
@@ -76,7 +76,7 @@ static void	run_redire(t_cmd *cmd)
 
 
 int    run_cmd(t_cmd *cmd)
-{	
+{
     t_execcmd   *ecmd;
     int         exit_code;
 

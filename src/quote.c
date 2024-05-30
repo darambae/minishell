@@ -1,5 +1,26 @@
 #include "../minishell.h"
-
+/*
+int	quote_parsing(char **cur, char **start_line, char **start_t, char **end_t)
+{
+	if (**cur == '\'' || **cur == '"')
+		{
+			quote = **cur;
+			*cur++;
+			if (start_t)
+				*start_t = *cur;
+			while (**cur && **cur != quote)
+				*cur++;
+			if (**cur == '\0')
+				err_msg("a quote is not closed");
+			if (*start_t == *cur)
+			{
+				*cur++;
+				*start_line = *cur;
+				return (get_token(start_line, end_line, start_t, end_t));
+			}
+		}
+}*/
+/*
 int quote_position(char *line, int last)
 {
 	char	*double_quote;
@@ -81,3 +102,4 @@ char	*remove_quotes(char *word)
 	}
 	return (res);
 }
+*/
