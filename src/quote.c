@@ -32,20 +32,21 @@ int	dollars_parsing(char **cur, int save, char quote)
 {
 	char	*s;
 
-	s = NULL;
-	(*cur)++;
-	if (**cur == '?')
+	s = *cur;
+	s++;
+	if (*s == '?')
 	{
-		(*cur)++;
+		s++;
+		*cur = s;
 		s = ft_itoa(g_param->exit_status);
 	}
 	else
 	{
-		s = *cur;
-		while (*cur < g_param->end_line && !ft_strchr(" \t\n\v\r", **cur) \
-				&& **cur != quote)
-				cur++;
-		**cur = '\0';
+		while (s < g_param->end_line && !ft_strchr(" \t\n\v\r", *s) \
+				&& *s != quote)
+				s++;
+		*cur = s;
+		*s = '\0';
 		(*cur)++;
 		s = get_path(ft_strjoin(s, "="));
 	}
