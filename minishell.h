@@ -100,7 +100,7 @@ void	execute_cmd(char **cmds);
 
 //builtins
 void	run_builtin(char **cmd);
-int		ft_exit(char **cmds);
+void    ft_exit(char **cmds, int exit_code);
 int		ft_echo(char **argv);
 
 //signal
