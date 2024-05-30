@@ -24,12 +24,7 @@ void	err_msg(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-static void	print_envp(char **envp)
-{
-	int	i = 0;
-	while (envp[i])
-		printf("%s\n", envp[i++]);
-}
+
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -42,7 +37,6 @@ int	main(int argc, char **argv, char **envp)
 	init_param(envp);
 	signal(SIGINT, handle_signal_before);
 	signal(SIGQUIT, SIG_IGN);
-	print_envp(envp);
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		signal(SIGINT, handle_signal_before);

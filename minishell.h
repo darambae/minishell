@@ -99,9 +99,10 @@ int		run_cmd(t_cmd *cmd, int exit_code);
 void	execute_cmd(char **cmds);
 
 //builtins
-void	run_builtin(char **cmd);
+void	run_builtin(char **argv, int exit_code);
 void    ft_exit(char **cmds, int exit_code);
 int		ft_echo(char **argv);
+int		ft_env(char **argv);
 
 //signal
 void    handle_exit_status(int status);
