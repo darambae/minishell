@@ -63,7 +63,7 @@ void	execute_cmd(char **cmds)
 		free(cmd_path);
 		errno = 1;
 		perror("ERROR");
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 

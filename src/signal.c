@@ -6,7 +6,7 @@ void    handle_exit_status(int status)
         g_param->exit_status = WEXITSTATUS(status);
     else
     {
-        g_param->exit_status = 1;
+        g_param->exit_status = 43;
         errno = 1;
         perror("ERROR");
     }

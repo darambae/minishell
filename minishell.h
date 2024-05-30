@@ -92,12 +92,12 @@ char	*remove_quotes(char *word);
 
 //execution
 int		fork1(void);
-int		run_cmd(t_cmd *cmd);
+int		run_cmd(t_cmd *cmd, int exit_code);
 void	execute_cmd(char **cmds);
 
 //builtins
-void	run_builtin(char **cmd);
-void    ft_exit(char **cmds);
+void	run_builtin(char **cmd, int exit_code);
+void    ft_exit(char **cmds, int exit_code);
 
 //signal
 void    handle_exit_status(int status);

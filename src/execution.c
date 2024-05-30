@@ -7,14 +7,14 @@ static void handle_dup(int *p, int in_out, t_pipecmd *pcmd)
         close(p[0]);
         dup2(p[1], STDOUT_FILENO);
         close(p[1]);
-        run_cmd(pcmd->left);
+        run_cmd(pcmd->left, 0);
     }
     else
     {
         close(p[1]);
         dup2(p[0], STDIN_FILENO);
         close(p[0]);
-        run_cmd(pcmd->right);
+        run_cmd(pcmd->right, 0);
     }
 }
 
@@ -41,7 +41,7 @@ static int run_pipe(t_cmd *cmd)
     if (WIFEXITED(exit_status))
         return (WEXITSTATUS(exit_status));
     else
-        return (1);
+        return (130);
 }
 
 static void	run_redire(t_cmd *cmd)
@@ -71,16 +71,14 @@ static void	run_redire(t_cmd *cmd)
 			exit(1);
 		}
 	}
-	run_cmd(rcmd->cmd);
+	run_cmd(rcmd->cmd, 0);
 }
 
 
-int    run_cmd(t_cmd *cmd)
+int    run_cmd(t_cmd *cmd, int exit_code)
 {
     t_execcmd   *ecmd;
-    int         exit_code;
 
-    exit_code = 0;
     if (!cmd)
         err_msg("cdm is empty\n");
     if (cmd->type == EXEC)
