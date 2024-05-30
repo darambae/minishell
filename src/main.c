@@ -10,6 +10,10 @@ static void	init_param(char **envp)
         perror("malloc");
         exit(1);
     }
+	g_param->end_line = NULL;
+	g_param->end_t = NULL;
+	g_param->start_line = NULL;
+	g_param->start_t = NULL;
 	g_param->env_variables = envp;
 }
 
@@ -33,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGTERM, handle_signal);
 	signal(SIGQUIT, handle_signal);
 	init_param(envp);
-	
+
 	while((fd = open("console", O_RDWR)) >= 0)
 	{
 		if(fd >= 3)
