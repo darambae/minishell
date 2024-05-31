@@ -35,7 +35,8 @@ t_cmd	*parse_exec()
 if pipe, retturn a pipecmd wich left point to the first execcmd
 and right point to the second execcmd or a second pipecmd etc...
 at the end of parse_pipe, line is entirely parsed*/
-t_cmd	*parse_pipe()
+
+t_cmd	*parse_pipe(void)
 {
 	t_cmd	*cmd;
 
@@ -56,9 +57,10 @@ t_cmd	*parse_redire(t_cmd *cmd)
 	while (peek("<>") == 1 && g_param->start_line < g_param->end_line)
 	{
 		token = get_token(0);
-		if(get_token(1) != 'a')
+		if (get_token(1) != 'a')
 		{
-			printf("minishell: syntax error near unexpected token '%s'\n", g_param->start_line);
+			printf("minishell: syntax error near unexpected token '%s'\n", \
+				g_param->start_line);
 			exit(1);
 		}
 		cmd = redircmd(cmd, token);

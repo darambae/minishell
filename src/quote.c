@@ -44,7 +44,7 @@ int	dollars_parsing(char **cur, int save, char quote)
 	{
 		while (s < g_param->end_line && !ft_strchr(" \t\n\v\r", *s) \
 				&& *s != quote)
-				s++;
+			s++;
 		*cur = s;
 		*s = '\0';
 		(*cur)++;
@@ -62,7 +62,7 @@ char	*get_path(char *s)
 {
 	int		j;
 	char	*env;
-	int	len;
+	int		len;
 
 	j = 0;
 	len = ft_strlen(s);

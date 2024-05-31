@@ -6,10 +6,11 @@ t_minishell	*g_param;
 static void	init_param(char **envp)
 {
 	g_param = (t_minishell *)malloc(sizeof(t_minishell));
-    if (g_param == NULL) {
-        perror("malloc");
-        exit(1);
-    }
+	if (g_param == NULL)
+	{
+		perror("malloc");
+		exit(1);
+	}
 	g_param->end_line = NULL;
 	g_param->end_t = NULL;
 	g_param->start_line = NULL;
@@ -40,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, handle_signal_before);
 		signal(SIGQUIT, handle_signal_after);
 		if (*line)
-            add_history(line);
+			add_history(line);
 		line = ft_strjoin(line, "\0");
 		pid = fork1();
 		if (pid == 0)
@@ -52,8 +53,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	if (line == NULL)
 	{
-        printf("exit\n");
-        exit(0);
+		printf("exit\n");
+		exit(0);
 	}
 	return (0);
 }
