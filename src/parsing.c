@@ -75,7 +75,7 @@ t_cmd	*parse(char *line)
 	g_param->end_line = line + ft_strlen(line);
 	g_param->start_line = line;
 	cmd = parse_pipe();
-	if (g_param->start_line != g_param->end_line)
+	if (g_param->start_line < g_param->end_line)
 		err_msg("syntax error\n");
 	nul_terminator(cmd);
 	return (cmd);
