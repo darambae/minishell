@@ -31,6 +31,7 @@ typedef struct s_minishell
 	char	*end_line;
 	char	*start_t;
 	char	*end_t;
+	char	*cmd_line;
 }				t_minishell;
 
 typedef struct s_cmd
@@ -97,6 +98,7 @@ char	*remove_quotes(char *word);
 int				fork1(void);
 t_minishell		*run_cmd(t_cmd *cmd, t_minishell *g_param);
 void			execute_cmd(char **cmds);
+t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);

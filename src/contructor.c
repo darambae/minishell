@@ -31,7 +31,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     } else if (token == ']') {  // Output redirection
         redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
     } else if (token == '{') {  // Here document
-        redircmd->mode = O_RDONLY;
+        redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
     } else if (token == '}') {  // Append output redirection
         redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
     } else {
@@ -39,7 +39,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     }
 
     // Open the file and store the file descriptor
-    if ((redircmd->fd = open(g_param->start_t, redircmd->mode, 0644)) < 0) {
+    if ((redircmd->fd = open(g_param->start_t, redircmd->mode, 0777)) < 0) {
         perror("open");
         free(redircmd);
         exit(EXIT_FAILURE);
