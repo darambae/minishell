@@ -14,7 +14,7 @@ int	ft_echo(char **argv)
 		i++;
 	}
 	while (argv[i])
-		printf("%s", argv[i]);
+		printf("%s", argv[i++]);
 	if (n == 0)
 		(printf("\n"));
 	return (0);
