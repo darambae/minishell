@@ -17,6 +17,6 @@ int	ft_echo(char **argv)
 		printf("%s", argv[i]);
 	if (n == 0)
 		(printf("\n"));
-	return(0);
+	return (0);
 }
 
