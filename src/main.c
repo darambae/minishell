@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		line = ft_strjoin(line, "\0");
 		pid = fork1();
 		if (pid == 0)
-			run_cmd(parse(line), g_param->exit_status);
+			run_cmd(parse(line), g_param);
 		waitpid(pid, &status, 0);
 		handle_exit_status(status);
 		printf("exit_code = %i\n", g_param->exit_status);

@@ -76,7 +76,7 @@ static void	run_redire(t_cmd *cmd)
 }
 
 
-int	run_cmd(t_cmd *cmd, int exit_code)
+int	run_cmd(t_cmd *cmd, t_minishell *g_param)
 {
 	t_execcmd	*ecmd;
 
@@ -87,12 +87,12 @@ int	run_cmd(t_cmd *cmd, int exit_code)
 		ecmd = (t_execcmd *) cmd;
 		if (ecmd->argv[0] == 0)
 			exit(0);
-		run_builtin(ecmd->argv, exit_code);
+		run_builtin(ecmd->argv, g_param);
 		execute_cmd(ecmd->argv);
 	}
 	else if (cmd->type == PIPE)
-		exit_code = run_pipe(cmd);
+		g_param->exit_status = run_pipe(cmd);
 	else if (cmd->type == REDIR)
 		run_redire(cmd);
-	exit(exit_code);
+	exit(g_param->exit_status);
 }

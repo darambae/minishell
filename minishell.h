@@ -85,7 +85,7 @@ int		get_token(int save);
 t_cmd	*parse(char *line);
 int		quote_parsing(char **cur, int save, char quote);
 void	skip_whitespace(char **cur);
-int	dollars_parsing(char **cur, int save, char quote);
+int		dollars_parsing(char **cur, int save, char quote);
 char	*get_path(char *s);
 
 //quote handlers
@@ -95,18 +95,18 @@ char	*remove_quotes(char *word);
 
 //execution
 int		fork1(void);
-int		run_cmd(t_cmd *cmd, int exit_code);
+int		run_cmd(t_cmd *cmd, t_minishell *g_param);
 void	execute_cmd(char **cmds);
 
 //builtins
-void	run_builtin(char **argv, int exit_code);
-void    ft_exit(char **cmds, int exit_code);
+void	run_builtin(char **argv, t_minishell *g_param);
+void	ft_exit(char **cmds, int exit_code);
 int		ft_echo(char **argv);
 int		ft_env(char **argv);
-int		ft_pwd();
+int		ft_pwd(void);
 //signal
-void    handle_exit_status(int status);
-void    handle_signal_before();
-void    handle_signal_after(int sig);
+void	handle_exit_status(int status);
+void	handle_signal_before(void);
+void	handle_signal_after(int sig);
 
 #endif
