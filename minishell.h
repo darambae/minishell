@@ -94,17 +94,18 @@ char	*remove_quotes(char *word);
 
 
 //execution
-int		fork1(void);
-int		run_cmd(t_cmd *cmd, t_minishell *g_param);
-void	execute_cmd(char **cmds);
+int				fork1(void);
+t_minishell		*run_cmd(t_cmd *cmd, t_minishell *g_param);
+void			execute_cmd(char **cmds);
 
 //builtins
-void	run_builtin(char **argv, t_minishell *g_param);
-void	ft_exit(char **cmds, int exit_code);
-int		ft_echo(char **argv);
-int		ft_env(char **argv);
-int		ft_pwd(void);
-void	ft_cd(char **argv, t_minishell *g_param);
+bool		is_builtin(char *cmd);
+t_minishell	*run_builtin(char **argv, t_minishell *g_param);
+void		ft_exit(char **cmds, int exit_code);
+int			ft_echo(char **argv);
+int			ft_env(char **argv);
+int			ft_pwd(void);
+void		ft_cd(char **argv, t_minishell *g_param);
 //signal
 void	handle_exit_status(int status);
 void	handle_signal_before(int sig);

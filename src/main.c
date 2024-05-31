@@ -45,10 +45,14 @@ int	main(int argc, char **argv, char **envp)
 		line = ft_strjoin(line, "\0");
 		pid = fork1();
 		if (pid == 0)
-			run_cmd(parse(line), g_param);
+		{
+			g_param = run_cmd(parse(line), g_param);
+			exit(g_param->exit_status);
+		}
 		waitpid(pid, &status, 0);
 		handle_exit_status(status);
 		printf("exit_code = %i\n", g_param->exit_status);
+		printf("real : %s / saved : %s\n", getcwd(NULL, 0), get_path("PWD="));
 		free(line);
 	}
 	if (line == NULL)
