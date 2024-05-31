@@ -73,7 +73,12 @@ static void	run_redire(t_cmd *cmd)
 	if (rcmd->token == '{' || rcmd->token == '[')
 		dup2(rcmd->fd, STDIN_FILENO);
 	else
+	{
+		rcmd = exchange_cmd_order(rcmd);
+		if (rcmd->token == '{')
+			run_redire((t_cmd *) rcmd);
 		dup2(rcmd->fd, STDOUT_FILENO);
+	}
 	close(rcmd->fd);
 	run_cmd(rcmd->cmd, 0);
 }

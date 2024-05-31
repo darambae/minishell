@@ -98,6 +98,7 @@ char	*remove_quotes(char *word);
 int		fork1(void);
 int		run_cmd(t_cmd *cmd, t_minishell *g_param);
 void	execute_cmd(char **cmds);
+t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 
 //builtins
 void	run_builtin(char **argv, t_minishell *g_param);
