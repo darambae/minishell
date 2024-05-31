@@ -31,7 +31,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     } else if (token == ']') {  // Output redirection
         redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
     } else if (token == '{') {  // Here document
-        redircmd->mode = O_RDONLY;
+        redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
     } else if (token == '}') {  // Append output redirection
         redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
     } else {

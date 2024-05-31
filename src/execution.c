@@ -49,29 +49,32 @@ static void	run_redire(t_cmd *cmd)
 {
 	t_redircmd  *rcmd;
 	char	    *line;
-	//int		j;
 
 	rcmd = (t_redircmd *) cmd;
 	if (rcmd->token == '{') //here_doc
 	{
 		line = readline("> ");
-		//j = 0;
 		while (ft_strcmp(line, rcmd->start_file))
 		{
-			//rcmd->here_doc[j++] = ft_strdup(line);
-			line = readline("> ");
+			ft_putstr_fd(line, rcmd->fd);
+			line = ft_strjoin(g_param->cmd_line, ft_strjoin("\n", line));
+			rl_replace_line(line, 1);
 			add_history(line);
+			free(line);
+			line = readline("> ");
 		}
 	}
-	else
+	close(rcmd->fd);
+	if (open(rcmd->start_file, rcmd->mode) < 0)
 	{
-		close(rcmd->fd);
-		if (open(rcmd->start_file, rcmd->mode) < 0)
-		{
-			printf("failed to open %s\n", rcmd->start_file);
-			exit(1);
-		}
+		printf("failed to open %s\n", rcmd->start_file);
+		exit(1);
 	}
+	if (rcmd->token == '{' || rcmd->token == '[')
+		dup2(rcmd->fd, STDIN_FILENO);
+	else
+		dup2(rcmd->fd, STDOUT_FILENO);
+	close(rcmd->fd);
 	run_cmd(rcmd->cmd, 0);
 }
 

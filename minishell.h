@@ -31,6 +31,7 @@ typedef struct s_minishell
 	char	*end_line;
 	char	*start_t;
 	char	*end_t;
+	char	*cmd_line;
 }				t_minishell;
 
 typedef struct s_cmd
