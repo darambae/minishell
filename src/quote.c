@@ -1,56 +1,55 @@
 #include "../minishell.h"
 
-int	quote_parsing(char **cur, int save, char quote)
+int	quote_parsing(char *cur, int save, char quote)
 {
-	(*cur)++;
+	cur++;
 	if (save)
-		g_param->start_t = *cur;
-	while (**cur && **cur != quote)
+		g_param->start_t = cur;
+	while (*cur && *cur != quote)
 	{
-		if (quote == '"' && **cur == '$')
+		if (quote == '"' && *cur == '$')
 			return (dollars_parsing(cur, save, quote));
-		(*cur)++;
+		cur++;
 	}
-	if (**cur == '\0')
+	if (*cur == '\0')
 		err_msg("a quote is not closed");
-	if (g_param->start_t == *cur)
+	if (g_param->start_t == cur)
 	{
-		(*cur)++;
-		g_param->start_line = *cur;
+		cur++;
+		g_param->start_line = cur;
 		return (get_token(save));
 	}
 	if (save)
-		g_param->end_t = *cur;
-	skip_whitespace(cur);
-	g_param->start_line = *cur;
+		g_param->end_t = cur;
+	skip_whitespace(&cur);
+	g_param->start_line = cur;
 	if (g_param->start_t && g_param->end_t && *(g_param->end_t))
 		*(g_param->end_t) = '\0';
 	return ('a');
 }
 
-int	dollars_parsing(char **cur, int save, char quote)
+int	dollars_parsing(char *cur, int save, char quote)
 {
 	char	*s;
 
-	s = *cur;
+	s = cur;
 	s++;
 	if (*s == '?')
 	{
 		s++;
-		*cur = s;
+		cur = s;
 		s = ft_itoa(g_param->exit_status);
 	}
 	else
 	{
-		while (s < g_param->end_line && !ft_strchr(" \t\n\v\r", *s) \
-				&& *s != quote)
-				s++;
-		*cur = s;
-		*s = '\0';
-		(*cur)++;
+		while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
+				&& *cur != quote)
+				cur++;
+		*cur = '\0';
 		s = get_path(ft_strjoin(s, "="));
+		cur++;
 	}
-	g_param->start_line = *cur;
+	g_param->start_line = cur;
 	if (!s)
 		return (get_token(save));
 	g_param->start_t = s;
