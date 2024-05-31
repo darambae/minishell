@@ -12,8 +12,9 @@ void	handle_exit_status(int status)
 	}
 }
 
-void	handle_signal_before(void)
+void	handle_signal_before(int sig)
 {
+	(void)sig;
 	printf("\n");
 	g_param->exit_status = 130;
 	rl_on_new_line();

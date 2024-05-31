@@ -44,7 +44,7 @@ int	dollars_parsing(char *cur, int save, char quote)
 	{
 		while (cur < g_param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
 				&& *cur != quote)
-				cur++;
+			cur++;
 		*cur = '\0';
 		s = get_path(ft_strjoin(s, "="));
 		cur++;
@@ -68,7 +68,10 @@ char	*get_path(char *s)
 	while (g_param->env_variables[j])
 	{
 		if (ft_strncmp(s, g_param->env_variables[j], len) == 0)
+		{
 			env = ft_strdup(g_param->env_variables[j] + len);
+			break ;
+		}
 		j++;
 	}
 	if (!env)
