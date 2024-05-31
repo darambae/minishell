@@ -85,7 +85,7 @@ int		get_token(int save);
 t_cmd	*parse(char *line);
 int		quote_parsing(char *cur, int save, char quote);
 void	skip_whitespace(char **cur);
-int		dollars_parsing(char **cur, int save, char quote);
+int		dollars_parsing(char *cur, int save, char quote);
 char	*get_path(char *s);
 
 //quote handlers
@@ -104,9 +104,10 @@ void	ft_exit(char **cmds, int exit_code);
 int		ft_echo(char **argv);
 int		ft_env(char **argv);
 int		ft_pwd(void);
+void	ft_cd(char **argv, t_minishell *g_param);
 //signal
 void	handle_exit_status(int status);
-void	handle_signal_before(void);
+void	handle_signal_before(int sig);
 void	handle_signal_after(int sig);
 
 #endif
