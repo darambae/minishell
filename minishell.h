@@ -107,6 +107,7 @@ void	here_doc(t_redircmd *rcmd);
 //builtins
 bool		is_builtin(char *cmd);
 bool	is_cd_export_unset(t_cmd *cmd);
+void	run_cd_export_unset(t_cmd *cmd);
 
 t_minishell	*run_builtin(char **argv);
 void		ft_exit(char **cmds, int exit_code);
