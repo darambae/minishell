@@ -23,16 +23,7 @@ enum e_token
 	ENVIRONMENT,
 };
 
-typedef struct s_minishell
-{
-	char	**env_variables;
-	int		exit_status;
-	char	*start_line;
-	char	*end_line;
-	char	*start_t;
-	char	*end_t;
-	char	*cmd_line;
-}				t_minishell;
+
 
 typedef struct s_cmd
 {
@@ -61,11 +52,21 @@ typedef struct s_redircmd
 	char			*start_file;
 	char			*end_file;
 	int				token;
-	char			**here_doc;
 	int				mode;
 	int				fd;
 }				t_redircmd;
 
+typedef struct s_minishell
+{
+	char	**env_variables;
+	int		exit_status;
+	char	*start_line;
+	char	*end_line;
+	char	*start_t;
+	char	*end_t;
+	char	*cmd_line;
+	t_cmd	*first_cmd;
+}				t_minishell;
 extern t_minishell	*g_param;
 
 void 	err_msg(char *msg);
@@ -75,8 +76,7 @@ t_cmd	*execcmd(void);
 t_cmd	*redircmd(t_cmd *sub_cmd, int mode);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*nul_terminator(t_cmd *cmd);
-
-
+void	ft_clean_all(void);
 
 // parsing
 /*peek : skip whitespace and tabs, return true if first carac == c or False if not
@@ -98,7 +98,11 @@ char	*remove_quotes(char *word);
 int				fork1(void);
 t_minishell		*run_cmd(t_cmd *cmd);
 void			execute_cmd(char **cmds);
+
+//redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
+void	ft_dup2(t_redircmd *rcmd, int std);
+void	here_doc(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);

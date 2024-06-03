@@ -72,7 +72,6 @@ t_cmd	*parse(char *line)
 {
 	t_cmd	*cmd;
 
-	g_param->cmd_line = ft_strdup(line);
 	g_param->end_line = line + ft_strlen(line);
 	g_param->start_line = line;
 	cmd = parse_pipe();

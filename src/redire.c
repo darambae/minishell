@@ -19,3 +19,42 @@ t_redircmd	*exchange_cmd_order(t_redircmd *rcmd)
 	}
 	return (rcmd);
 }
+
+void	ft_dup2(t_redircmd *rcmd, int std)
+{
+	rcmd->fd = open(rcmd->start_file, rcmd->mode);
+	if (rcmd->fd < 0)
+	{
+		printf("failed to open %s\n", rcmd->start_file);
+		exit(1);
+	}
+	if (dup2(rcmd->fd, std) < 0)
+	{
+		printf("failed to dup");
+		exit(1);
+	}
+	close(rcmd->fd);
+}
+
+void	here_doc(t_redircmd *rcmd)
+{
+	char	*line;
+	rcmd->fd = open(rcmd->start_file, rcmd->mode);
+		if (rcmd->fd < 0)
+		{
+			printf("failed to open %s\n", rcmd->start_file);
+			exit(1);
+		}
+		line = ft_strjoin(readline("> "), "\n");
+		while (ft_strcmp(line, rcmd->start_file))
+		{
+			ft_putstr_fd(line, rcmd->fd);
+			line = ft_strjoin(g_param->cmd_line, ft_strjoin("\n", line));
+			rl_replace_line(line, 1);
+			add_history(line);
+			free(line);
+			line = readline("> ");
+		}
+		close(rcmd->fd);
+		//unlink(rcmd->start_file);//a mettre dans le parent
+}

@@ -48,38 +48,20 @@ static int	run_pipe(t_cmd *cmd)
 static void	run_redire(t_cmd *cmd)
 {
 	t_redircmd  *rcmd;
-	char	    *line;
 
 	rcmd = (t_redircmd *) cmd;
-	if (rcmd->token == '{') //here_doc
-	{
-		line = readline("> ");
-		while (ft_strcmp(line, rcmd->start_file))
-		{
-			ft_putstr_fd(line, rcmd->fd);
-			line = ft_strjoin(g_param->cmd_line, ft_strjoin("\n", line));
-			rl_replace_line(line, 1);
-			add_history(line);
-			free(line);
-			line = readline("> ");
-		}
-	}
 	close(rcmd->fd);
-	if (open(rcmd->start_file, rcmd->mode) < 0)
-	{
-		printf("failed to open %s\n", rcmd->start_file);
-		exit(1);
-	}
+	if (rcmd->token == '{') //here_doc
+		here_doc(rcmd);
 	if (rcmd->token == '{' || rcmd->token == '[')//redire infile
-		dup2(rcmd->fd, STDIN_FILENO);
+		ft_dup2(rcmd, STDIN_FILENO);
 	else//redire outfile
 	{
 		rcmd = exchange_cmd_order(rcmd);
 		if (rcmd->token == '{')
 			run_redire((t_cmd *) rcmd);
-		dup2(rcmd->fd, STDOUT_FILENO);
+		ft_dup2(rcmd, STDOUT_FILENO);
 	}
-	close(rcmd->fd);
 	run_cmd(rcmd->cmd);
 }
 

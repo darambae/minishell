@@ -17,6 +17,7 @@ static void	init_param(char **envp)
 	g_param->start_t = NULL;
 	g_param->env_variables = envp;
 	g_param->exit_status = 0;
+	g_param->cmd_line = NULL;
 }
 
 void	err_msg(char *msg)
@@ -42,20 +43,21 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, handle_signal_after);
 		if (*line)
 			add_history(line);
-		line = ft_strjoin(line, "\0");
+		g_param->cmd_line = ft_strjoin(line, "\0");
+		g_param->first_cmd = parse(g_param->cmd_line);
 		pid = fork1();
 		if (pid == 0)
 		{
-			run_cmd(parse(line));
+			run_cmd(g_param->first_cmd);
 			exit(g_param->exit_status);
 		}
 		waitpid(pid, &status, 0);
 		handle_exit_status(status);
+		ft_clean_all();
 		printf("exit_code = %i\n", g_param->exit_status);
 		printf("real : %s / saved : %s\n", getcwd(NULL, 0), get_path("PWD="));
-		free(line);
 	}
-	if (line == NULL)
+	if (line == NULL)//why?
 	{
 		printf("exit\n");
 		exit(0);
