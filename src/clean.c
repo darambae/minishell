@@ -12,7 +12,6 @@ void	free_cmd(t_cmd *cmd)
 		rcmd = (t_redircmd *) cmd;
 		if (rcmd->token == '{')
 			unlink(rcmd->start_file);
-			//gerer les close(fd);
 		free_cmd(rcmd->cmd);
 		free(cmd);
 	}
