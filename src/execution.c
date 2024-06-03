@@ -7,14 +7,14 @@ static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd)
 		close(p[0]);
 		dup2(p[1], STDOUT_FILENO);
 		close(p[1]);
-		run_cmd(pcmd->left, g_param);
+		run_cmd(pcmd->left);
 	}
 	else
 	{
 		close(p[1]);
 		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
-		run_cmd(pcmd->right, g_param);
+		run_cmd(pcmd->right);
 	}
 }
 
@@ -66,7 +66,7 @@ static void	run_redire(t_cmd *cmd)
 }
 
 
-t_minishell	*run_cmd(t_cmd *cmd, t_minishell *g_param)
+t_minishell	*run_cmd(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
 
@@ -78,7 +78,7 @@ t_minishell	*run_cmd(t_cmd *cmd, t_minishell *g_param)
 		if (ecmd->argv[0] == 0)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
-			g_param = run_builtin(ecmd->argv, g_param);
+			g_param = run_builtin(ecmd->argv);
 		else
 			execute_cmd(ecmd->argv);
 	}

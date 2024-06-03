@@ -1,13 +1,26 @@
 #include "../../minishell.h"
-
-void	is_cd_export_unset(char *cmd)
+bool	is_cd_export_unset(t_cmd *cmd)
 {
-	if (!ft_strcmp(cmd, "cd"))
-		ft_cd(cmd);
-	else if (!ft_strcmp(cmd, "export"))
-		ft_export(cmd);
-	else if (!ft_strcmp(cmd, "unset"))
-		ft_unset(cmd);
+	t_execcmd *res;
+
+	res = (t_execcmd *)cmd;
+
+	if(!ft_strcmp(res->argv[0], "cd") || !ft_strcmp(res->argv[0], "export") \
+	 || !ft_strcmp(res->argv[0], "unset"))
+		return (true);
+	return (false);
+}
+void	run_cd_export_unset(t_cmd *cmd)
+{
+	t_execcmd *res;
+
+	res = (t_execcmd *)cmd;
+	if (!ft_strcmp(res->argv[0], "cd"))
+		ft_cd(res);
+	else if (!ft_strcmp(res->argv[0], "export"))
+		ft_export(res);
+	else if (!ft_strcmp(res->argv[0], "unset"))
+		ft_unset(res);
 }
 
 bool	is_builtin(char *cmd)

@@ -45,7 +45,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 		g_param->cmd_line = ft_strjoin(line, "\0");
 		g_param->first_cmd = parse(g_param->cmd_line);
-		is_cd_export_unset(cmd);
+		if (is_cd_export_unset(g_param->first_cmd))
+			run_cd_export_unset(g_param->first_cmd);
 		pid = fork1();
 		if (pid == 0)
 		{
