@@ -96,7 +96,7 @@ char	*remove_quotes(char *word);
 
 //execution
 int				fork1(void);
-t_minishell		*run_cmd(t_cmd *cmd, t_minishell *g_param);
+t_minishell		*run_cmd(t_cmd *cmd);
 void			execute_cmd(char **cmds);
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 

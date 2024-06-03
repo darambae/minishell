@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **envp)
 		pid = fork1();
 		if (pid == 0)
 		{
-			g_param = run_cmd(parse(line), g_param);
+			run_cmd(parse(line));
 			exit(g_param->exit_status);
 		}
 		waitpid(pid, &status, 0);

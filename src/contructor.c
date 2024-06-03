@@ -37,14 +37,12 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     } else {
         err_msg("Unknown redirection token");
     }
-
     // Open the file and store the file descriptor
     if ((redircmd->fd = open(g_param->start_t, redircmd->mode, 0777)) < 0) {
         perror("open");
         free(redircmd);
         exit(EXIT_FAILURE);
     }
-
     return (t_cmd *)redircmd;
 }
 

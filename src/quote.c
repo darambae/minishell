@@ -65,6 +65,7 @@ char	*get_path(char *s)
 
 	j = 0;
 	len = ft_strlen(s);
+	env = NULL;
 	while (g_param->env_variables[j])
 	{
 		if (ft_strncmp(s, g_param->env_variables[j], len) == 0)
