@@ -1,5 +1,6 @@
 #include "../minishell.h"
 
+
 void	handle_exit_status(int status)
 {
 	if (WIFEXITED(status))
@@ -7,8 +8,8 @@ void	handle_exit_status(int status)
 	else
 	{
 		g_param->exit_status = 43;
+		printf("minishell: warning: here-document delimited by end-of-file\n");
 		errno = 1;
-		perror("ERROR");
 	}
 }
 

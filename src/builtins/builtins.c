@@ -31,14 +31,10 @@ bool	is_builtin(char *cmd)
 	return (false);
 }
 
-t_minishell	*run_builtin(char **argv, t_minishell *g_param)
+void	run_builtin(char **argv)
 {
 	if (!ft_strcmp(argv[0], "echo"))
 		g_param->exit_status = ft_echo(argv);
-	/*else if (!ft_strcmp(argv[0], "export"))
-		ft_export();
-	else if (!ft_strcmp(argv[0], "unset"))
-		ft_unset();*/
 	else if (!ft_strcmp(argv[0], "pwd"))
 		g_param->exit_status = ft_pwd();
 	else if (!ft_strcmp(argv[0], "env"))
