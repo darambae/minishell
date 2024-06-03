@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static void	update_env(t_minishell *g_param, char *str, char *new)
+static void	update_env(char *str, char *new)
 {
 	int		i;
 	char	*tmp;
@@ -20,7 +20,7 @@ static void	update_env(t_minishell *g_param, char *str, char *new)
 	}
 }
 
-static void	execute_chdir(char *path, t_minishell *g_param)
+static void	execute_chdir(char *path)
 {
 	char	*current_path;
 
@@ -34,8 +34,8 @@ static void	execute_chdir(char *path, t_minishell *g_param)
 	else
 	{
 		printf("%s\n", getcwd(NULL, 0));
-		update_env(g_param, "OLDPWD=", current_path);
-		update_env(g_param, "PWD=", getcwd(NULL, 0));
+		update_env("OLDPWD=", current_path);
+		update_env("PWD=", getcwd(NULL, 0));
 		printf("OLDPWD=%s\n", get_path("OLDPWD="));
 		printf("PWD=%s\n", get_path("PWD="));
 		g_param->exit_status = 0;
@@ -44,7 +44,7 @@ static void	execute_chdir(char *path, t_minishell *g_param)
 	//free(current_path);
 }
 
-void	ft_cd(char **argv, t_minishell *g_param)
+t_minishell	*ft_cd(char **argv)
 {
 	char	*path;
 
@@ -65,6 +65,5 @@ void	ft_cd(char **argv, t_minishell *g_param)
 		perror("cd");
 		g_param->exit_status = 1;
 	}
-	execute_chdir(path, g_param);
-	//exit(g_param->exit_status);
+	execute_chdir(path);
 }

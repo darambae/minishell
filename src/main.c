@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*line)
 			add_history(line);
 		line = ft_strjoin(line, "\0");
+		is_cd_export_unset(cmd);
 		pid = fork1();
 		if (pid == 0)
 		{

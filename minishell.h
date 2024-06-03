@@ -87,7 +87,7 @@ t_cmd	*parse(char *line);
 int		quote_parsing(char *cur, int save, char quote);
 void	skip_whitespace(char **cur);
 int		dollars_parsing(char *cur, int save, char quote);
-char	*get_path(char *s);
+char	*get_path(char *s_redircmd);
 
 //quote handlers
 bool	valid_quote(char *line);
@@ -102,12 +102,13 @@ t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);
-t_minishell	*run_builtin(char **argv, t_minishell *g_param);
+void	is_cd_export_unset(char *cmd);
+t_minishell	*run_builtin(char **argv);
 void		ft_exit(char **cmds, int exit_code);
 int			ft_echo(char **argv);
 int			ft_env(char **argv);
 int			ft_pwd(void);
-void		ft_cd(char **argv, t_minishell *g_param);
+t_minishell		*ft_cd(char **argv);
 //signal
 void	handle_exit_status(int status);
 void	handle_signal_before(int sig);
