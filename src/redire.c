@@ -30,6 +30,7 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	}
 	if (dup2(rcmd->fd, std) < 0)
 	{
+		close(rcmd->fd);
 		printf("failed to dup");
 		exit(1);
 	}
