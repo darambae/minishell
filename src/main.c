@@ -3,6 +3,30 @@
 
 t_minishell	*g_param;
 
+char	**make_copy(char **env)
+{
+	char	**copy;
+	int	i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	if (i == 0)
+		return (NULL);
+	copy = malloc((i + 1) * sizeof(char *));
+	if (!copy)
+	
+		return (NULL);
+	i = 0;
+	while (env[i])
+	{
+		copy[i] = ft_strdup(env[i]);
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}
+
 static void	init_param(char **envp)
 {
 	g_param = (t_minishell *)malloc(sizeof(t_minishell));
