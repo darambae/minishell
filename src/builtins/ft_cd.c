@@ -33,33 +33,30 @@ static void	execute_chdir(char *path)
 	}
 	else
 	{
-		printf("%s\n", getcwd(NULL, 0));
 		update_env("OLDPWD=", current_path);
 		update_env("PWD=", getcwd(NULL, 0));
-		printf("OLDPWD=%s\n", get_path("OLDPWD="));
-		printf("PWD=%s\n", get_path("PWD="));
 		g_param->exit_status = 0;
 	}
 	//free(path);
 	//free(current_path);
 }
 
-t_minishell	*ft_cd(char **argv)
+void	ft_cd(t_execcmd *cmd)
 {
 	char	*path;
 
 	path = NULL;
-	if (!argv[1] || (!ft_strcmp(argv[1], "~") && !argv[2]))
+	if (!cmd->argv[1] || (!ft_strcmp(cmd->argv[1], "~") && !cmd->argv[2]))
 		path = get_path("HOME=");
-	else if (argv[1] && !argv[2])
+	else if (cmd->argv[1] && !cmd->argv[2])
 	{
-		if (!ft_strcmp(argv[1], "-"))
+		if (!ft_strcmp(cmd->argv[1], "-"))
 			path = get_path("OLDPWD=");
 		else
-			path = argv[1];
+			path = cmd->argv[1];
 	}
-	else if (!ft_strcmp(argv[1], "--") && argv[2][0] == '-')
-		path = argv[2];
+	else if (!ft_strcmp(cmd->argv[1], "--") && cmd->argv[2][0] == '-')
+		path = cmd->argv[2];
 	else
 	{
 		perror("cd");

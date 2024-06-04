@@ -57,18 +57,18 @@ int	dollars_parsing(char *cur, int save, char quote)
 	return ('a');
 }
 
-char	*get_path(char *s)
+char	*get_path(char *s_redircmd)
 {
 	int		j;
 	char	*env;
 	int		len;
 
 	j = 0;
-	len = ft_strlen(s);
+	len = ft_strlen(s_redircmd);
 	env = NULL;
 	while (g_param->env_variables[j])
 	{
-		if (ft_strncmp(s, g_param->env_variables[j], len) == 0)
+		if (ft_strncmp(s_redircmd, g_param->env_variables[j], len) == 0)
 		{
 			env = ft_strdup(g_param->env_variables[j] + len);
 			break ;

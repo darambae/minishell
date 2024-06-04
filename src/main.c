@@ -15,7 +15,7 @@ static void	init_param(char **envp)
 	g_param->end_t = NULL;
 	g_param->start_line = NULL;
 	g_param->start_t = NULL;
-	g_param->env_variables = envp;
+	g_param->env_variables = make_copy(envp);
 	g_param->exit_status = 0;
 	g_param->cmd_line = NULL;
 }
@@ -47,17 +47,20 @@ int	main(int argc, char **argv, char **envp)
 		g_param->first_cmd = parse(g_param->cmd_line);
 		if (is_cd_export_unset(g_param->first_cmd))
 			run_cd_export_unset(g_param->first_cmd);
-		pid = fork1();
-		if (pid == 0)
+		else
 		{
-			run_cmd(g_param->first_cmd);
-			exit(g_param->exit_status);
+			pid = fork1();
+			if (pid == 0)
+			{
+				run_cmd(g_param->first_cmd);
+				exit(g_param->exit_status);
+			}
+			waitpid(pid, &status, 0);
+			handle_exit_status(status);
 		}
-		waitpid(pid, &status, 0);
-		handle_exit_status(status);
 		ft_clean_all();
 		printf("exit_code = %i\n", g_param->exit_status);
-		printf("real : %s / saved : %s\n", getcwd(NULL, 0), get_path("PWD="));
+		//printf("real : %s / saved : %s\n", getcwd(NULL, 0), get_path("PWD="));
 	}
 	if (line == NULL)//why?
 	{

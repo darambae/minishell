@@ -66,7 +66,7 @@ static void	run_redire(t_cmd *cmd)
 }
 
 
-t_minishell	*run_cmd(t_cmd *cmd)
+void	run_cmd(t_cmd *cmd)
 {
 	t_execcmd	*ecmd;
 
@@ -78,7 +78,7 @@ t_minishell	*run_cmd(t_cmd *cmd)
 		if (ecmd->argv[0] == 0)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
-			g_param = run_builtin(ecmd->argv);
+			run_builtin(ecmd->argv);
 		else
 			execute_cmd(ecmd->argv);
 	}
@@ -86,5 +86,4 @@ t_minishell	*run_cmd(t_cmd *cmd)
 		g_param->exit_status = run_pipe(cmd);
 	else if (cmd->type == REDIR)
 		run_redire(cmd);
-	return (g_param);
 }

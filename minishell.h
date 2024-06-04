@@ -95,29 +95,32 @@ char	*remove_quotes(char *word);
 
 
 //execution
-int				fork1(void);
-t_minishell		*run_cmd(t_cmd *cmd);
-void			execute_cmd(char **cmds);
+int			fork1(void);
+void		run_cmd(t_cmd *cmd);
+void		execute_cmd(char **cmds);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
-void	ft_dup2(t_redircmd *rcmd, int std);
-void	here_doc(t_redircmd *rcmd);
+void		ft_dup2(t_redircmd *rcmd, int std);
+void		here_doc(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);
-bool	is_cd_export_unset(t_cmd *cmd);
-void	run_cd_export_unset(t_cmd *cmd);
-
-t_minishell	*run_builtin(char **argv);
+bool		is_cd_export_unset(t_cmd *cmd);
+void		run_cd_export_unset(t_cmd *cmd);
+void		run_builtin(char **argv);
 void		ft_exit(char **cmds, int exit_code);
 int			ft_echo(char **argv);
 int			ft_env(char **argv);
 int			ft_pwd(void);
-t_minishell		*ft_cd(char **argv);
+void		ft_cd(t_execcmd *cmd);
+void    	ft_export(t_execcmd *cmd);
+void		ft_unset(t_execcmd *cmd);
+
 //signal
-void	handle_exit_status(int status);
-void	handle_signal_before(int sig);
-void	handle_signal_after(int sig);
+void		handle_exit_status(int status);
+void		handle_signal_before(int sig);
+void		handle_signal_after(int sig);
+void		heredoc_signal_handler(int sig);
 
 #endif

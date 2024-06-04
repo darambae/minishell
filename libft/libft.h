@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:59:42 by darambae          #+#    #+#             */
-/*   Updated: 2024/05/22 11:45:17 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/03 17:24:47 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
+void    *ft_realloc(void *p, size_t new_size);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
