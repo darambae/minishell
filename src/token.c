@@ -26,7 +26,7 @@ void	give_token(char **cur, int *res)
 		*res = '-';
 	else if (**cur == '<')
 	{
-		if (**(cur + 1) == '<')
+		if (*(*cur + 1) == '<')
 			{
 				(*cur)++;
 				*res = '{'; //For << (heredoc)
@@ -36,7 +36,7 @@ void	give_token(char **cur, int *res)
 	}
 	else if (**cur == '>')
 	{
-		if (**(cur + 1) == '>')
+		if (*(*cur + 1) == '>')
 		{
 			(*cur)++;
 			*res = '}'; //For >> (append output)
