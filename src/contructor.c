@@ -24,7 +24,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     redircmd->start_file = g_param->start_t;
     redircmd->end_file = g_param->end_t;
     redircmd->token = token;
-	redircmd->here_doc = 0;
+	//redircmd->here_doc = 0;
 
     if (token == '[') {  // Input redirection
         redircmd->mode = O_RDONLY;
@@ -58,7 +58,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
 // 	redircmd->start_file = s_file;
 // 	redircmd->end_file = e_file;
 // 	redircmd->token = token;
-// 	redircmd->here_doc = NULL;
+// 	//redircmd->here_doc = NULL;
 // 	if (token == '[')
 // 		redircmd->mode = O_RDONLY;
 // 	else if (token == ']')
@@ -81,7 +81,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	pipecmd = (t_pipecmd *)malloc(sizeof(*pipecmd));
 	ft_memset(pipecmd, 0, sizeof(*pipecmd));
 	pipecmd->type = PIPE;
-	pipecmd->done = 0;
+	//pipecmd->done = 0;
 	pipecmd->left = left;
 	pipecmd->right = right;
 	return ((t_cmd *)pipecmd);

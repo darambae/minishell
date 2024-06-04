@@ -36,7 +36,6 @@ void	handle_exit_status(int status)
 		g_param->exit_status = 43;
 		printf("minishell: warning: here-document delimited by end-of-file\n");
 		errno = 1;
-		run_after_hd(g_param->first_cmd);
 	}
 }
 

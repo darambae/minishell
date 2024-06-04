@@ -37,32 +37,33 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-void	here_doc(t_redircmd *rcmd)
+int	here_doc(t_redircmd *rcmd)
 {
 	char	*line;
-	int		status;
-	/* ->goes in child process
-	rcmd->fd = open(rcmd->start_file, rcmd->mode);
-	if (rcmd->fd < 0)
+	pid_t	pid;
+	int		exit_status;
+
+	pid = fork1();
+	if (pid == 0)
 	{
-		printf("failed to open %s\n", rcmd->start_file);
-		exit(1);
+		rcmd->fd = open(rcmd->start_file, rcmd->mode);
+		if (rcmd->fd < 0)
+		{
+			printf("failed to open %s\n", rcmd->start_file);
+			exit(1);
+		}
+		line = readline("> ");
+		while (ft_strcmp(line, rcmd->start_file))
+		{
+			ft_putstr_fd(ft_strjoin(line, "\n"), rcmd->fd);
+			free(line);
+			line = readline("> ");
+		}
+		close(rcmd->fd);
 	}
-	line = ft_strjoin(readline("> "), "\n");
-	while (ft_strcmp(line, rcmd->start_file))
-	{
-		ft_putstr_fd(line, rcmd->fd);
-		free(line);
-		line = ft_strjoin(readline("> "), "\n");
-	}
-	rcmd->here_doc = 2;
-	close(rcmd->fd);
-	*/
-	//in parent process
-	//waitpid(child_pid, &status, 0);
-	//if (WIFEXITED(exit_status))
-	// 	return (WEXITSTATUS(exit_status));
-	// else
-	// 	return (130);
-	//unlink(rcmd->start_file);//a mettre dans le parent
+	waitpid(pid, &exit_status, 0);
+	if (WIFEXITED(exit_status))
+		return (WEXITSTATUS(exit_status));
+	else
+		return (130);
 }

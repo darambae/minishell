@@ -30,21 +30,15 @@ static int	run_pipe(t_cmd *cmd)
 	if (pipe(p) < 0)
 		err_msg("pipe failed");
 	first_pid = fork1();
-	if (first_pid == 0 && pcmd->done == 0)
+	if (first_pid == 0)
 		handle_dup(p, 1, pcmd);
-	if (first_pid == 0 && pcmd->done == 1)
-		kill(first_pid, 0);
 	waitpid(first_pid, &exit_status, 0);
-	pcmd->done = 1;
 	second_pid = fork1();
-	if (second_pid == 0 && pcmd == 1)
+	if (second_pid == 0)
 		handle_dup(p, 0, pcmd);
-	if (second_pid == 0 && pcmd == 2)
-		kill(second_pid, 0);
 	close(p[0]);
 	close(p[1]);
 	waitpid(second_pid, &exit_status, 0);
-	pcmd->done = 2;
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	else
@@ -57,7 +51,7 @@ static void	run_redire(t_cmd *cmd)
 
 	rcmd = (t_redircmd *) cmd;
 	close(rcmd->fd);
-	if (rcmd->token == '{' && rcmd->here_doc == 0) //here_doc
+	if (rcmd->token == '{') //here_doc
 		here_doc(rcmd);
 	if (rcmd->token == '{' || rcmd->token == '[')//redire infile
 		ft_dup2(rcmd, STDIN_FILENO);
