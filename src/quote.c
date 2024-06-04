@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	quote_parsing(char *cur, int save, char quote)
+int	quote_parsing(char *cur, int save, char quote, t_minishell *g_param)
 {
 	cur++;
 	if (save)
@@ -8,7 +8,7 @@ int	quote_parsing(char *cur, int save, char quote)
 	while (*cur && *cur != quote)
 	{
 		if (quote == '"' && *cur == '$')
-			return (dollars_parsing(cur, save, quote));
+			return (dollars_parsing(cur, save, quote, g_param));
 		cur++;
 	}
 	if (*cur == '\0')
@@ -17,18 +17,18 @@ int	quote_parsing(char *cur, int save, char quote)
 	{
 		cur++;
 		g_param->start_line = cur;
-		return (get_token(save));
+		return (get_token(save, g_param));
 	}
 	if (save)
 		g_param->end_t = cur;
-	skip_whitespace(&cur);
+	skip_whitespace(&cur, g_param);
 	g_param->start_line = cur;
 	if (g_param->start_t && g_param->end_t && *(g_param->end_t))
 		*(g_param->end_t) = '\0';
 	return ('a');
 }
 
-int	dollars_parsing(char *cur, int save, char quote)
+int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 {
 	char	*s;
 
@@ -46,18 +46,18 @@ int	dollars_parsing(char *cur, int save, char quote)
 				&& *cur != quote)
 			cur++;
 		*cur = '\0';
-		s = get_path(ft_strjoin(s, "="));
+		s = get_path(ft_strjoin(s, "="), g_param);
 		cur++;
 	}
 	g_param->start_line = cur;
 	if (!s)
-		return (get_token(save));
+		return (get_token(save, g_param));
 	g_param->start_t = s;
 	g_param->end_t = s + strlen(s);
 	return ('a');
 }
 
-char	*get_path(char *s_redircmd)
+char	*get_path(char *s_redircmd, t_minishell *g_param)
 {
 	int		j;
 	char	*env;

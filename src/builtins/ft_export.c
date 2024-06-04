@@ -18,34 +18,18 @@ static bool check_export_syntax(char **cmd)
 	return (false);
 }
 
-static char **new_arr(char *new, int len_env, int len_name)
-{
-	char    **new_env;
-	int		i;
-	int		j;
+// static char **new_arr(char **prev, char *new)
+// {
+//     char    **new_env;
+//     int	len_env;
 
-	new_env = (char **)malloc(sizeof(char *) * (len_env + 1));
-	if (!new_env)
-		return NULL;
-	i = 0;
-	j = 0;
-	while (i < len_env)
-	{
-		if (!g_param->env_variables[i])
-		{
-			new_env[j] = ft_strdup(new);
-			break ;
-		}
-		if (!ft_strncmp(g_param->env_variables[i], new, len_name))
-			new_env[j] = ft_strdup(new);
-		else
-			new_env[j] = ft_strdup(g_param->env_variables[i]);
-		j++;
-		i++;
-	}
-	ft_free_tab(g_param->env_variables);
-	return (new_env);
-}
+// 	len_env = 0;
+// 	while (g_param->env_variables[len_env])
+// 		len_env++;
+//     new_env = (char **)malloc(sizeof(char *) * (len_env + 1));
+// 	if (!new_env)
+// 		return NULL;
+// }
 
 void    ft_export(t_execcmd *cmd)
 {
@@ -53,28 +37,25 @@ void    ft_export(t_execcmd *cmd)
 	int     j;
 	int		len_env;
 
-	len_env = 0;
-	while (g_param->env_variables[len_env])
-		len_env++;
-	len_name = 0;
-	if (check_export_syntax(cmd->argv) == false)
-	{
-		errno = 1;
-		perror("export syntax error");
-		g_param->exit_status = 1;
-		return ;
-	}
-	while (cmd->argv[1][len_name] != '=' && cmd->argv[1][len_name])
-		len_name++;
-	j = 0;
-	while (g_param->env_variables[j] && ft_strncmp(g_param->env_variables[j], cmd->argv[1], len_name))
-		j++;
-	if (cmd->argv[1][len_name] == '=')
-	{
-		if (!g_param->env_variables[j])
-			len_env++;
-		g_param->env_variables = new_arr(cmd->argv[1], len_env, len_name);
-	}
-		//tmp = g_param->env_variables[j];
-		//free(tmp);
+    i = 0;
+    if (check_export_syntax(cmd->argv) == false)
+    {
+        errno = 1;
+        perror("export syntax error");
+        g_param->exit_status = 1;
+        return ;
+    }
+    while (cmd->argv[1][i] != '=' && cmd->argv[1][i])
+        i++;
+    j = 0;
+    while (g_param->env_variables[j] && ft_strncmp(g_param->env_variables[j], cmd->argv[1], i))
+        j++;
+    if (cmd->argv[1][i] == '=')
+    {
+        ft_realloc(g_param->env_variables[j], ft_strlen(cmd->argv[1]));
+        g_param->env_variables[j] = ft_strdup(cmd->argv[1]);
+    }
+        //tmp = g_param->env_variables[j];
+        //free(tmp);
+
 }
