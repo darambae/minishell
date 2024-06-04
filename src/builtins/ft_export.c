@@ -22,6 +22,7 @@ void    ft_export(t_execcmd *cmd)
 {
     int     i;
     int     j;
+    char    *tmp;
 
     i = 0;
     if (check_export_syntax(cmd->argv) == false)
@@ -38,7 +39,10 @@ void    ft_export(t_execcmd *cmd)
         j++;
     if (cmd->argv[1][i] == '=')
     {
-        ft_realloc(g_param->env_variables[j], ft_strlen(cmd->argv[1]));
+        tmp = g_param->env_variables[j];
         g_param->env_variables[j] = ft_strdup(cmd->argv[1]);
+        free(tmp);
     }
+        //ft_realloc(g_param->env_variables[j], ft_strlen(cmd->argv[1]));
+        
 }

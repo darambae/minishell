@@ -6,12 +6,12 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:20:24 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/03 17:22:58 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/04 08:42:35 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/*To reallocate memory but only smaller than the existing size(shrinking)*/
 void    *ft_realloc(void *p, size_t new_size)
 {
     char    *new_p;

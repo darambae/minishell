@@ -15,7 +15,7 @@ static void	init_param(char **envp)
 	g_param->end_t = NULL;
 	g_param->start_line = NULL;
 	g_param->start_t = NULL;
-	g_param->env_variables = envp;
+	g_param->env_variables = make_copy(envp);
 	g_param->exit_status = 0;
 	g_param->cmd_line = NULL;
 }
