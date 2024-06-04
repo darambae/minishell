@@ -20,30 +20,30 @@
 // 	return (false);
 // }
 
-// static int  count_correspon(char **env, char **argv)
-// {
-// 	int i;
-// 	int j;
-// 	int count;
+static int  count_correspon(char **env, char **argv)
+{
+	int i;
+	int j;
+	int count;
 
-// 	i = 0;
-// 	count = 0;
-// 	while (argv[i])
-// 	{
-// 		j = 0;
-// 		while (env[j])
-// 		{
-// 			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
-// 			{
-// 				count++;
-// 				break;
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (count);
-//}
+	i = 0;
+	count = 0;
+	while (argv[i])
+	{
+		j = 0;
+		while (env[j])
+		{
+			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
+			{
+				count++;
+				break;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (count);
+}
 
 static char **renew_arr(char **argv, int len_arr)
 {

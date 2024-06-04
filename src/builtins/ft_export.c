@@ -18,18 +18,18 @@ static bool check_export_syntax(char **cmd)
     return (false);
 }
 
-static char **new_arr(char **prev, char *new)
-{
-    char    **new_env;
-    int	len_env;
+// static char **new_arr(char **prev, char *new)
+// {
+//     char    **new_env;
+//     int	len_env;
 
-	len_env = 0;
-	while (g_param->env_variables[len_env])
-		len_env++;
-    new_env = (char **)malloc(sizeof(char *) * (len_env + 1));
-	if (!new_env)
-		return NULL;
-}
+// 	len_env = 0;
+// 	while (g_param->env_variables[len_env])
+// 		len_env++;
+//     new_env = (char **)malloc(sizeof(char *) * (len_env + 1));
+// 	if (!new_env)
+// 		return NULL;
+// }
 
 void    ft_export(t_execcmd *cmd)
 {
@@ -56,5 +56,5 @@ void    ft_export(t_execcmd *cmd)
     }
         //tmp = g_param->env_variables[j];
         //free(tmp);
-        
+
 }

@@ -60,6 +60,7 @@ int	here_doc(t_redircmd *rcmd)
 			line = readline("> ");
 		}
 		close(rcmd->fd);
+		exit(0);
 	}
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status))
