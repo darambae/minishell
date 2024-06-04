@@ -24,6 +24,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token) {
     redircmd->start_file = g_param->start_t;
     redircmd->end_file = g_param->end_t;
     redircmd->token = token;
+	redircmd->here_doc = 0;
 
     if (token == '[') {  // Input redirection
         redircmd->mode = O_RDONLY;

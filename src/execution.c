@@ -51,7 +51,7 @@ static void	run_redire(t_cmd *cmd)
 
 	rcmd = (t_redircmd *) cmd;
 	close(rcmd->fd);
-	if (rcmd->token == '{') //here_doc
+	if (rcmd->token == '{' && rcmd->here_doc == 0) //here_doc
 		here_doc(rcmd);
 	if (rcmd->token == '{' || rcmd->token == '[')//redire infile
 		ft_dup2(rcmd, STDIN_FILENO);

@@ -26,39 +26,43 @@ static bool check_unset_syntax(char **cmd)
 	}
 }
 
-static int  count_correspon(char **env, char **argv)
-{
-	int i;
-	int j;
-	int count;
+// static int  count_correspon(char **env, char **argv)
+// {
+// 	int i;
+// 	int j;
+// 	int count;
 
-	i = 0;
-	count = 0;
-	while (argv[i])
-	{
-		j = 0;
-		while (env[j])
-		{
-			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
-			{
-				count++;
-				break;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (count);
-}
+// 	i = 0;
+// 	count = 0;
+// 	while (argv[i])
+// 	{
+// 		j = 0;
+// 		while (env[j])
+// 		{
+// 			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
+// 			{
+// 				count++;
+// 				break;
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (count);
+//}
 
-static void remove_elements(char **argv)
-{
-	char	**new_env;
-	int		i;
+// static void remove_elements(char **argv)
+// {
+// 	char	**new_env;
+// 	int		i;
 
-	while (g_param->env_variables)
-	new_env = (char **)malloc(sizeof(char *) * ())
-}
+// 	i = 0;
+// 	while (argv[i])
+// 		i++;
+// 	while (g_param->env_variables)
+// 	new_env = (char **)malloc(sizeof(char *) * (i + 1));
+// 	*new_env = ft_strdup(*argv);
+// }
 
 void    ft_unset(t_execcmd *cmd)
 {
@@ -83,7 +87,7 @@ void    ft_unset(t_execcmd *cmd)
 			{
 				while (g_param->env_variables[j])
 				{
-					
+
 					g_param->env_variables[j] = ft_strdup(g_param->env_variables[j + 1]);
 					j++;
 					if (!g_param->env_variables[j])

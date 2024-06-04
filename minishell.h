@@ -52,6 +52,7 @@ typedef struct s_redircmd
 	char			*start_file;
 	char			*end_file;
 	int				token;
+	int				here_doc;
 	int				mode;
 	int				fd;
 }				t_redircmd;
