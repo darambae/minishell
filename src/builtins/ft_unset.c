@@ -51,18 +51,39 @@ static bool check_unset_syntax(char **cmd)
 // 	return (count);
 //}
 
-// static void remove_elements(char **argv)
-// {
-// 	char	**new_env;
-// 	int		i;
+static void remove_elements(char **argv)
+{
+	char	**new_env;
+	int		i;
+	int		j;
+	int		k;
 
-// 	i = 0;
-// 	while (argv[i])
-// 		i++;
-// 	while (g_param->env_variables)
-// 	new_env = (char **)malloc(sizeof(char *) * (i + 1));
-// 	*new_env = ft_strdup(*argv);
-// }
+	i = 0;
+	while (g_param->env_variables[i])
+		i++;
+	new_env = (char **)malloc(sizeof(char *) * (i + 1 - count_correspon(g_param->env_variables, argv)));
+	if (!new_env)
+		return ;
+	j = 0;
+	k = 0;
+	while (argv[j])
+	{
+		i = 0;
+		while(g_param->env_variables[i])
+		{
+			if (ft_strncmp(g_param->env_variables[i] ,argv[j], \
+				ft_strlen(argv[j])))
+			{
+				new_env[k] = ft_strdup(g_param->env_variables[i]);
+				k++;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	new_env[k] = NULL;
+}
 
 void    ft_unset(t_execcmd *cmd)
 {
