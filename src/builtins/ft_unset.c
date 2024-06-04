@@ -1,30 +1,24 @@
 #include "../../minishell.h"
 
-static bool check_unset_syntax(char **cmd)
-{
-	int i;
-	int j;
+// static bool element_in_arr(char **argv, char **env)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 1;
-	if (!cmd[1])
-		return (false);
-	else
-	{
-		while (cmd[i])
-		{
-			j= 0;
-			while (g_param->env_variables[j])
-			{
-				if (!ft_strncmp(g_param->env_variables[j] ,cmd[i], \
-					ft_strlen(cmd[i])))
-					return (true);
-				j++;
-			}
-			i++;
-		}
-		return (false);
-	}
-}
+// 	i = 0;
+// 	while (argv[i])
+// 	{
+// 		j = 0;
+// 		while (env[j])
+// 		{
+// 			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
+// 				return (true);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (false);
+// }
 
 static int  count_correspon(char **env, char **argv)
 {
@@ -51,76 +45,66 @@ static int  count_correspon(char **env, char **argv)
 	return (count);
 }
 
-static void remove_elements(char **argv)
+static char **renew_arr(char **argv, int len_arr)
 {
 	char	**new_env;
 	int		i;
 	int		j;
 	int		k;
+	bool	should_copy;
 
-	i = 0;
-	while (g_param->env_variables[i])
-		i++;
-	new_env = (char **)malloc(sizeof(char *) * (i + 1 - count_correspon(g_param->env_variables, argv)));
+	new_env = (char **)malloc(sizeof(char *) * (len_arr + 1 - count_correspon(g_param->env_variables, argv)));
 	if (!new_env)
-		return ;
-	j = 0;
+		return NULL;
+	i = 0;
 	k = 0;
-	while (argv[j])
+	while (g_param->env_variables[i])
 	{
-		i = 0;
-		while(g_param->env_variables[i])
+        should_copy = true;
+        j = 1;
+        while (argv[j]) {
+            if (!strncmp(g_param->env_variables[i], argv[j], strlen(argv[j])) &&
+                (g_param->env_variables[i][strlen(argv[j])] == '=')) {
+                should_copy = false;
+                break;
+            }
+            j++;
+        }
+        if (should_copy)
 		{
-			if (ft_strncmp(g_param->env_variables[i] ,argv[j], \
-				ft_strlen(argv[j])))
-			{
-				new_env[k] = ft_strdup(g_param->env_variables[i]);
-				k++;
-				break ;
-			}
-			j++;
-		}
-		i++;
-	}
+            new_env[k] = strdup(g_param->env_variables[i]);
+            k++;
+        }
+        i++;
+    }
+	// while (argv[j])
+	// {
+	// 	i = 0;
+	// 	while(g_param->env_variables[i] && argv[j])
+	// 	{
+	// 		if (ft_strncmp(g_param->env_variables[i] ,argv[j], \
+	// 		ft_strlen(argv[j])))
+	// 		{
+	// 			new_env[k] = ft_strdup(g_param->env_variables[i]);
+	// 			k++;
+	// 		}
+	// 		i++;
+	// 	}
+	// 	j++;
+	// }
 	new_env[k] = NULL;
+	ft_free_tab(g_param->env_variables);
+	return (new_env);
 }
 
 void    ft_unset(t_execcmd *cmd)
 {
-	int i;
-	int j;
+	int	len_env;
 
-	i = 1;
-	if (check_unset_syntax(cmd->argv) == false)
-	{
-		errno = 1;
-		perror("unset syntax error");
-		g_param->exit_status = 1;
-		return ;
-	}
-	while (cmd->argv[i])
-	{
-		j = 0;
-		while (g_param->env_variables[j])
-		{
-			if (!ft_strncmp(g_param->env_variables[j] ,cmd->argv[i], \
-				ft_strlen(cmd->argv[i])))
-			{
-				while (g_param->env_variables[j])
-				{
-					
-					g_param->env_variables[j] = ft_strdup(g_param->env_variables[j + 1]);
-					j++;
-					if (!g_param->env_variables[j])
-						break;
-				}
-				g_param->env_variables[j] = NULL;
-				break ;
-			}
-			else
-				j++;
-		}
-		i++;
-	}
+	len_env = 0;
+	while (g_param->env_variables[len_env])
+		len_env++;
+	if (count_correspon(g_param->env_variables, cmd->argv) > 0)
+		g_param->env_variables = renew_arr(cmd->argv, len_env);
 	g_param->exit_status = 0;
 }
