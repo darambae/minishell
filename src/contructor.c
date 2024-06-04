@@ -81,6 +81,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	pipecmd = (t_pipecmd *)malloc(sizeof(*pipecmd));
 	ft_memset(pipecmd, 0, sizeof(*pipecmd));
 	pipecmd->type = PIPE;
+	pipecmd->done = 0;
 	pipecmd->left = left;
 	pipecmd->right = right;
 	return ((t_cmd *)pipecmd);

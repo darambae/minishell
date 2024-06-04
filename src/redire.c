@@ -40,7 +40,8 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 void	here_doc(t_redircmd *rcmd)
 {
 	char	*line;
-
+	int		status;
+	/* ->goes in child process
 	rcmd->fd = open(rcmd->start_file, rcmd->mode);
 	if (rcmd->fd < 0)
 	{
@@ -54,6 +55,14 @@ void	here_doc(t_redircmd *rcmd)
 		free(line);
 		line = ft_strjoin(readline("> "), "\n");
 	}
+	rcmd->here_doc = 2;
 	close(rcmd->fd);
+	*/
+	//in parent process
+	//waitpid(child_pid, &status, 0);
+	//if (WIFEXITED(exit_status))
+	// 	return (WEXITSTATUS(exit_status));
+	// else
+	// 	return (130);
 	//unlink(rcmd->start_file);//a mettre dans le parent
 }

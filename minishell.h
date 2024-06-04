@@ -43,6 +43,7 @@ typedef struct s_pipecmd
 	enum e_token	type;
 	t_cmd			*left;
 	t_cmd			*right;
+	int				done;//left ok, done = 1, left and right ok, done = 2
 }				t_pipecmd;
 
 typedef struct s_redircmd
