@@ -43,6 +43,7 @@ typedef struct s_pipecmd
 	enum e_token	type;
 	t_cmd			*left;
 	t_cmd			*right;
+	//int				done;//left ok, done = 1, left and right ok, done = 2
 }				t_pipecmd;
 
 typedef struct s_redircmd
@@ -52,6 +53,7 @@ typedef struct s_redircmd
 	char			*start_file;
 	char			*end_file;
 	int				token;
+	//int				here_doc;
 	int				mode;
 	int				fd;
 }				t_redircmd;
@@ -102,7 +104,7 @@ void		execute_cmd(char **cmds);
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 void		ft_dup2(t_redircmd *rcmd, int std);
-void		here_doc(t_redircmd *rcmd);
+int		here_doc(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);

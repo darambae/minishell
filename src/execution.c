@@ -32,12 +32,12 @@ static int	run_pipe(t_cmd *cmd)
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd);
+	waitpid(first_pid, &exit_status, 0);
 	second_pid = fork1();
 	if (second_pid == 0)
 		handle_dup(p, 0, pcmd);
 	close(p[0]);
 	close(p[1]);
-	waitpid(first_pid, &exit_status, 0);
 	waitpid(second_pid, &exit_status, 0);
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));

@@ -15,7 +15,7 @@ char	**make_copy(char **env)
 		return (NULL);
 	copy = malloc((i + 1) * sizeof(char *));
 	if (!copy)
-	
+
 		return (NULL);
 	i = 0;
 	while (env[i])
@@ -69,8 +69,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 		g_param->cmd_line = ft_strjoin(line, "\0");
 		g_param->first_cmd = parse(g_param->cmd_line);
-		if (is_cd_export_unset(g_param->first_cmd))
-			run_cd_export_unset(g_param->first_cmd);
+		 if (is_cd_export_unset(g_param->first_cmd))
+		 	run_cd_export_unset(g_param->first_cmd);
 		else
 		{
 			pid = fork1();
