@@ -44,14 +44,36 @@ static t_minishell	*init_param(char **envp)
 	g_param->env_variables = make_copy(envp);
 	g_param->exit_status = 0;
 	g_param->cmd_line = NULL;
+	g_param->stop = 0;
 	return (g_param);
 }
 
-void	err_msg(char *msg)
+int	ft_error(char *msg, t_minishell *g_param)
 {
+	g_param->stop = 1;
 	ft_putstr_fd(msg, 2);
-	exit(EXIT_FAILURE);
+	exit_status = EXIT_FAILURE;
+	return (0);
 }
+
+// int	line_parsable(t_minishell *g_param)
+// {
+// 	int	token;
+// 	char *tmp;
+
+// 	tmp = g_param->cmd_line;
+// 	skip_whitespace(&(g_param->cmd_line), g_param);
+// 	if (*(g_param->cmd_line) == '\0')
+// 		return (0);
+// 	if (*(g_param->cmd_line) == "|" ||
+// 		ft_strchr("<>", *(g_param->cmd_line) != NULL ))
+// 	{
+// 		printf("syntax error near unexpected token '%c'\n", *(++g_param->cmd_line));
+// 		return (0);
+// 	}
+// 	g_param->cmd_line = tmp;
+// 	return (1);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -59,6 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 	pid_t	pid;
 	t_minishell	*g_param;
+	int		cur_exit;
 
 	(void)argc;
 	(void)argv;
@@ -66,34 +89,43 @@ int	main(int argc, char **argv, char **envp)
 	g_param = init_param(envp);
 	signal(SIGINT, handle_signal_before);
 	signal(SIGQUIT, SIG_IGN);
-	while ((line = readline("minishell$ ")) != NULL)
+	while (1)
 	{
+		cur_exit = 0;
+		line = readline("minishell$ ");
 		signal(SIGINT, handle_signal_before);
 		signal(SIGQUIT, handle_signal_after);
 		if (*line)
-			add_history(line);
-		g_param->cmd_line = ft_strjoin(line, "\0");
-		g_param->first_cmd = parse(g_param);
-		 if (is_cd_export_unset(g_param->first_cmd))
-		 	run_cd_export_unset(g_param->first_cmd, g_param);
-		else
 		{
-			pid = fork1();
-			if (pid == 0)
+			add_history(line);
+			g_param->cmd_line = ft_strjoin(line, "\0");
+			g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
+			g_param->start_line = g_param->cmd_line;
+			g_param->first_cmd = parse(g_param);
+			if (is_executable(g_param->first_cmd, g_param))
 			{
-				run_cmd(g_param->first_cmd, g_param);
-				exit(exit_status);
+				if (is_cd_export_unset(g_param->first_cmd))
+					run_cd_export_unset(g_param->first_cmd, g_param);
+				else
+				{
+					pid = fork1();
+					if (pid == 0)
+					{
+						run_cmd(g_param->first_cmd, g_param);
+						exit(exit_status);
+					}
+					waitpid(pid, &status, 0);
+					handle_exit_status(status);
+				}
 			}
-			waitpid(pid, &status, 0);
-			handle_exit_status(status);
+			ft_clean_all(g_param);
+			printf("exit_code = %i\n", exit_status);
 		}
-		ft_clean_all(g_param);
-		printf("exit_code = %i\n", exit_status);
 	}
-	if (line == NULL)//why?
-	{
-		printf("exit\n");
-		exit(0);
-	}
+	// if (line == NULL)
+	// {
+	// 	printf("exit\n");
+	// 	exit(0);
+	// }
 	return (0);
 }

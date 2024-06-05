@@ -68,9 +68,11 @@ typedef struct s_minishell
 	char	*end_t;
 	char	*cmd_line;
 	t_cmd	*first_cmd;
+	int		stop;
 }				t_minishell;
 
-void 	err_msg(char *msg);
+int	ft_error(char *msg, t_minishell *g_param);
+int	is_executable(t_cmd *cmd, t_minishell *g_param);
 
 //constructor
 t_cmd	*execcmd(void);
@@ -89,6 +91,7 @@ int		quote_parsing(char *cur, int save, char quote, t_minishell *g_param);
 void	skip_whitespace(char **cur, t_minishell *g_param);
 int		dollars_parsing(char *cur, int save, char quote, t_minishell *g_param);
 char	*get_path(char *s_redircmd, t_minishell *g_param);
+void	give_token(char **cur, int *res);
 
 //quote handlers
 // bool	valid_quote(char *line);

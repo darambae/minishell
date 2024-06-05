@@ -19,7 +19,7 @@ t_cmd	*parse_exec(t_minishell *g_param)
 	while (peek("|", g_param) == 0 && g_param->start_line < g_param->end_line)
 	{
 		if (i >= 100)
-			err_msg("too many args\n");
+			perror("too many args\n");
 		if (!get_token(1, g_param))
 			break ;
 		cmd->argv[i] = g_param->start_t;
@@ -58,11 +58,7 @@ t_cmd	*parse_redire(t_cmd *cmd, t_minishell *g_param)
 	{
 		token = get_token(0, g_param);
 		if (get_token(1, g_param) != 'a')
-		{
-			printf("minishell: syntax error near unexpected token '%s'\n", \
-				g_param->start_line);
-			exit(1);
-		}
+			ft_error("minishell: syntax error near unexpected token \n", g_param);
 		cmd = redircmd(cmd, token, g_param);
 	}
 	return (cmd);
@@ -72,11 +68,9 @@ t_cmd	*parse(t_minishell *g_param)
 {
 	t_cmd	*cmd;
 
-	g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
-	g_param->start_line = g_param->cmd_line;
 	cmd = parse_pipe(g_param);
 	if (g_param->start_line < g_param->end_line)
-		err_msg("syntax error\n");
+		ft_error("syntax error\n", g_param);
 	nul_terminator(cmd);
 	return (cmd);
 }
