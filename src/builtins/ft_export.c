@@ -75,6 +75,4 @@ void    ft_export(t_execcmd *cmd)
 			len_env++;
 		g_param->env_variables = new_arr(cmd->argv[1], len_env, len_name);
 	}
-		//tmp = g_param->env_variables[j];
-		//free(tmp);
 }

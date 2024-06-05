@@ -1,7 +1,7 @@
 
 #include "../minishell.h"
 
-t_minishell	*g_param;
+int	exit_status;
 
 char	**make_copy(char **env)
 {
@@ -84,7 +84,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		ft_clean_all();
 		printf("exit_code = %i\n", g_param->exit_status);
-		//printf("real : %s / saved : %s\n", getcwd(NULL, 0), get_path("PWD="));
 	}
 	if (line == NULL)//why?
 	{

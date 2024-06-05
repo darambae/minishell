@@ -43,9 +43,11 @@ int	here_doc(t_redircmd *rcmd)
 	pid_t	pid;
 	int		exit_status;
 
+	
 	pid = fork1();
 	if (pid == 0)
 	{
+		signal(SIGINT, handle_signal_heredoc);
 		rcmd->fd = open(rcmd->start_file, rcmd->mode);
 		if (rcmd->fd < 0)
 		{

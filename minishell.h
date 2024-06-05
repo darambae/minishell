@@ -123,6 +123,6 @@ void		ft_unset(t_execcmd *cmd);
 void		handle_exit_status(int status);
 void		handle_signal_before(int sig);
 void		handle_signal_after(int sig);
-void		heredoc_signal_handler(int sig);
+void		handle_signal_heredoc(int sig, pid_t pid);
 
 #endif

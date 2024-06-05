@@ -62,3 +62,9 @@ void	handle_signal_after(int sig)
 		printf("exit\n");
 	}
 }
+
+void	handle_signal_heredoc(int sig)
+{
+	close(rcmd->fd);
+	exit(1);
+}
