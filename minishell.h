@@ -23,7 +23,7 @@ enum e_token
 	ENVIRONMENT,
 };
 
-
+extern int	exit_status;
 
 typedef struct s_cmd
 {

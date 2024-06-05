@@ -62,6 +62,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	exit_status = 0;
 	g_param = init_param(envp);
 	signal(SIGINT, handle_signal_before);
 	signal(SIGQUIT, SIG_IGN);
@@ -81,13 +82,13 @@ int	main(int argc, char **argv, char **envp)
 			if (pid == 0)
 			{
 				run_cmd(g_param->first_cmd, g_param);
-				exit(g_param->exit_status);
+				exit(exit_status);
 			}
 			waitpid(pid, &status, 0);
-			handle_exit_status(status, g_param);
+			handle_exit_status(status);
 		}
 		ft_clean_all(g_param);
-		printf("exit_code = %i\n", g_param->exit_status);
+		printf("exit_code = %i\n", exit_status);
 	}
 	if (line == NULL)//why?
 	{
