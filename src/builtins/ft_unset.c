@@ -77,21 +77,6 @@ static char **renew_arr(char **argv, int len_arr, t_minishell *g_param)
         }
         i++;
     }
-	// while (argv[j])
-	// {
-	// 	i = 0;
-	// 	while(g_param->env_variables[i] && argv[j])
-	// 	{
-	// 		if (ft_strncmp(g_param->env_variables[i] ,argv[j], \
-	// 		ft_strlen(argv[j])))
-	// 		{
-	// 			new_env[k] = ft_strdup(g_param->env_variables[i]);
-	// 			k++;
-	// 		}
-	// 		i++;
-	// 	}
-	// 	j++;
-	// }
 	new_env[k] = NULL;
 	ft_free_tab(g_param->env_variables);
 	return (new_env);
@@ -106,5 +91,5 @@ void    ft_unset(t_execcmd *cmd, t_minishell *g_param)
 		len_env++;
 	if (count_correspon(g_param->env_variables, cmd->argv) > 0)
 		g_param->env_variables = renew_arr(cmd->argv, len_env, g_param);
-	g_param->exit_status = 0;
+	exit_status = 0;
 }

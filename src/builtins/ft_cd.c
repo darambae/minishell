@@ -29,16 +29,14 @@ static void	execute_chdir(char *path, t_minishell *g_param)
 	if (chdir(path) == -1)
 	{
 		perror("cd");
-		g_param->exit_status = 1;
+		exit_status = 1;
 	}
 	else
 	{
 		update_env("OLDPWD=", current_path, g_param);
 		update_env("PWD=", getcwd(NULL, 0), g_param);
-		g_param->exit_status = 0;
+		exit_status = 0;
 	}
-	//free(path);
-	//free(current_path);
 }
 
 void	ft_cd(t_execcmd *cmd, t_minishell *g_param)

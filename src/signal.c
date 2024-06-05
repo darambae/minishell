@@ -66,6 +66,7 @@ void	handle_signal_after(int sig)
 void	handle_signal_heredoc(int sig)
 {
 	close(STDIN_FILENO);
-	exit(1);
+	exit_status = 0;
+	exit(exit_status);
 	(void)sig;
 }

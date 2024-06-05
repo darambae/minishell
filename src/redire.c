@@ -43,7 +43,6 @@ int	here_doc(t_redircmd *rcmd)
 	pid_t	pid;
 	int		exit_status;
 
-	
 	pid = fork1();
 	if (pid == 0)
 	{
@@ -64,6 +63,8 @@ int	here_doc(t_redircmd *rcmd)
 		close(rcmd->fd);
 		exit(0);
 	}
+	// if (errno == ????)
+	// 	close(STDIN_FILENO);
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
