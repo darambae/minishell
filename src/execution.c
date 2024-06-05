@@ -28,7 +28,7 @@ static int run_pipe(t_cmd *cmd, t_minishell *g_param)
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
-		err_msg("pipe failed");
+		perror("pipe failed");
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd, g_param);
@@ -72,11 +72,11 @@ void run_cmd(t_cmd *cmd, t_minishell *g_param)
 	t_execcmd *ecmd;
 
 	if (!cmd)
-		err_msg("cdm is empty\n");
+		perror("cdm is empty\n");
 	if (cmd->type == EXEC)
 	{
-		ecmd = (t_execcmd *)cmd;
-		if (ecmd->argv[0] == 0)
+		ecmd = (t_execcmd *) cmd;
+		if (ecmd->argv[0] == 0 || exit_status != EXIT_FAILURE)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
 			run_builtin(ecmd->argv, g_param);

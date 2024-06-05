@@ -33,7 +33,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param) {
     } else if (token == '}') {  // Append output redirection
         redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
     } else {
-        err_msg("Unknown redirection token");
+        perror("Unknown redirection token");
     }
     // Open the file and store the file descriptor
     if ((redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777)) < 0)

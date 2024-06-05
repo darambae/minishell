@@ -12,7 +12,7 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *g_param)
 		cur++;
 	}
 	if (*cur == '\0')
-		err_msg("a quote is not closed");
+		perror("a quote is not closed");
 	if (g_param->start_t == cur)
 	{
 		cur++;
