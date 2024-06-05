@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int	ft_env(char **argv)
+int	ft_env(char **argv, t_minishell *g_param)
 {
 	int	i;
 

@@ -31,12 +31,14 @@ static bool check_export_syntax(char **cmd)
 // 		return NULL;
 // }
 
-void    ft_export(t_execcmd *cmd)
+void    ft_export(t_execcmd *cmd, t_minishell *g_param)
 {
 	int     len_name;
 	int     j;
 	int		len_env;
+	int	i;
 
+<<<<<<< HEAD
 	len_env = 0;
 	while (g_param->env_variables[len_env])
 		len_env++;
@@ -59,4 +61,27 @@ void    ft_export(t_execcmd *cmd)
 			len_env++;
 		g_param->env_variables = new_arr(cmd->argv[1], len_env, len_name);
 	}
+=======
+	i = 0;
+    if (check_export_syntax(cmd->argv) == false)
+    {
+        errno = 1;
+        perror("export syntax error");
+        g_param->exit_status = 1;
+        return ;
+    }
+    while (cmd->argv[1][i] != '=' && cmd->argv[1][i])
+        i++;
+    j = 0;
+    while (g_param->env_variables[j] && ft_strncmp(g_param->env_variables[j], cmd->argv[1], i))
+        j++;
+    if (cmd->argv[1][i] == '=')
+    {
+        ft_realloc(g_param->env_variables[j], ft_strlen(cmd->argv[1]));
+        g_param->env_variables[j] = ft_strdup(cmd->argv[1]);
+    }
+        //tmp = g_param->env_variables[j];
+        //free(tmp);
+
+>>>>>>> kelly
 }
