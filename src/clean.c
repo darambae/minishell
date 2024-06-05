@@ -24,7 +24,7 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	ft_clean_all(void)
+void	ft_clean_all(t_minishell *g_param)
 {
 	if (g_param)
 	{

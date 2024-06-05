@@ -27,7 +27,7 @@
 // }
 
 
-void	handle_exit_status(int status)
+void	handle_exit_status(int status, t_minishell *g_param)
 {
 	if (WIFEXITED(status))
 		g_param->exit_status = WEXITSTATUS(status);
@@ -39,7 +39,7 @@ void	handle_exit_status(int status)
 	}
 }
 
-void	handle_signal_before(int sig)
+void	handle_signal_before(int sig, t_minishell *g_param)
 {
 	(void)sig;
 	printf("\n");
@@ -49,7 +49,7 @@ void	handle_signal_before(int sig)
 	rl_redisplay();
 }
 
-void	handle_signal_after(int sig)
+void	handle_signal_after(int sig, t_minishell *g_param)
 {
 	if (sig == SIGINT)
 	{

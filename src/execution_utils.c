@@ -52,7 +52,7 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	return (NULL);
 }
 
-void	execute_cmd(char **cmds)
+void	execute_cmd(char **cmds, t_minishell *g_param)
 {
 	char	*cmd_path;
 

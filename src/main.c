@@ -27,8 +27,10 @@ char	**make_copy(char **env)
 	return (copy);
 }
 
-static void	init_param(char **envp)
+static t_minishell	*init_param(char **envp)
 {
+	t_minishell	*g_param;
+
 	g_param = (t_minishell *)malloc(sizeof(t_minishell));
 	if (g_param == NULL)
 	{
@@ -42,6 +44,7 @@ static void	init_param(char **envp)
 	g_param->env_variables = make_copy(envp);
 	g_param->exit_status = 0;
 	g_param->cmd_line = NULL;
+	return (g_param);
 }
 
 void	err_msg(char *msg)
@@ -55,10 +58,11 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	int		status;
 	pid_t	pid;
+	t_minishell	*g_param;
 
 	(void)argc;
 	(void)argv;
-	init_param(envp);
+	g_param = init_param(envp);
 	signal(SIGINT, handle_signal_before);
 	signal(SIGQUIT, SIG_IGN);
 	while ((line = readline("minishell$ ")) != NULL)
@@ -76,13 +80,13 @@ int	main(int argc, char **argv, char **envp)
 			pid = fork1();
 			if (pid == 0)
 			{
-				run_cmd(g_param->first_cmd);
+				run_cmd(g_param->first_cmd, g_param);
 				exit(g_param->exit_status);
 			}
 			waitpid(pid, &status, 0);
-			handle_exit_status(status);
+			handle_exit_status(status, g_param);
 		}
-		ft_clean_all();
+		ft_clean_all(g_param);
 		printf("exit_code = %i\n", g_param->exit_status);
 	}
 	if (line == NULL)//why?

@@ -69,37 +69,36 @@ typedef struct s_minishell
 	char	*cmd_line;
 	t_cmd	*first_cmd;
 }				t_minishell;
-extern t_minishell	*g_param;
 
 void 	err_msg(char *msg);
 
 //constructor
 t_cmd	*execcmd(void);
-t_cmd	*redircmd(t_cmd *sub_cmd, int mode);
+t_cmd	*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd	*nul_terminator(t_cmd *cmd);
-void	ft_clean_all(void);
+void	ft_clean_all(t_minishell *g_param);
 
 // parsing
 /*peek : skip whitespace and tabs, return true if first carac == c or False if not
 or if there is no carac*/
-int		peek(char *c);
-int		get_token(int save);
-t_cmd	*parse(char *line);
-int		quote_parsing(char *cur, int save, char quote);
-void	skip_whitespace(char **cur);
-int		dollars_parsing(char *cur, int save, char quote);
-char	*get_path(char *s_redircmd);
+int		peek(char *c, t_minishell *g_param);
+int		get_token(int save, t_minishell *g_param);
+t_cmd	*parse(t_minishell *g_param);
+int		quote_parsing(char *cur, int save, char quote, t_minishell *g_param);
+void	skip_whitespace(char **cur, t_minishell *g_param);
+int		dollars_parsing(char *cur, int save, char quote, t_minishell *g_param);
+char	*get_path(char *s_redircmd, t_minishell *g_param);
 
 //quote handlers
-bool	valid_quote(char *line);
-char	*remove_quotes(char *word);
+// bool	valid_quote(char *line);
+// char	*remove_quotes(char *word);
 
 
 //execution
 int			fork1(void);
-void		run_cmd(t_cmd *cmd);
-void		execute_cmd(char **cmds);
+void		run_cmd(t_cmd *cmd, t_minishell *g_param);
+void		execute_cmd(char **cmds, t_minishell *g_param);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
