@@ -43,8 +43,9 @@ int	here_doc(t_redircmd *rcmd)
 	pid_t	pid;
 	int		exit_status;
 
-	signal(SIGINT, handle_signal_heredoc);
+	
 	pid = fork1();
+	signal(SIGINT, handle_signal_heredoc);
 	if (pid == 0)
 	{
 		rcmd->fd = open(rcmd->start_file, rcmd->mode);
@@ -61,6 +62,7 @@ int	here_doc(t_redircmd *rcmd)
 			line = readline("> ");
 		}
 		close(rcmd->fd);
+		exit(0);
 	}
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status))

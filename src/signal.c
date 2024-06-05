@@ -30,7 +30,10 @@
 void	handle_exit_status(int status)
 {
 	if (WIFEXITED(status))
+	{
 		exit_status = WEXITSTATUS(status);
+		printf("exit_code = %i\n", exit_status);
+	}
 	else
 	{
 		exit_status = 43;
@@ -54,24 +57,22 @@ void	handle_signal_after(int sig)
 	if (sig == SIGINT)
 	{
 		exit_status = 220;
-		printf("^C");
+		//printf("^C");
 	}
-	// else if (sig == SIGTERM)
-	// {
-	// 	exit_status = 137;
-	// 	printf("%i\n", exit_status);
-	// 	printf("exit\n");
-	// }
+	if (sig == SIGTERM)
+	{
+		exit_status = 137;
+		printf("%i\n", exit_status);
+		printf("exit\n");
+	}
 }
 
-void	handle_signal_heredoc(int sig)
+void	handle_signal_heredoc(pid_t pid)
 {
-	if (sig == SIGINT)
-	{
-		close(STDIN_FILENO);
-		exit_status = 144;
-		exit(exit_status);
-		//printf("%i\n", exit_status);
-		//exit(exit_status);
-	}
+	kill(pid, SIGINT);
+	//(void)pid;
+	//close(STDIN_FILENO);
+	exit_status = 130;
+	printf("^C\n");
+	exit(exit_status);
 }
