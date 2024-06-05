@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static void	update_env(char *str, char *new)
+static void	update_env(char *str, char *new, t_minishell *g_param)
 {
 	int		i;
 	char	*tmp;
@@ -20,7 +20,7 @@ static void	update_env(char *str, char *new)
 	}
 }
 
-static void	execute_chdir(char *path)
+static void	execute_chdir(char *path, t_minishell *g_param)
 {
 	char	*current_path;
 
@@ -33,25 +33,25 @@ static void	execute_chdir(char *path)
 	}
 	else
 	{
-		update_env("OLDPWD=", current_path);
-		update_env("PWD=", getcwd(NULL, 0));
+		update_env("OLDPWD=", current_path, g_param);
+		update_env("PWD=", getcwd(NULL, 0), g_param);
 		g_param->exit_status = 0;
 	}
 	//free(path);
 	//free(current_path);
 }
 
-void	ft_cd(t_execcmd *cmd)
+void	ft_cd(t_execcmd *cmd, t_minishell *g_param)
 {
 	char	*path;
 
 	path = NULL;
 	if (!cmd->argv[1] || (!ft_strcmp(cmd->argv[1], "~") && !cmd->argv[2]))
-		path = get_path("HOME=");
+		path = get_path("HOME=", g_param);
 	else if (cmd->argv[1] && !cmd->argv[2])
 	{
 		if (!ft_strcmp(cmd->argv[1], "-"))
-			path = get_path("OLDPWD=");
+			path = get_path("OLDPWD=", g_param);
 		else
 			path = cmd->argv[1];
 	}
@@ -62,5 +62,5 @@ void	ft_cd(t_execcmd *cmd)
 		perror("cd");
 		g_param->exit_status = 1;
 	}
-	execute_chdir(path);
+	execute_chdir(path, g_param);
 }

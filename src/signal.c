@@ -39,11 +39,11 @@ void	handle_exit_status(int status, t_minishell *g_param)
 	}
 }
 
-void	handle_signal_before(int sig, t_minishell *g_param)
+void	handle_signal_before(int sig)
 {
 	(void)sig;
 	printf("\n");
-	g_param->exit_status = 130;
+	exit_status = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

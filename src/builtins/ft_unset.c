@@ -45,7 +45,7 @@ static int  count_correspon(char **env, char **argv)
 	return (count);
 }
 
-static char **renew_arr(char **argv, int len_arr)
+static char **renew_arr(char **argv, int len_arr, t_minishell *g_param)
 {
 	char	**new_env;
 	int		i;
@@ -97,7 +97,7 @@ static char **renew_arr(char **argv, int len_arr)
 	return (new_env);
 }
 
-void    ft_unset(t_execcmd *cmd)
+void    ft_unset(t_execcmd *cmd, t_minishell *g_param)
 {
 	int	len_env;
 
@@ -105,6 +105,6 @@ void    ft_unset(t_execcmd *cmd)
 	while (g_param->env_variables[len_env])
 		len_env++;
 	if (count_correspon(g_param->env_variables, cmd->argv) > 0)
-		g_param->env_variables = renew_arr(cmd->argv, len_env);
+		g_param->env_variables = renew_arr(cmd->argv, len_env, g_param);
 	g_param->exit_status = 0;
 }

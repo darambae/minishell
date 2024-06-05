@@ -108,20 +108,20 @@ int		here_doc(t_redircmd *rcmd);
 //builtins
 bool		is_builtin(char *cmd);
 bool		is_cd_export_unset(t_cmd *cmd);
-void		run_cd_export_unset(t_cmd *cmd);
-void		run_builtin(char **argv);
+void		run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
+void		run_builtin(char **argv, t_minishell *g_param);
 void		ft_exit(char **cmds, int exit_code);
 int			ft_echo(char **argv);
-int			ft_env(char **argv);
+int			ft_env(char **argv, t_minishell *g_param);
 int			ft_pwd(void);
-void		ft_cd(t_execcmd *cmd);
-void    	ft_export(t_execcmd *cmd);
-void		ft_unset(t_execcmd *cmd);
+void		ft_cd(t_execcmd *cmd, t_minishell *g_param);
+void    	ft_export(t_execcmd *cmd, t_minishell *g_param);
+void		ft_unset(t_execcmd *cmd, t_minishell *g_param);
 
 //signal
-void		handle_exit_status(int status, t_minishell *g_param);
-void		handle_signal_before(int sig, t_minishell *g_param);
-void		handle_signal_after(int sig, t_minishell *g_param);
-void		heredoc_signal_handler(int sig, t_minishell *g_param);
+void		handle_exit_status(int status);
+void		handle_signal_before(int sig);
+void		handle_signal_after(int sig);
+void		heredoc_signal_handler(int sig);
 
 #endif

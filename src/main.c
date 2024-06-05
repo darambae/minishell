@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	g_param = init_param(envp);
-	signal(SIGINT, handle_signal_before);
+	signal(SIGINT, handle_signal_before());
 	signal(SIGQUIT, SIG_IGN);
 	while ((line = readline("minishell$ ")) != NULL)
 	{
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 		g_param->cmd_line = ft_strjoin(line, "\0");
 		g_param->first_cmd = parse(g_param->cmd_line);
 		 if (is_cd_export_unset(g_param->first_cmd))
-		 	run_cd_export_unset(g_param->first_cmd);
+		 	run_cd_export_unset(g_param->first_cmd, g_param);
 		else
 		{
 			pid = fork1();

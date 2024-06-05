@@ -31,13 +31,14 @@ static bool check_export_syntax(char **cmd)
 // 		return NULL;
 // }
 
-void    ft_export(t_execcmd *cmd)
+void    ft_export(t_execcmd *cmd, t_minishell *g_param)
 {
 	int     len_name;
 	int     j;
 	int		len_env;
+	int	i;
 
-    i = 0;
+	i = 0;
     if (check_export_syntax(cmd->argv) == false)
     {
         errno = 1;

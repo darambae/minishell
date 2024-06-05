@@ -78,7 +78,7 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 		if (ecmd->argv[0] == 0)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
-			run_builtin(ecmd->argv);
+			run_builtin(ecmd->argv, g_param);
 		else
 			execute_cmd(ecmd->argv, g_param);
 	}
