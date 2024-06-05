@@ -43,15 +43,15 @@ int	here_doc(t_redircmd *rcmd)
 	pid_t	pid;
 	int		exit_status;
 
+	signal(SIGINT, handle_signal_heredoc);
 	pid = fork1();
 	if (pid == 0)
 	{
-		signal(SIGINT, handle_signal_heredoc);
 		rcmd->fd = open(rcmd->start_file, rcmd->mode);
 		if (rcmd->fd < 0)
 		{
 			printf("failed to open %s\n", rcmd->start_file);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		line = readline("> ");
 		while (ft_strcmp(line, rcmd->start_file))
@@ -61,13 +61,14 @@ int	here_doc(t_redircmd *rcmd)
 			line = readline("> ");
 		}
 		close(rcmd->fd);
-		exit(0);
 	}
-	// if (errno == ????)
-	// 	close(STDIN_FILENO);
 	waitpid(pid, &exit_status, 0);
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	else
-		return (130);
+	{
+		printf("minishell: warning: here-document delimited by end-of-file\n");
+		exit_status = 0;
+		exit(0);
+	}
 }

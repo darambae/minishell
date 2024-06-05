@@ -1,25 +1,5 @@
 #include "../../minishell.h"
 
-// static bool element_in_arr(char **argv, char **env)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (argv[i])
-// 	{
-// 		j = 0;
-// 		while (env[j])
-// 		{
-// 			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
-// 				return (true);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (false);
-// }
-
 static int  count_correspon(char **env, char **argv)
 {
 	int i;
@@ -45,39 +25,41 @@ static int  count_correspon(char **env, char **argv)
 	return (count);
 }
 
-static char **renew_arr(char **argv, int len_arr, t_minishell *g_param)
+static void	copy_except(char **new_env, char **argv, t_minishell *g_param)
 {
-	char	**new_env;
 	int		i;
 	int		j;
 	int		k;
 	bool	should_copy;
 
+	i = -1;
+	k = -1;
+	while (g_param->env_variables[++i])
+	{
+        should_copy = true;
+        j = 0;
+        while (argv[++j])
+		{
+            if (!strncmp(g_param->env_variables[i], argv[j], strlen(argv[j])))
+			{
+                should_copy = false;
+                break ;
+            }
+        }
+        if (should_copy)
+            new_env[++k] = strdup(g_param->env_variables[i]);
+    }
+	new_env[k] = NULL;
+}
+
+static char **renew_arr(char **argv, int len_arr, t_minishell *g_param)
+{
+	char	**new_env;
+	
 	new_env = (char **)malloc(sizeof(char *) * (len_arr + 1 - count_correspon(g_param->env_variables, argv)));
 	if (!new_env)
 		return NULL;
-	i = 0;
-	k = 0;
-	while (g_param->env_variables[i])
-	{
-        should_copy = true;
-        j = 1;
-        while (argv[j]) {
-            if (!strncmp(g_param->env_variables[i], argv[j], strlen(argv[j])) &&
-                (g_param->env_variables[i][strlen(argv[j])] == '=')) {
-                should_copy = false;
-                break;
-            }
-            j++;
-        }
-        if (should_copy)
-		{
-            new_env[k] = strdup(g_param->env_variables[i]);
-            k++;
-        }
-        i++;
-    }
-	new_env[k] = NULL;
+	copy_except(new_env ,argv, g_param);
 	ft_free_tab(g_param->env_variables);
 	return (new_env);
 }
