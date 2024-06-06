@@ -67,16 +67,16 @@ static void run_redire(t_cmd *cmd, t_minishell *g_param)
 	run_cmd(rcmd->cmd, g_param);
 }
 
-void run_cmd(t_cmd *cmd, t_minishell *g_param)
+void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 {
-	t_execcmd *ecmd;
+	t_execcmd	*ecmd;
 
 	if (!cmd)
 		perror("cdm is empty\n");
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *) cmd;
-		if (ecmd->argv[0] == 0 || exit_status != EXIT_FAILURE)
+		if (ecmd->argv[0] == 0)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
 			run_builtin(ecmd->argv, g_param);

@@ -95,7 +95,6 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell$ ");
 		signal(SIGINT, handle_signal_before);
 		signal(SIGTERM, handle_signal_after);
-		line = readline("minishell$ ");
 		if (!line)
 			break ;
 		if (*line)
@@ -115,7 +114,8 @@ int	main(int argc, char **argv, char **envp)
 					if (pid == 0)
 					{
 						run_cmd(g_param->first_cmd, g_param);
-						exit(exit_status);
+						exit_status = g_param->exit_status;
+						exit(cur_exit);
 					}
 					waitpid(pid, &status, 0);
 					handle_exit_status(status);

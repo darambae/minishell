@@ -84,10 +84,10 @@ void	ft_clean_all(t_minishell *g_param);
 // parsing
 /*peek : skip whitespace and tabs, return true if first carac == c or False if not
 or if there is no carac*/
-int		peek(char *c, t_minishell *g_param);
-int		get_token(int save, t_minishell *g_param);
-t_cmd	*parse(t_minishell *g_param);
-int		quote_parsing(char *cur, int save, char quote, t_minishell *g_param);
+int	peek(char *c, t_minishell *g_param);
+int	get_token(int save, t_minishell *g_param);
+t_cmd					*parse(t_minishell *g_param);
+int	quote_parsing(char *cur, int save, char quote, t_minishell *g_param);
 void	skip_whitespace(char **cur, t_minishell *g_param);
 int		dollars_parsing(char *cur, int save, char quote, t_minishell *g_param);
 char	*get_path(char *s_redircmd, t_minishell *g_param);
@@ -100,8 +100,8 @@ void	give_token(char **cur, int *res);
 
 //execution
 int		fork1(void);
-void	run_cmd(t_cmd *cmd);
-void	execute_cmd(char **cmds);
+void	run_cmd(t_cmd *cmd, t_minishell *g_param);
+void	execute_cmd(char **cmds, t_minishell *g_param);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
@@ -109,18 +109,17 @@ void	ft_dup2(t_redircmd *rcmd, int std);
 int		here_doc(t_redircmd *rcmd);
 
 //builtins
-bool	is_builtin(char *cmd);
+bool				is_builtin(char *cmd);
 bool	is_cd_export_unset(t_cmd *cmd);
-void	run_cd_export_unset(t_cmd *cmd);
-void	run_builtin(char **argv);
+void	run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
+void	run_builtin(char **argv, t_minishell *g_param);
 void	ft_exit(char **cmds, int exit_code);
-int		ft_echo(char **argv);
-int		ft_env(char **argv);
-int		ft_pwd(void);
-void	ft_cd(t_execcmd *cmd);
-void    ft_export(t_execcmd *cmd);
-void	ft_unset(t_execcmd *cmd);
-
+int	ft_echo(char **argv);
+int	ft_env(char **argv, t_minishell *g_param);
+int	ft_pwd(void);
+void	ft_cd(t_execcmd *cmd, t_minishell *g_param);
+void    ft_export(t_execcmd *cmd, t_minishell *g_param);
+void	ft_unset(t_execcmd *cmd, t_minishell *g_param);
 //signal
 void	handle_exit_status(int status);
 void	handle_signal_before(int sig);
