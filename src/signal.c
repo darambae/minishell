@@ -56,9 +56,9 @@ void	handle_signal_after(int sig)
 		exit_status = 130;
 		printf("^C");
 	}
-	else if (sig == SIGQUIT)
+	else if (sig == SIGTERM)
 	{
-		exit_status = 0;
+		exit_status = 130;
 		printf("exit\n");
 	}
 }

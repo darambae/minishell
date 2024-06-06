@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	while ((line = readline("minishell$ ")) != NULL)
 	{
 		signal(SIGINT, handle_signal_before);
-		signal(SIGQUIT, handle_signal_after);
+		signal(SIGTERM, handle_signal_after);
 		if (*line)
 			add_history(line);
 		g_param->cmd_line = ft_strjoin(line, "\0");
@@ -88,12 +88,12 @@ int	main(int argc, char **argv, char **envp)
 			handle_exit_status(status);
 		}
 		ft_clean_all(g_param);
-		printf("exit_code = %i\n", exit_status);
 	}
 	if (line == NULL)//why?
 	{
 		printf("exit\n");
-		exit(0);
+		printf("exit_code = %i\n", exit_status);
+		exit(130);
 	}
 	return (0);
 }

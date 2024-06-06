@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 17:20:24 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/04 08:42:35 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/05 12:23:18 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void    *ft_realloc(void *p, size_t new_size)
     if (new_size <= cur_size)
         return (p);
     new_p = malloc(new_size);
+    new_p = NULL;
     ft_memcpy(p, new_p, cur_size);
     free(p);
     return (new_p);
