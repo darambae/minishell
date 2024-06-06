@@ -1,5 +1,12 @@
 #include "../minishell.h"
 
+// static void handle_parent_signal(int sig)
+// {
+// 	(void)sig;
+// 	//printf("^C");
+// 	exit_status = 130;
+// }
+
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd)
 {
 	t_redircmd	*rcmd2;
@@ -37,17 +44,17 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-int	here_doc(t_redircmd *rcmd)
+void	here_doc(t_redircmd *rcmd)
 {
 	char	*line;
 	pid_t	pid;
-	int		exit_status;
+	int		status;
 
-	
 	pid = fork1();
 	signal(SIGINT, handle_signal_heredoc);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		rcmd->fd = open(rcmd->start_file, rcmd->mode);
 		if (rcmd->fd < 0)
 		{
@@ -55,22 +62,34 @@ int	here_doc(t_redircmd *rcmd)
 			exit(EXIT_FAILURE);
 		}
 		line = readline("> ");
-		while (ft_strcmp(line, rcmd->start_file))
+		while (line && ft_strcmp(line, rcmd->start_file))
 		{
 			ft_putstr_fd(ft_strjoin(line, "\n"), rcmd->fd);
 			free(line);
 			line = readline("> ");
 		}
+		free(line);
 		close(rcmd->fd);
 		exit(0);
 	}
-	waitpid(pid, &exit_status, 0);
-	if (WIFEXITED(exit_status))
-		return (WEXITSTATUS(exit_status));
+	//signal(SIGINT, handle_parent_signal);
+	while (waitpid(-1, &status, 0) < 0)
+	{
+		if (exit_status == 130)
+		{
+			kill(pid, SIGINT);
+			waitpid(pid, &status, 0);
+			break ;
+		}
+	}
+	if (WIFEXITED(status))
+		exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		exit_status = 130;
 	else
 	{
+		close(rcmd->fd);
 		printf("minishell: warning: here-document delimited by end-of-file\n");
 		exit_status = 0;
-		exit(0);
 	}
 }

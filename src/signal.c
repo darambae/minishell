@@ -45,7 +45,7 @@ void	handle_signal_before(int sig)
 {
 	(void)sig;
 	printf("\n");
-	exit_status = 200;
+	exit_status = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -53,25 +53,17 @@ void	handle_signal_before(int sig)
 
 void	handle_signal_after(int sig)
 {
-	if (sig == SIGINT)
-	{
-		exit_status = 220;
-		//printf("^C");
-	}
 	if (sig == SIGTERM)
 	{
-		exit_status = 137;
+		exit_status = 0;
 		printf("%i\n", exit_status);
 		printf("exit\n");
 	}
 }
 
-void	handle_signal_heredoc(pid_t pid)
+void	handle_signal_heredoc(int sig)
 {
-	kill(pid, SIGINT);
-	//(void)pid;
-	//close(STDIN_FILENO);
+	(void)sig;
 	exit_status = 130;
-	printf("^C\n");
-	exit(exit_status);
+	//printf("C^\n");
 }

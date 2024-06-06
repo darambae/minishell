@@ -38,7 +38,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 	{
 		s++;
 		cur = s;
-		s = ft_itoa(g_param->exit_status);
+		s = ft_itoa(exit_status);
 	}
 	else
 	{
