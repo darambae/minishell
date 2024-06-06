@@ -27,10 +27,10 @@ void	give_token(char **cur, int *res)
 	else if (**cur == '<')
 	{
 		if (*(*cur + 1) == '<')
-			{
-				(*cur)++;
-				*res = '{'; //For << (heredoc)
-			}
+		{
+			(*cur)++;
+			*res = '{'; //For << (heredoc)
+		}
 		else
 			*res = '['; //For <
 	}

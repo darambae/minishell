@@ -77,11 +77,11 @@ int	ft_error(char *msg, t_minishell *g_param)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	int		status;
-	pid_t	pid;
+	char		*line;
+	int			status;
+	pid_t		pid;
 	t_minishell	*g_param;
-	int		cur_exit;
+	int			cur_exit;
 
 	(void)argc;
 	(void)argv;
@@ -134,10 +134,5 @@ int	main(int argc, char **argv, char **envp)
 		printf("%i\n", exit_status);
 		exit(0);
 	}
-	// if (line == NULL)
-	// {
-	// 	printf("exit\n");
-	// 	exit(0);
-	// }
 	return (0);
 }
