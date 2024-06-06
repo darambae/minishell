@@ -131,7 +131,7 @@ int	main(int argc, char **argv, char **envp)
 	if (line == NULL)//why?
 	{
 		printf("exit\n");
-		printf("%i\n", exit_status);
+		//printf("%i\n", exit_status);
 		exit(0);
 	}
 	return (0);

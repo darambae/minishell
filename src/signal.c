@@ -32,12 +32,11 @@ void	handle_exit_status(int status)
 	if (WIFEXITED(status))
 	{
 		exit_status = WEXITSTATUS(status);
-		printf("exit_code = %i\n", exit_status);
+		//printf("exit_code = %i\n", exit_status);
 	}
 	else
 	{
 		exit_status = 43;
-		printf("minishell: warning: here-document delimited by end-of-file\n");
 		errno = 1;
 	}
 }
