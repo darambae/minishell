@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 			handle_exit_status(status);
 		}
 		ft_clean_all(g_param);
-		printf("exit_code = %i\n", exit_status);
+		//printf("exit_code = %i\n", exit_status);
 	}
 	if (line == NULL)//why?
 	{
