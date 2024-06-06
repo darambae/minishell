@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *g_param)
+static void handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *g_param)
 {
 	if (in_out)
 	{
@@ -18,17 +18,17 @@ static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *g_param
 	}
 }
 
-static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
+static int run_pipe(t_cmd *cmd, t_minishell *g_param)
 {
-	t_pipecmd	*pcmd;
-	pid_t		first_pid;
-	pid_t		second_pid;
-	int			p[2];
-	int			exit_status;
+	t_pipecmd *pcmd;
+	pid_t first_pid;
+	pid_t second_pid;
+	int p[2];
+	int exit_status;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
-		err_msg("pipe failed");
+		perror("pipe failed");
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd, g_param);
@@ -45,37 +45,38 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 		return (130);
 }
 
-static void	run_redire(t_cmd *cmd, t_minishell *g_param)
+static void run_redire(t_cmd *cmd, t_minishell *g_param)
 {
-	t_redircmd  *rcmd;
+	t_redircmd *rcmd;
 
-	rcmd = (t_redircmd *) cmd;
+	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
-	if (rcmd->token == '{') //here_doc
-		g_param->exit_status = here_doc(rcmd);
-	if (rcmd->token == '{' || rcmd->token == '[')//redire infile
+	if (rcmd->token == '{') // here_doc
+	{
+		exit_status = here_doc(rcmd);
+	}
+	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
 		ft_dup2(rcmd, STDIN_FILENO);
-	else//redire outfile
+	else // redire outfile
 	{
 		rcmd = exchange_cmd_order(rcmd);
 		if (rcmd->token == '{')
-			run_redire((t_cmd *) rcmd, g_param);
+			run_redire((t_cmd *)rcmd, g_param);
 		ft_dup2(rcmd, STDOUT_FILENO);
 	}
 	run_cmd(rcmd->cmd, g_param);
 }
 
-
-void	run_cmd(t_cmd *cmd, t_minishell *g_param)
+void run_cmd(t_cmd *cmd, t_minishell *g_param)
 {
-	t_execcmd	*ecmd;
+	t_execcmd *ecmd;
 
 	if (!cmd)
-		err_msg("cdm is empty\n");
+		perror("cdm is empty\n");
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *) cmd;
-		if (ecmd->argv[0] == 0)
+		if (ecmd->argv[0] == 0 || exit_status != EXIT_FAILURE)
 			exit(0);
 		if (is_builtin(ecmd->argv[0]) == true)
 			run_builtin(ecmd->argv, g_param);

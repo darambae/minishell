@@ -73,6 +73,6 @@ int	fork1(void)
 
 	pid = fork();
 	if (pid == -1)
-		err_msg("fork failed");
+		perror("fork failed");
 	return (pid);
 }

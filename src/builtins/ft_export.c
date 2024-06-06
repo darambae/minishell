@@ -61,7 +61,7 @@ void    ft_export(t_execcmd *cmd, t_minishell *g_param)
 	{
 		errno = 1;
 		perror("export syntax error");
-		g_param->exit_status = 1;
+		exit_status = 1;
 		return ;
 	}
 	while (cmd->argv[1][len_name] != '=' && cmd->argv[1][len_name])
