@@ -58,14 +58,14 @@ void	execute_cmd(char **cmds, t_minishell *g_param)
 
 	cmd_path = NULL;
 	cmd_path = get_cmd_path(cmds[0], g_param->env_variables);
-	if (!cmd_path || execve(cmd_path, cmds, g_param->env_variables) == -1)
-	{
-		free(cmd_path);
-		errno = 1;
-		perror("ERROR");
-		exit(127);
-	}
+	execve(cmd_path, cmds, g_param->env_variables);
+	execve(cmds[0], cmds, g_param->env_variables);
+	free(cmd_path);
+	errno = 1;
+	perror("ERROR");
+	exit(127);
 }
+
 
 int	fork1(void)
 {

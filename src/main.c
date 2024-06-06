@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	int			status;
 	pid_t		pid;
 	t_minishell	*g_param;
-	int			cur_exit;
+	//int			cur_exit;
 
 	(void)argc;
 	(void)argv;
@@ -91,12 +91,12 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		cur_exit = 0;
-		line = readline("minishell$ ");
+		//cur_exit = 0;
+		line = readline("\nminishell$ ");
 		signal(SIGINT, handle_signal_before);
 		signal(SIGTERM, handle_signal_after);
-		if (!line)
-			break ;
+		// if (!line)
+		// 	break ;
 		if (*line)
 		{
 			add_history(line);
@@ -114,8 +114,8 @@ int	main(int argc, char **argv, char **envp)
 					if (pid == 0)
 					{
 						run_cmd(g_param->first_cmd, g_param);
-						exit_status = g_param->exit_status;
-						exit(cur_exit);
+						//exit_status = g_param->exit_status;
+						//exit(cur_exit);
 					}
 					waitpid(pid, &status, 0);
 					handle_exit_status(status);
