@@ -3,10 +3,10 @@
 
 int exit_status;
 
-char **make_copy(char **env)
+char	**make_copy(char **env)
 {
-	char **copy;
-	int i;
+	char	**copy;
+	int		i;
 
 	i = 0;
 	while (env[i])
@@ -27,9 +27,9 @@ char **make_copy(char **env)
 	return (copy);
 }
 
-static t_minishell *init_param(char **envp)
+static t_minishell	*init_param(char **envp)
 {
-	t_minishell *g_param;
+	t_minishell	*g_param;
 
 	g_param = (t_minishell *)malloc(sizeof(t_minishell));
 	if (g_param == NULL)
@@ -56,32 +56,20 @@ int	ft_error(char *msg)
 	return (0);
 }
 
-// int	line_parsable(t_minishell *g_param)
-// {
-// 	int	token;
-// 	char *tmp;
-
-// 	tmp = g_param->cmd_line;
-// 	skip_whitespace(&(g_param->cmd_line), g_param);
-// 	if (*(g_param->cmd_line) == '\0')
-// 		return (0);
-// 	if (*(g_param->cmd_line) == "|" ||
-// 		ft_strchr("<>", *(g_param->cmd_line) != NULL ))
-// 	{
-// 		printf("syntax error near unexpected token '%c'\n", *(++g_param->cmd_line));
-// 		return (0);
-// 	}
-// 	g_param->cmd_line = tmp;
-// 	return (1);
-// }
-
-int main(int argc, char **argv, char **envp)
+void	trim_line(char *line, t_minishell *g_param)
 {
-	char *line;
-	int status;
-	pid_t pid;
-	t_minishell *g_param;
-	// int			cur_exit;
+	g_param->cmd_line = ft_strjoin(line, "\0");
+	g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
+	g_param->start_line = g_param->cmd_line;
+	g_param->first_cmd = parse(g_param);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char		*line;
+	int			status;
+	pid_t		pid;
+	t_minishell	*g_param;
 
 	(void)argc;
 	(void)argv;
@@ -92,12 +80,9 @@ int main(int argc, char **argv, char **envp)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			break;
+			break ;
 		add_history(line);
-		g_param->cmd_line = ft_strjoin(line, "\0");
-		g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
-		g_param->start_line = g_param->cmd_line;
-		g_param->first_cmd = parse(g_param);
+		trim_line(line, g_param);
 		if (is_executable(g_param->first_cmd, g_param))
 		{
 			if (is_cd_export_unset(g_param->first_cmd))
@@ -109,7 +94,6 @@ int main(int argc, char **argv, char **envp)
 				{
 					signal(SIGINT, SIG_DFL);
 					run_cmd(g_param->first_cmd, g_param);
-					// exit_status = g_param->exit_status;
 					exit(exit_status);
 				}
 				signal(SIGINT, handle_signal_during_execution);
@@ -120,7 +104,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		ft_clean_all(g_param);
 	}
-	if (line == NULL) // why?
+	if (line == NULL)
 	{
 		printf("exit\n");
 		exit(0);
