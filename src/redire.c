@@ -37,7 +37,7 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-int	here_doc(t_redircmd *rcmd, t_minishell *g_param)
+void	here_doc(t_redircmd *rcmd, t_minishell *g_param)
 {
 	char	*line;
 	pid_t	pid;
