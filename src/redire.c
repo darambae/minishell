@@ -37,13 +37,15 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-int	here_doc(t_redircmd *rcmd)
+int	here_doc(t_redircmd *rcmd, t_minishell *g_param)
 {
 	char	*line;
 	pid_t	pid;
 	int		exit_status;
+	int		dup_out;
 
-	
+	dup_out = dup(STDOUT_FILENO);
+	dup2(g_param->save_out, STDOUT_FILENO);
 	pid = fork1();
 	signal(SIGINT, handle_signal_heredoc);
 	if (pid == 0)
@@ -62,6 +64,7 @@ int	here_doc(t_redircmd *rcmd)
 			line = readline("> ");
 		}
 		close(rcmd->fd);
+		dup2(dup_out, g_param->save_out);
 		exit(0);
 	}
 	waitpid(pid, &exit_status, 0);

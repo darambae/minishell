@@ -44,13 +44,13 @@ static t_minishell	*init_param(char **envp)
 	g_param->env_variables = make_copy(envp);
 	g_param->exit_status = 0;
 	g_param->cmd_line = NULL;
-	g_param->stop = 0;
+	g_param->save_out = dup(STDOUT_FILENO);
+	g_param->save_in = dup(STDIN_FILENO);
 	return (g_param);
 }
 
-int	ft_error(char *msg, t_minishell *g_param)
+int	ft_error(char *msg)
 {
-	g_param->stop = 1;
 	ft_putstr_fd(msg, 2);
 	exit_status = EXIT_FAILURE;
 	return (0);

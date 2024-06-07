@@ -53,7 +53,7 @@ static void run_redire(t_cmd *cmd, t_minishell *g_param)
 	close(rcmd->fd);
 	if (rcmd->token == '{') // here_doc
 	{
-		exit_status = here_doc(rcmd);
+		exit_status = here_doc(rcmd, g_param);
 	}
 	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
 		ft_dup2(rcmd, STDIN_FILENO);

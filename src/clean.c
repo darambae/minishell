@@ -12,13 +12,13 @@ int	is_executable(t_cmd *cmd, t_minishell *g_param)
 		{
 			ecmd = (t_execcmd *) pcmd->left;
 			if (!ecmd->argv[0])
-				return (ft_error("minishell: syntax error near unexpected token '|'\n", g_param));
+				return (ft_error("minishell: syntax error near unexpected token '|'\n"));
 		}
 		if (pcmd->right->type == EXEC)
 		{
 			ecmd = (t_execcmd *) pcmd->right;
 			if (!ecmd->argv[0])
-				return (ft_error("minishell: nothing after the pipe '|'\n", g_param));
+				return (ft_error("minishell: nothing after the pipe '|'\n"));
 		}
 		if (pcmd->right->type == PIPE)
 			return (is_executable(pcmd->right, g_param));
@@ -63,6 +63,5 @@ void	ft_clean_all(t_minishell *g_param)
 		if (g_param->first_cmd)
 			free_cmd(g_param->first_cmd);
 		free(g_param->cmd_line);
-		g_param->stop = 0;
 	}
 }
