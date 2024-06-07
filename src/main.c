@@ -56,7 +56,7 @@ int	ft_error(char *msg)
 	return (0);
 }
 
-void	trim_line(char *line, t_minishell *g_param)
+static void	trim_line(char *line, t_minishell *g_param)
 {
 	g_param->cmd_line = ft_strjoin(line, "\0");
 	g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
@@ -79,6 +79,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
+		if (ft_strcmp(line, "exit") == 0)
+			break ;
 		if (!line)
 			break ;
 		add_history(line);
@@ -104,10 +106,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 		ft_clean_all(g_param);
 	}
-	if (line == NULL)
-	{
-		printf("exit\n");
-		exit(0);
-	}
+	handle_exit(line, g_param);
 	return (0);
 }

@@ -109,6 +109,7 @@ bool		is_cd_export_unset(t_cmd *cmd);
 void		run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
 void		run_builtin(char **argv, t_minishell *g_param);
 void		ft_exit(char **cmds);
+void		handle_exit(char *line, t_minishell *g_param);
 int			ft_echo(char **argv);
 int			ft_env(char **argv, t_minishell *g_param);
 int			ft_pwd(void);
