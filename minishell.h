@@ -82,7 +82,7 @@ t_cmd		*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd		*nul_terminator(t_cmd *cmd);
 
 // parsing
-/*peek : skip whitespace and tabs, return true if first carac == c 
+/*peek : skip whitespace and tabs, return true if first carac == c
 or False if not or if there is no carac*/
 int			peek(char *c, t_minishell *g_param);
 int			get_token(int save, t_minishell *g_param);
@@ -100,8 +100,8 @@ void		execute_cmd(char **cmds, t_minishell *g_param);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
-void		ft_dup2(t_redircmd *rcmd, int std);
-void		here_doc(t_redircmd *rcmd, t_minishell *g_param);
+void	ft_dup2(t_redircmd *rcmd, int std);
+void		here_doc(t_redircmd *rcmd);
 
 //builtins
 bool		is_builtin(char *cmd);
