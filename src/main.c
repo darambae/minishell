@@ -92,37 +92,32 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		signal(SIGINT, handle_signal_before);
-		//signal(SIGTERM, handle_signal_after);
+		//signal(SIGINT, handle_signal_before);
 		if (!line)
 			break ;
-		else
+		add_history(line);
+		g_param->cmd_line = ft_strjoin(line, "\0");
+		g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
+		g_param->start_line = g_param->cmd_line;
+		g_param->first_cmd = parse(g_param);
+		if (is_executable(g_param->first_cmd, g_param))
 		{
-			add_history(line);
-			g_param->cmd_line = ft_strjoin(line, "\0");
-			g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
-			g_param->start_line = g_param->cmd_line;
-			g_param->first_cmd = parse(g_param);
-			if (is_executable(g_param->first_cmd, g_param))
+			if (is_cd_export_unset(g_param->first_cmd))
+				run_cd_export_unset(g_param->first_cmd, g_param);
+			else
 			{
-				if (is_cd_export_unset(g_param->first_cmd))
-					run_cd_export_unset(g_param->first_cmd, g_param);
-				else
+				pid = fork1();
+				if (pid == 0)
 				{
-					pid = fork1();
-					if (pid == 0)
-					{
-						run_cmd(g_param->first_cmd, g_param);
-						//exit_status = g_param->exit_status;
-						exit(exit_status);
-					}
-					waitpid(pid, &status, 0);
-					handle_exit_status(status);
+					run_cmd(g_param->first_cmd, g_param);
+					//exit_status = g_param->exit_status;
+					exit(exit_status);
 				}
+				waitpid(pid, &status, 0);
+				handle_exit_status(status);
+				if (exit_status)
+					break;
 			}
-			waitpid(pid, &status, 0);
-			//printf("STATUS: %i\n", status);
-			handle_exit_status(status);
 		}
 		ft_clean_all(g_param);
 		//printf("exit_code = %i\n", exit_status);

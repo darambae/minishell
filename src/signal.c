@@ -51,19 +51,9 @@ void	handle_signal_before(int sig)
 	rl_redisplay();
 }
 
-void	handle_signal_after(int sig)
-{
-	if (sig == SIGTERM)
-	{
-		exit_status = 0;
-		printf("%i\n", exit_status);
-		printf("exit\n");
-	}
-}
-
 void	handle_signal_heredoc(int sig)
 {
 	(void)sig;
+	//printf("\n");
 	exit_status = 130;
-	//printf("C^\n");
 }

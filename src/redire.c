@@ -1,11 +1,11 @@
 #include "../minishell.h"
 
-// static void handle_parent_signal(int sig)
-// {
-// 	(void)sig;
-// 	//printf("^C");
-// 	exit_status = 130;
-// }
+static void handle_parent_signal(int sig)
+{
+	(void)sig;
+	//printf("\n");
+	//kill(-1, SIGINT);
+}
 
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd)
 {
@@ -62,7 +62,7 @@ void	here_doc(t_redircmd *rcmd)
 			exit(EXIT_FAILURE);
 		}
 		line = readline("> ");
-		while (line && ft_strcmp(line, rcmd->start_file))
+		while (ft_strcmp(line, rcmd->start_file))
 		{
 			ft_putstr_fd(ft_strjoin(line, "\n"), rcmd->fd);
 			free(line);
@@ -72,20 +72,15 @@ void	here_doc(t_redircmd *rcmd)
 		close(rcmd->fd);
 		exit(0);
 	}
-	//signal(SIGINT, handle_parent_signal);
-	while (waitpid(-1, &status, 0) < 0)
-	{
-		if (exit_status == 130)
-		{
-			kill(pid, SIGINT);
-			waitpid(pid, &status, 0);
-			break ;
-		}
-	}
+	signal(SIGINT, handle_parent_signal);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	{
+
 		exit_status = 130;
+	}
 	else
 	{
 		close(rcmd->fd);
