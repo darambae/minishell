@@ -92,7 +92,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		//signal(SIGINT, handle_signal_before);
 		if (!line)
 			break ;
 		add_history(line);
@@ -106,6 +105,7 @@ int	main(int argc, char **argv, char **envp)
 				run_cd_export_unset(g_param->first_cmd, g_param);
 			else
 			{
+				signal(SIGINT, handle_signal_after);
 				pid = fork1();
 				if (pid == 0)
 				{
@@ -115,8 +115,6 @@ int	main(int argc, char **argv, char **envp)
 				}
 				waitpid(pid, &status, 0);
 				handle_exit_status(status);
-				if (exit_status)
-					break;
 			}
 		}
 		ft_clean_all(g_param);

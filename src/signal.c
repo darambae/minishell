@@ -57,3 +57,11 @@ void	handle_signal_heredoc(int sig)
 	//printf("\n");
 	exit_status = 130;
 }
+
+void	handle_signal_after(int sig)
+{
+	(void)sig;
+	exit_status = 130;
+	printf("^C\n");
+	rl_redisplay();
+}

@@ -1,12 +1,5 @@
 #include "../minishell.h"
 
-static void handle_parent_signal(int sig)
-{
-	(void)sig;
-	//printf("\n");
-	//kill(-1, SIGINT);
-}
-
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd)
 {
 	t_redircmd	*rcmd2;
@@ -70,16 +63,15 @@ void	here_doc(t_redircmd *rcmd)
 		}
 		free(line);
 		close(rcmd->fd);
-		exit(0);
+		exit(exit_status);
 	}
-	signal(SIGINT, handle_parent_signal);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
-
 		exit_status = 130;
+		exit(130);
 	}
 	else
 	{
