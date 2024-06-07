@@ -1,2 +1,3 @@
 to do list :
 - heredoc, cmd after pipe dont have the good behaviour if here is done before
+- memory leaks with exit
