@@ -2,17 +2,44 @@
 
 static void handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *g_param)
 {
+	t_redircmd *rcmd;
+
 	if (in_out)
 	{
 		close(p[0]);
+		if (pcmd->left->type == REDIR)
+		{
+			rcmd = (t_redircmd *) pcmd->left;
+			rcmd = exchange_cmd_order(rcmd);
+			if (rcmd->token == '{')
+			{
+				dup2(g_param->save_in, STDIN_FILENO);
+				here_doc(rcmd);
+				ft_dup2(rcmd, STDIN_FILENO);
+				pcmd->left = rcmd->cmd;
+			}
+		}
 		dup2(p[1], STDOUT_FILENO);
 		close(p[1]);
 		run_cmd(pcmd->left, g_param);
 	}
 	else
 	{
+		if (pcmd->right->type == REDIR)
+		{
+			rcmd = (t_redircmd *) pcmd->right;
+			rcmd = exchange_cmd_order(rcmd);
+			if (rcmd->token == '{')
+			{
+				dup2(g_param->save_in, STDIN_FILENO);
+				here_doc(rcmd);
+				ft_dup2(rcmd, STDIN_FILENO);
+				pcmd->right = rcmd->cmd;
+			}
+		}
+		else
+			dup2(p[0], STDIN_FILENO);
 		close(p[1]);
-		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
 		run_cmd(pcmd->right, g_param);
 	}
@@ -52,7 +79,7 @@ static void run_redire(t_cmd *cmd, t_minishell *g_param)
 	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
 	if (rcmd->token == '{') // here_doc
-		here_doc(rcmd, g_param);
+		here_doc(rcmd);
 	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
 		ft_dup2(rcmd, STDIN_FILENO);
 	else // redire outfile

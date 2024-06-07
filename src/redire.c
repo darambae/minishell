@@ -37,15 +37,14 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-void	here_doc(t_redircmd *rcmd, t_minishell *g_param)
+void	here_doc(t_redircmd *rcmd)
 {
 	char	*line;
 	pid_t	pid;
 	int		status;
-	int		dup_out;
 
-	dup_out = dup(STDOUT_FILENO);
-	dup2(g_param->save_out, STDOUT_FILENO);
+	// if (g_param->fd_out)
+	// 	dup2(g_param->save_out, STDOUT_FILENO);
 	pid = fork1();
 	if (pid == 0)
 	{
@@ -74,7 +73,8 @@ void	here_doc(t_redircmd *rcmd, t_minishell *g_param)
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		exit_status = 130;
-		dup2(dup_out, g_param->save_out);
+		// if (g_param->fd_out)
+		// 	dup2(g_param->fd_out, STDOUT_FILENO);
 		exit(130);
 	}
 	else
