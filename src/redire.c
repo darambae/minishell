@@ -44,7 +44,6 @@ void	here_doc(t_redircmd *rcmd)
 	int		status;
 
 	pid = fork1();
-	signal(SIGINT, handle_signal_heredoc);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -65,6 +64,7 @@ void	here_doc(t_redircmd *rcmd)
 		close(rcmd->fd);
 		exit(exit_status);
 	}
+	signal(SIGINT, handle_signal_heredoc);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		exit_status = WEXITSTATUS(status);

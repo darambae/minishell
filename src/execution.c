@@ -42,7 +42,7 @@ static int run_pipe(t_cmd *cmd, t_minishell *g_param)
 	if (WIFEXITED(exit_status))
 		return (WEXITSTATUS(exit_status));
 	else
-		return (130);
+		return (1);
 }
 
 static void run_redire(t_cmd *cmd, t_minishell *g_param)
@@ -82,7 +82,7 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 			execute_cmd(ecmd->argv, g_param);
 	}
 	else if (cmd->type == PIPE)
-		g_param->exit_status = run_pipe(cmd, g_param);
+		exit_status = run_pipe(cmd, g_param);
 	else if (cmd->type == REDIR)
 		run_redire(cmd, g_param);
 }

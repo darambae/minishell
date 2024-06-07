@@ -30,15 +30,25 @@
 void	handle_exit_status(int status)
 {
 	if (WIFEXITED(status))
-	{
 		exit_status = WEXITSTATUS(status);
-		//printf("exit_code = %i\n", exit_status);
-	}
+	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		exit_status = 130;
 	else
-	{
-		exit_status = 43;
-		errno = 1;
-	}
+		exit_status = EXIT_FAILURE;
+}
+
+void	handle_signal_during_execution(int sig)
+{
+	(void)sig;
+	exit_status = 130;
+	printf("\n");
+	rl_redisplay();
+}
+
+void setup_parent_signals()
+{
+    signal(SIGINT, handle_signal_before);
+    signal(SIGQUIT, SIG_IGN);
 }
 
 void	handle_signal_before(int sig)
@@ -54,14 +64,7 @@ void	handle_signal_before(int sig)
 void	handle_signal_heredoc(int sig)
 {
 	(void)sig;
-	//printf("\n");
-	exit_status = 130;
-}
-
-void	handle_signal_after(int sig)
-{
-	(void)sig;
 	exit_status = 130;
 	printf("^C\n");
-	rl_redisplay();
+	exit(130);
 }

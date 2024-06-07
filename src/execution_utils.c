@@ -61,7 +61,7 @@ void	execute_cmd(char **cmds, t_minishell *g_param)
 	execve(cmd_path, cmds, g_param->env_variables);
 	execve(cmds[0], cmds, g_param->env_variables);
 	free(cmd_path);
-	errno = 1;
+	errno = EXIT_FAILURE;
 	perror("ERROR");
 	exit(127);
 }

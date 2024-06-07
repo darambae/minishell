@@ -123,7 +123,8 @@ void	ft_unset(t_execcmd *cmd, t_minishell *g_param);
 //signal
 void	handle_exit_status(int status);
 void	handle_signal_before(int sig);
-void	handle_signal_after(int sig);
+void	handle_signal_during_execution(int sig);
 void	handle_signal_heredoc(int sig);
+void	setup_parent_signals();
 
 #endif

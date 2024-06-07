@@ -1,12 +1,12 @@
 
 #include "../minishell.h"
 
-int	exit_status;
+int exit_status;
 
-char	**make_copy(char **env)
+char **make_copy(char **env)
 {
-	char	**copy;
-	int	i;
+	char **copy;
+	int i;
 
 	i = 0;
 	while (env[i])
@@ -27,9 +27,9 @@ char	**make_copy(char **env)
 	return (copy);
 }
 
-static t_minishell	*init_param(char **envp)
+static t_minishell *init_param(char **envp)
 {
-	t_minishell	*g_param;
+	t_minishell *g_param;
 
 	g_param = (t_minishell *)malloc(sizeof(t_minishell));
 	if (g_param == NULL)
@@ -48,7 +48,7 @@ static t_minishell	*init_param(char **envp)
 	return (g_param);
 }
 
-int	ft_error(char *msg, t_minishell *g_param)
+int ft_error(char *msg, t_minishell *g_param)
 {
 	g_param->stop = 1;
 	ft_putstr_fd(msg, 2);
@@ -75,25 +75,24 @@ int	ft_error(char *msg, t_minishell *g_param)
 // 	return (1);
 // }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	int			status;
-	pid_t		pid;
-	t_minishell	*g_param;
-	//int			cur_exit;
+	char *line;
+	int status;
+	pid_t pid;
+	t_minishell *g_param;
+	// int			cur_exit;
 
 	(void)argc;
 	(void)argv;
 	exit_status = 0;
 	g_param = init_param(envp);
-	signal(SIGINT, handle_signal_before);
-	signal(SIGQUIT, SIG_IGN);
+	setup_parent_signals();
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-			break ;
+			break;
 		add_history(line);
 		g_param->cmd_line = ft_strjoin(line, "\0");
 		g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
@@ -105,25 +104,25 @@ int	main(int argc, char **argv, char **envp)
 				run_cd_export_unset(g_param->first_cmd, g_param);
 			else
 			{
-				signal(SIGINT, handle_signal_after);
 				pid = fork1();
 				if (pid == 0)
 				{
+					signal(SIGINT, SIG_DFL);
 					run_cmd(g_param->first_cmd, g_param);
-					//exit_status = g_param->exit_status;
+					// exit_status = g_param->exit_status;
 					exit(exit_status);
 				}
+				signal(SIGINT, handle_signal_during_execution);
 				waitpid(pid, &status, 0);
 				handle_exit_status(status);
+				setup_parent_signals();
 			}
 		}
 		ft_clean_all(g_param);
-		//printf("exit_code = %i\n", exit_status);
 	}
-	if (line == NULL)//why?
+	if (line == NULL) // why?
 	{
 		printf("exit\n");
-		//printf("%i\n", exit_status);
 		exit(0);
 	}
 	return (0);
