@@ -14,7 +14,7 @@ static bool	only_digit(char *num)
 	return (true);
 }
 
-void	ft_exit(char **cmds, int exit_code)
+void	ft_exit(char **cmds)
 {
 	if (cmds[2])
 	{
@@ -24,8 +24,8 @@ void	ft_exit(char **cmds, int exit_code)
 	}
 	else if (!cmds[1])
 	{
-		printf("exit code = %i\n", exit_code);
-		exit(exit_code);
+		g_exit_status = 0;
+		exit(g_exit_status);
 	}
 	else if (cmds[1] && only_digit(cmds[1]))
 		exit(ft_atoi(cmds[1]) % 256);

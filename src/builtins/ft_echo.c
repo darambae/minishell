@@ -23,7 +23,7 @@ int	ft_echo(char **argv)
 			printf(" ");
 	}
 	if (n == 0)
-		(printf("\n"));
+		printf("\n");
 	return (0);
 }
 

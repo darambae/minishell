@@ -1,5 +1,11 @@
 #include "../minishell.h"
 
+void	skip_whitespace(char **cur, t_minishell *g_param)
+{
+	while (*cur < g_param->end_line && ft_strchr(" \t\n\v\r", **cur))
+		(*cur)++;
+}
+
 int	quote_parsing(char *cur, int save, char quote, t_minishell *g_param)
 {
 	cur++;
@@ -38,7 +44,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 	{
 		s++;
 		cur = s;
-		s = ft_itoa(exit_status);
+		s = ft_itoa(g_exit_status);
 	}
 	else
 	{

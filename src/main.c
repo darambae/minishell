@@ -1,7 +1,7 @@
 
 #include "../minishell.h"
 
-int exit_status;
+int g_exit_status;
 
 char	**make_copy(char **env)
 {
@@ -52,7 +52,7 @@ static t_minishell	*init_param(char **envp)
 int	ft_error(char *msg)
 {
 	ft_putstr_fd(msg, 2);
-	exit_status = EXIT_FAILURE;
+	g_exit_status = EXIT_FAILURE;
 	return (0);
 }
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	exit_status = 0;
+	g_exit_status = 0;
 	g_param = init_param(envp);
 	setup_parent_signals();
 	while (1)
@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 				{
 					signal(SIGINT, SIG_DFL);
 					run_cmd(g_param->first_cmd, g_param);
-					exit(exit_status);
+					exit(g_exit_status);
 				}
 				signal(SIGINT, handle_signal_during_execution);
 				waitpid(pid, &status, 0);

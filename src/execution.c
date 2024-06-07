@@ -1,30 +1,30 @@
 #include "../minishell.h"
 
-static void handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *g_param)
+static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *param)
 {
 	if (in_out)
 	{
 		close(p[0]);
 		dup2(p[1], STDOUT_FILENO);
 		close(p[1]);
-		run_cmd(pcmd->left, g_param);
+		run_cmd(pcmd->left, param);
 	}
 	else
 	{
 		close(p[1]);
 		dup2(p[0], STDIN_FILENO);
 		close(p[0]);
-		run_cmd(pcmd->right, g_param);
+		run_cmd(pcmd->right, param);
 	}
 }
 
-static int run_pipe(t_cmd *cmd, t_minishell *g_param)
+static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 {
-	t_pipecmd *pcmd;
-	pid_t first_pid;
-	pid_t second_pid;
-	int p[2];
-	int exit_status;
+	t_pipecmd	*pcmd;
+	pid_t		first_pid;
+	pid_t		second_pid;
+	int			p[2];
+	int			g_exit_status;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
@@ -32,30 +32,30 @@ static int run_pipe(t_cmd *cmd, t_minishell *g_param)
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd, g_param);
-	waitpid(first_pid, &exit_status, 0);
+	waitpid(first_pid, &g_exit_status, 0);
 	second_pid = fork1();
 	if (second_pid == 0)
 		handle_dup(p, 0, pcmd, g_param);
 	close(p[0]);
 	close(p[1]);
-	waitpid(second_pid, &exit_status, 0);
-	if (WIFEXITED(exit_status))
-		return (WEXITSTATUS(exit_status));
+	waitpid(second_pid, &g_exit_status, 0);
+	if (WIFEXITED(g_exit_status))
+		return (WEXITSTATUS(g_exit_status));
 	else
 		return (1);
 }
 
-static void run_redire(t_cmd *cmd, t_minishell *g_param)
+static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 {
-	t_redircmd *rcmd;
+	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
-	if (rcmd->token == '{') // here_doc
+	if (rcmd->token == '{')
 		here_doc(rcmd, g_param);
-	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
+	if (rcmd->token == '{' || rcmd->token == '[')
 		ft_dup2(rcmd, STDIN_FILENO);
-	else // redire outfile
+	else
 	{
 		rcmd = exchange_cmd_order(rcmd);
 		if (rcmd->token == '{')
@@ -65,9 +65,9 @@ static void run_redire(t_cmd *cmd, t_minishell *g_param)
 	run_cmd(rcmd->cmd, g_param);
 }
 
-void run_cmd(t_cmd *cmd, t_minishell *g_param)
+void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 {
-	t_execcmd *ecmd;
+	t_execcmd	*ecmd;
 
 	if (!cmd)
 		perror("cdm is empty\n");
@@ -82,7 +82,7 @@ void run_cmd(t_cmd *cmd, t_minishell *g_param)
 			execute_cmd(ecmd->argv, g_param);
 	}
 	else if (cmd->type == PIPE)
-		exit_status = run_pipe(cmd, g_param);
+		g_exit_status = run_pipe(cmd, g_param);
 	else if (cmd->type == REDIR)
 		run_redire(cmd, g_param);
 }

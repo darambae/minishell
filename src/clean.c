@@ -1,5 +1,24 @@
 #include "../minishell.h"
 
+bool	pcmd_syntax_check(t_pipecmd *pcmd)
+{
+	t_execcmd	*ecmd;
+
+	if (pcmd->left->type == EXEC)
+	{
+		ecmd = (t_execcmd *) pcmd->left;
+		if (!ecmd->argv[0])
+			return (false);
+	}
+	if (pcmd->right->type == EXEC)
+	{
+		ecmd = (t_execcmd *) pcmd->right;
+		if (!ecmd->argv[0])
+			return (false);
+	}
+	return (true);
+}
+
 int	is_executable(t_cmd *cmd, t_minishell *g_param)
 {
 	t_execcmd	*ecmd;
@@ -8,18 +27,8 @@ int	is_executable(t_cmd *cmd, t_minishell *g_param)
 	if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *) cmd;
-		if (pcmd->left->type == EXEC)
-		{
-			ecmd = (t_execcmd *) pcmd->left;
-			if (!ecmd->argv[0])
-				return (ft_error("minishell: syntax error near unexpected token '|'\n"));
-		}
-		if (pcmd->right->type == EXEC)
-		{
-			ecmd = (t_execcmd *) pcmd->right;
-			if (!ecmd->argv[0])
-				return (ft_error("minishell: nothing after the pipe '|'\n"));
-		}
+		if (!pcmd_syntax_check(pcmd))
+			return (ft_error("syntax error near unexpected token '|'"));
 		if (pcmd->right->type == PIPE)
 			return (is_executable(pcmd->right, g_param));
 	}

@@ -70,60 +70,56 @@ typedef struct s_minishell
 	int		save_in;
 }				t_minishell;
 
-int	ft_error(char *msg);
-int	is_executable(t_cmd *cmd, t_minishell *g_param);
+int			ft_error(char *msg);
+int			is_executable(t_cmd *cmd, t_minishell *g_param);
 
 //constructor
-t_cmd			*execcmd(void);
-t_cmd			*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
-t_cmd			*pipecmd(t_cmd *left, t_cmd *right);
-t_cmd			*nul_terminator(t_cmd *cmd);
 void		ft_clean_all(t_minishell *g_param);
 
+t_cmd		*execcmd(void);
+t_cmd		*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
+t_cmd		*pipecmd(t_cmd *left, t_cmd *right);
+t_cmd		*nul_terminator(t_cmd *cmd);
+
 // parsing
-/*peek : skip whitespace and tabs, return true if first carac == c or False if not
-or if there is no carac*/
-int	peek(char *c, t_minishell *g_param);
-int	get_token(int save, t_minishell *g_param);
-t_cmd					*parse(t_minishell *g_param);
-int	quote_parsing(char *cur, int save, char quote, t_minishell *g_param);
-void	skip_whitespace(char **cur, t_minishell *g_param);
-int		dollars_parsing(char *cur, int save, char quote, t_minishell *g_param);
-char	*get_path(char *s_redircmd, t_minishell *g_param);
-void	give_token(char **cur, int *res);
-
-//quote handlers
-// bool	valid_quote(char *line);
-// char	*remove_quotes(char *word);
-
+/*peek : skip whitespace and tabs, return true if first carac == c 
+or False if not or if there is no carac*/
+int			peek(char *c, t_minishell *g_param);
+int			get_token(int save, t_minishell *g_param);
+t_cmd		*parse(t_minishell *g_param);
+int			quote_parsing(char *cur, int save, char quote, t_minishell *param);
+void		skip_whitespace(char **cur, t_minishell *g_param);
+int			dollars_parsing(char *cur, int save, char q, t_minishell *param);
+char		*get_path(char *s_redircmd, t_minishell *g_param);
+//void		give_token(char **cur, int *res);
 
 //execution
-int		fork1(void);
-void	run_cmd(t_cmd *cmd, t_minishell *g_param);
-void	execute_cmd(char **cmds, t_minishell *g_param);
+int			fork1(void);
+void		run_cmd(t_cmd *cmd, t_minishell *g_param);
+void		execute_cmd(char **cmds, t_minishell *g_param);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
-void	ft_dup2(t_redircmd *rcmd, int std);
-void	here_doc(t_redircmd *rcmd, t_minishell *g_param);
+void		ft_dup2(t_redircmd *rcmd, int std);
+void		here_doc(t_redircmd *rcmd, t_minishell *g_param);
 
 //builtins
-bool				is_builtin(char *cmd);
-bool	is_cd_export_unset(t_cmd *cmd);
-void	run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
-void	run_builtin(char **argv, t_minishell *g_param);
-void	ft_exit(char **cmds, int exit_code);
-int	ft_echo(char **argv);
-int	ft_env(char **argv, t_minishell *g_param);
-int	ft_pwd(void);
-void	ft_cd(t_execcmd *cmd, t_minishell *g_param);
-void    ft_export(t_execcmd *cmd, t_minishell *g_param);
-void	ft_unset(t_execcmd *cmd, t_minishell *g_param);
+bool		is_builtin(char *cmd);
+bool		is_cd_export_unset(t_cmd *cmd);
+void		run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
+void		run_builtin(char **argv, t_minishell *g_param);
+void		ft_exit(char **cmds);
+int			ft_echo(char **argv);
+int			ft_env(char **argv, t_minishell *g_param);
+int			ft_pwd(void);
+void		ft_cd(t_execcmd *cmd, t_minishell *g_param);
+void		ft_export(t_execcmd *cmd, t_minishell *g_param);
+void		ft_unset(t_execcmd *cmd, t_minishell *g_param);
 //signal
-void	handle_exit_status(int status);
-void	handle_signal_before(int sig);
-void	handle_signal_during_execution(int sig);
-void	handle_signal_heredoc(int sig);
-void	setup_parent_signals();
+void		handle_exit_status(int status);
+void		handle_signal_before(int sig);
+void		handle_signal_during_execution(int sig);
+void		handle_signal_heredoc(int sig);
+void		setup_parent_signals(void);
 
 #endif

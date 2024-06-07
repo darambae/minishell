@@ -12,7 +12,6 @@ static void	update_env(char *str, char *new, t_minishell *g_param)
 		{
 			tmp = g_param->env_variables[i];
 			g_param->env_variables[i] = ft_strjoin(str, new);
-			//free(tmp);
 			(void)tmp;
 			return ;
 		}
@@ -29,13 +28,13 @@ static void	execute_chdir(char *path, t_minishell *g_param)
 	if (chdir(path) == -1)
 	{
 		perror("cd");
-		exit_status = 1;
+		g_exit_status = 1;
 	}
 	else
 	{
 		update_env("OLDPWD=", current_path, g_param);
 		update_env("PWD=", getcwd(NULL, 0), g_param);
-		exit_status = 0;
+		g_exit_status = 0;
 	}
 }
 
@@ -58,7 +57,7 @@ void	ft_cd(t_execcmd *cmd, t_minishell *g_param)
 	else
 	{
 		perror("cd");
-		g_param->exit_status = 1;
+		g_exit_status = 1;
 	}
 	execute_chdir(path, g_param);
 }

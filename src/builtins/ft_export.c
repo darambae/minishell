@@ -18,18 +18,18 @@ static bool check_export_syntax(char **cmd)
 	return (false);
 }
 
-static char **new_arr(char *new, int len_env, int len_name, t_minishell *g_param)
+static char	**new_arr(char *new, int l_env, int len_name, t_minishell *g_param)
 {
-	char    **new_env;
+	char	**new_env;
 	int		i;
 	int		j;
 
-	new_env = (char **)malloc(sizeof(char *) * (len_env + 1));
+	new_env = (char **)malloc(sizeof(char *) * (l_env + 1));
 	if (!new_env)
-		return NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
-	while (i < len_env)
+	while (i < l_env)
 	{
 		if (!g_param->env_variables[i])
 		{
@@ -47,10 +47,10 @@ static char **new_arr(char *new, int len_env, int len_name, t_minishell *g_param
 	return (new_env);
 }
 
-void    ft_export(t_execcmd *cmd, t_minishell *g_param)
+void	ft_export(t_execcmd *cmd, t_minishell *g_param)
 {
-	int     len_name;
-	int     j;
+	int		len_name;
+	int		j;
 	int		len_env;
 
 	len_env = 0;
@@ -61,7 +61,7 @@ void    ft_export(t_execcmd *cmd, t_minishell *g_param)
 	{
 		errno = 1;
 		perror("export syntax error");
-		exit_status = 1;
+		g_exit_status = 1;
 		return ;
 	}
 	while (cmd->argv[1][len_name] != '=' && cmd->argv[1][len_name])
@@ -75,5 +75,5 @@ void    ft_export(t_execcmd *cmd, t_minishell *g_param)
 			len_env++;
 		g_param->env_variables = new_arr(cmd->argv[1], len_env, len_name, g_param);
 	}
-	exit_status = 0;
+	g_exit_status = 0;
 }

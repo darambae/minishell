@@ -1,10 +1,10 @@
 #include "../../minishell.h"
 
-static int  count_correspon(char **env, char **argv)
+static int	count_correspon(char **env, char **argv)
 {
-	int i;
-	int j;
-	int count;
+	int	i;
+	int	j;
+	int	count;
 
 	i = 1;
 	count = 0;
@@ -16,7 +16,7 @@ static int  count_correspon(char **env, char **argv)
 			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
 			{
 				count++;
-				break;
+				break ;
 			}
 			j++;
 		}
@@ -53,10 +53,11 @@ static char	**renew_arr(char **argv, int len_arr, t_minishell *g_param)
 {
 	char	**new_env;
 
-	new_env = (char **)malloc(sizeof(char *) * (len_arr + 1 - count_correspon(g_param->env_variables, argv)));
+	new_env = (char **)malloc(sizeof(char *) * \
+		(len_arr + 1 - count_correspon(g_param->env_variables, argv)));
 	if (!new_env)
 		return (NULL);
-	copy_except(new_env ,argv, g_param);
+	copy_except(new_env, argv, g_param);
 	ft_free_tab(g_param->env_variables);
 	return (new_env);
 }
@@ -70,5 +71,5 @@ void	ft_unset(t_execcmd *cmd, t_minishell *g_param)
 		len_env++;
 	if (count_correspon(g_param->env_variables, cmd->argv) > 0)
 		g_param->env_variables = renew_arr(cmd->argv, len_env, g_param);
-	exit_status = 0;
+	g_exit_status = 0;
 }

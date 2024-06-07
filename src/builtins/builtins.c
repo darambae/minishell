@@ -1,22 +1,24 @@
 #include "../../minishell.h"
+
 bool	is_cd_export_unset(t_cmd *cmd)
 {
-	t_execcmd *res;
+	t_execcmd	*res;
 
 	res = (t_execcmd *)cmd;
 
-	if(!ft_strcmp(res->argv[0], "cd") || !ft_strcmp(res->argv[0], "export") \
-	 || !ft_strcmp(res->argv[0], "unset"))
+	if (!ft_strcmp(res->argv[0], "cd") || !ft_strcmp(res->argv[0], "export") \
+		|| !ft_strcmp(res->argv[0], "unset"))
 		return (true);
 	return (false);
 }
+
 void	run_cd_export_unset(t_cmd *cmd, t_minishell *g_param)
 {
-	t_execcmd *res;
+	t_execcmd	*res;
 
 	res = (t_execcmd *)cmd;
 	if (!ft_strcmp(res->argv[0], "cd"))
-		ft_cd(res,g_param);
+		ft_cd(res, g_param);
 	else if (!ft_strcmp(res->argv[0], "export"))
 		ft_export(res, g_param);
 	else if (!ft_strcmp(res->argv[0], "unset"))
@@ -38,9 +40,9 @@ void	run_builtin(char **argv, t_minishell *g_param)
 	else if (!ft_strcmp(argv[0], "pwd"))
 		g_param->exit_status = ft_pwd();
 	else if (!ft_strcmp(argv[0], "env"))
-		g_param->exit_status = ft_env(argv,g_param);
+		g_param->exit_status = ft_env(argv, g_param);
 	else if (!ft_strcmp(argv[0], "exit"))
-		ft_exit(argv, g_param->exit_status);
+		ft_exit(argv);
 	exit(g_param->exit_status);
 }
 
