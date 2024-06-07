@@ -52,7 +52,7 @@ static void run_redire(t_cmd *cmd, t_minishell *g_param)
 	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
 	if (rcmd->token == '{') // here_doc
-		here_doc(rcmd);
+		here_doc(rcmd, g_param);
 	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
 		ft_dup2(rcmd, STDIN_FILENO);
 	else // redire outfile

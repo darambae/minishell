@@ -68,10 +68,11 @@ typedef struct s_minishell
 	char	*end_t;
 	char	*cmd_line;
 	t_cmd	*first_cmd;
-	int		stop;
+	int		save_out;
+	int		save_in;
 }				t_minishell;
 
-int	ft_error(char *msg, t_minishell *g_param);
+int	ft_error(char *msg);
 int	is_executable(t_cmd *cmd, t_minishell *g_param);
 
 //constructor
@@ -106,7 +107,7 @@ void	execute_cmd(char **cmds, t_minishell *g_param);
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 void	ft_dup2(t_redircmd *rcmd, int std);
-void		here_doc(t_redircmd *rcmd);
+int		here_doc(t_redircmd *rcmd, t_minishell *g_param);
 
 //builtins
 bool				is_builtin(char *cmd);
