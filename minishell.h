@@ -23,7 +23,7 @@ enum e_token
 	ENVIRONMENT,
 };
 
-extern int	exit_status;
+extern int	g_exit_status;
 
 typedef struct s_cmd
 {
@@ -43,7 +43,6 @@ typedef struct s_pipecmd
 	enum e_token	type;
 	t_cmd			*left;
 	t_cmd			*right;
-	//int				done;//left ok, done = 1, left and right ok, done = 2
 }				t_pipecmd;
 
 typedef struct s_redircmd
@@ -53,7 +52,6 @@ typedef struct s_redircmd
 	char			*start_file;
 	char			*end_file;
 	int				token;
-	//int				here_doc;
 	int				mode;
 	int				fd;
 }				t_redircmd;
@@ -76,11 +74,11 @@ int	ft_error(char *msg);
 int	is_executable(t_cmd *cmd, t_minishell *g_param);
 
 //constructor
-t_cmd	*execcmd(void);
-t_cmd	*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
-t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
-t_cmd	*nul_terminator(t_cmd *cmd);
-void	ft_clean_all(t_minishell *g_param);
+t_cmd			*execcmd(void);
+t_cmd			*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
+t_cmd			*pipecmd(t_cmd *left, t_cmd *right);
+t_cmd			*nul_terminator(t_cmd *cmd);
+void		ft_clean_all(t_minishell *g_param);
 
 // parsing
 /*peek : skip whitespace and tabs, return true if first carac == c or False if not
