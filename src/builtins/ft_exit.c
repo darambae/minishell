@@ -23,10 +23,7 @@ void	ft_exit(char **cmds, int exit_code)
 		exit(1);
 	}
 	else if (!cmds[1])
-	{
-		printf("exit code = %i\n", exit_code);
 		exit(exit_code);
-	}
 	else if (cmds[1] && only_digit(cmds[1]))
 		exit(ft_atoi(cmds[1]) % 256);
 	else if (!only_digit(cmds[1]))
