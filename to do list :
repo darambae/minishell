@@ -5,3 +5,4 @@ to do list :
 - 'cat | cat | ls' doesn't work
 - memory leaks with echo $? (because of reducing size of the string '$? -> one digit')
 - our minishell works with bonus part (echo '"$USER"')
+- echo with global variable makes memory leaks
