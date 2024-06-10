@@ -13,20 +13,21 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME) : $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ -L./libft -lft -lreadline
+	@echo "Minishell Compilation Finished :D"
+	@$(CC) $(CFLAGS) -o $@ $^ -L./libft -lft -lreadline
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) -C ./libft
+	@$(MAKE) -C ./libft
 
 clean:
-	$(MAKE) clean -C ./libft
+	@$(MAKE) clean -C ./libft
 	@$(RM) -f $(OBJ)
 
 fclean: clean
-	$(MAKE) fclean -C ./libft 
+	@$(MAKE) fclean -C ./libft 
 	@$(RM) -f $(NAME)
 
 re: fclean all

@@ -45,33 +45,6 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param) {
     return (t_cmd *)redircmd;
 }
 
-// t_cmd	*redircmd(t_cmd *sub_cmd, char *s_file, char *e_file, int token)
-// {
-// 	t_redircmd	*redircmd;
-
-// 	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
-// 	ft_memset(redircmd, 0, sizeof(*redircmd));
-// 	redircmd->type = REDIR;
-// 	redircmd->cmd = sub_cmd;
-// 	redircmd->start_file = s_file;
-// 	redircmd->end_file = e_file;
-// 	redircmd->token = token;
-// 	//redircmd->here_doc = NULL;
-// 	if (token == '[')
-// 		redircmd->mode = O_RDONLY;
-// 	else if (token == ']')
-// 		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
-// 	else if (token == '{') // << here_doc
-// 		redircmd->mode = O_RDONLY;
-// 	else if (token == '}') // >> append
-// 		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
-// 	if (redircmd->mode == O_RDONLY)
-// 		redircmd->fd = 0;
-// 	else
-// 		redircmd->fd = 1;
-// 	return ((t_cmd *)redircmd);
-// }
-
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 {
 	t_pipecmd	*pipecmd;

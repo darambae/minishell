@@ -12,19 +12,19 @@ BONUSOBJ = $(BONUSSRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	ar -rcs $@ $^
+	@ar -rcs $@ $^
 
 bonus: $(OBJ) $(BONUSOBJ)
-	ar -rcs $(NAME) $^
+	@ar -rcs $(NAME) $^
 
 .c.o:
-	$(CC) -c $(CFLAGS) $< -o $@
+	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean :
-	rm -f $(OBJ) $(BONUSOBJ)
+	@rm -f $(OBJ) $(BONUSOBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

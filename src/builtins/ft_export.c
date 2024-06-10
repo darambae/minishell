@@ -18,18 +18,19 @@ static bool check_export_syntax(char **cmd)
 	return (false);
 }
 
-static char	**new_arr(char *new, int l_env, int len_name, t_minishell *g_param)
+static void replace_env(char *new, int l_env, int len_name, t_minishell *g_param)
 {
 	char	**new_env;
 	int		i;
 	int		j;
 
+	new_env = NULL;
 	new_env = (char **)malloc(sizeof(char *) * (l_env + 1));
 	if (!new_env)
-		return (NULL);
-	i = 0;
+		return ;
+	i = -1;
 	j = 0;
-	while (i < l_env)
+	while (++i < l_env)
 	{
 		if (!g_param->env_variables[i])
 		{
@@ -41,10 +42,10 @@ static char	**new_arr(char *new, int l_env, int len_name, t_minishell *g_param)
 		else
 			new_env[j] = ft_strdup(g_param->env_variables[i]);
 		j++;
-		i++;
 	}
 	ft_free_tab(g_param->env_variables);
-	return (new_env);
+	new_env[j] = NULL;
+	g_param->env_variables = new_env;
 }
 
 void	ft_export(t_execcmd *cmd, t_minishell *g_param)
@@ -73,7 +74,7 @@ void	ft_export(t_execcmd *cmd, t_minishell *g_param)
 	{
 		if (!g_param->env_variables[j])
 			len_env++;
-		g_param->env_variables = new_arr(cmd->argv[1], len_env, len_name, g_param);
+		replace_env(cmd->argv[1], len_env, len_name, g_param);
 	}
 	g_exit_status = 0;
 }

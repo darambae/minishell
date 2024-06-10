@@ -70,6 +70,12 @@ typedef struct s_minishell
 	int		save_in;
 }				t_minishell;
 
+//init
+void		trim_line(char *line, t_minishell *g_param);
+t_minishell	*init_param(char **envp);
+char		**make_copy(char **env);
+
+
 int			ft_error(char *msg);
 int			is_executable(t_cmd *cmd, t_minishell *g_param);
 
@@ -100,7 +106,7 @@ void		execute_cmd(char **cmds, t_minishell *g_param);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
-void	ft_dup2(t_redircmd *rcmd, int std);
+void		ft_dup2(t_redircmd *rcmd, int std);
 void		here_doc(t_redircmd *rcmd);
 
 //builtins
@@ -122,5 +128,8 @@ void		handle_signal_before(int sig);
 void		handle_signal_during_execution(int sig);
 void		handle_signal_heredoc(int sig);
 void		setup_parent_signals(void);
+
+//clean
+void	free_cmd(t_cmd *cmd);
 
 #endif

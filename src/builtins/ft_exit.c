@@ -14,15 +14,7 @@ static bool	only_digit(char *num)
 	return (true);
 }
 
-void	handle_exit(char *line, t_minishell *g_param)
-{
-	if (line == NULL || ft_strcmp(line, "exit") == 0)
-	{
-		ft_clean_all(g_param);
-		printf("exit\n");
-		exit(0);
-	}
-}
+
 
 void	ft_exit(char **cmds)
 {
