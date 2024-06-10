@@ -26,7 +26,7 @@ static void	execute_in_child(t_minishell *g_param)
 	waitpid(pid, &status, 0);
 	handle_exit_status(status);
 	setup_parent_signals();
-	ft_clean_all(g_param);
+	//ft_clean_all(g_param);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -53,7 +53,8 @@ int	main(int argc, char **argv, char **envp)
 			else
 				execute_in_child(g_param);
 		}
-		//ft_clean_all(g_param);
+		ft_clean_all(g_param);
+		free(line);
 	}
 	handle_exit(line, g_param);
 }

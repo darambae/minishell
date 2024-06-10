@@ -1,5 +1,31 @@
 #include "../minishell.h"
 
+void	save_arg_to_clean(char *s, t_minishell *g_param)
+{
+	int	i;
+
+	i = 0;
+	if (g_param->arg_to_clean)
+	{
+		while (g_param->arg_to_clean[i])
+			i++;
+		ft_free_tab(g_param->arg_to_clean);
+	}
+	if (i < 1)
+		i = 1;
+	if (!g_param->arg_to_clean)
+	{
+		g_param->arg_to_clean = malloc ((i + 1) * sizeof(char *));
+		if (!g_param->arg_to_clean)
+			ft_error("arg_to_clean malloc failed\n");
+	}
+	if (s)
+	{
+		g_param->arg_to_clean[i - 1] = s;
+		g_param->arg_to_clean[i] = NULL;
+	}
+}
+
 void	skip_whitespace(char **cur, t_minishell *g_param)
 {
 	while (*cur < g_param->end_line && ft_strchr(" \t\n\v\r", **cur))
@@ -42,8 +68,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 	s++;
 	if (*s == '?')
 	{
-		s++;
-		cur = s;
+		cur = ++s;
 		s = ft_itoa(g_exit_status);
 	}
 	else
@@ -60,6 +85,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 		return (get_token(save, g_param));
 	g_param->start_t = s;
 	g_param->end_t = s + strlen(s);
+	save_arg_to_clean(s, g_param);
 	return ('a');
 }
 
@@ -86,5 +112,6 @@ char	*get_path(char *s_redircmd, t_minishell *g_param)
 		free(env);
 		return (NULL);
 	}
+	free(s_redircmd);
 	return (env);
 }

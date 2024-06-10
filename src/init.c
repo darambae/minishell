@@ -43,6 +43,7 @@ t_minishell	*init_param(char **envp)
 	g_param->cmd_line = NULL;
 	g_param->save_out = dup(STDOUT_FILENO);
 	g_param->save_in = dup(STDIN_FILENO);
+	g_param->arg_to_clean = NULL;
 	return (g_param);
 }
 

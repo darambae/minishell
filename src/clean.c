@@ -18,7 +18,7 @@ bool	pcmd_syntax_check(t_pipecmd *pcmd)
 	}
 	return (true);
 }
-
+//check if there is arg before and after pipe
 int	is_executable(t_cmd *cmd, t_minishell *g_param)
 {
 	t_execcmd	*ecmd;
@@ -28,7 +28,7 @@ int	is_executable(t_cmd *cmd, t_minishell *g_param)
 	{
 		pcmd = (t_pipecmd *) cmd;
 		if (!pcmd_syntax_check(pcmd))
-			return (ft_error("syntax error near unexpected token '|'"));
+			return (ft_error("syntax error near unexpected token '|'\n"));
 		if (pcmd->right->type == PIPE)
 			return (is_executable(pcmd->right, g_param));
 	}
@@ -71,6 +71,7 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
+
 void	ft_clean_all(t_minishell *g_param)
 {
 	if (g_param)
@@ -80,6 +81,8 @@ void	ft_clean_all(t_minishell *g_param)
 			free_cmd(g_param->first_cmd);
 			g_param->first_cmd = NULL;
 		}
+		if (g_param->arg_to_clean)
+			ft_free_tab(g_param->arg_to_clean);
 		if (g_param->cmd_line)
 		{
 			free(g_param->cmd_line);

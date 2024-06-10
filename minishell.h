@@ -68,6 +68,7 @@ typedef struct s_minishell
 	t_cmd	*first_cmd;
 	int		save_out;
 	int		save_in;
+	char	**arg_to_clean;
 }				t_minishell;
 
 //init
