@@ -36,4 +36,3 @@ void	ft_exit(char **cmds)
 		exit(1);
 	}
 }
-

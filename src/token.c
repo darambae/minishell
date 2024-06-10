@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 /*skip whitespace and tabs, return true if first carac == c or False if not

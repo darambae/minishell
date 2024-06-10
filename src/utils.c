@@ -1,5 +1,40 @@
 #include "../minishell.h"
 
+static void	exec_nullset(t_cmd *cmd)
+{
+	t_execcmd	*execcmd;
+	int			i;
+
+	execcmd = (t_execcmd *)cmd;
+	i = 0;
+	while (execcmd->argv[i])
+		execcmd->end_argv[i++] = 0;
+}
+
+t_cmd	*nul_terminator(t_cmd *cmd)
+{
+	t_redircmd	*redircmd;
+	t_pipecmd	*pipecmd;
+
+	if (!cmd)
+		return (0);
+	if (cmd->type == EXEC)
+		exec_nullset(cmd);
+	else if (cmd->type == REDIR)
+	{
+		redircmd = (t_redircmd *)cmd;
+		nul_terminator(redircmd->cmd);
+		*redircmd->end_file = 0;
+	}
+	else if (cmd->type == PIPE)
+	{
+		pipecmd = (t_pipecmd *)cmd;
+		nul_terminator(pipecmd->left);
+		nul_terminator(pipecmd->right);
+	}
+	return (cmd);
+}
+
 char	**create_double_arr(int size)
 {
 	char	**arr;
