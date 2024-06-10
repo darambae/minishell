@@ -12,9 +12,13 @@ void	handle_exit_status(int status)
 
 void	handle_signal_during_execution(int sig)
 {
-	(void)sig;
-	g_exit_status = 130;
-	printf("\n");
+	if (sig == SIGQUIT)
+		ft_error("Quit", 131);
+	else
+	{
+		g_exit_status = 130;
+		printf("\n");
+	}
 	rl_redisplay();
 }
 

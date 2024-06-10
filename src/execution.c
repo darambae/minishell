@@ -60,7 +60,7 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
-		perror("pipe failed");
+		ft_error("pipe error", 1);
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd, g_param);

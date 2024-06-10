@@ -2,7 +2,7 @@
 
 int	g_exit_status;
 
-static void	execute_in_child(t_minishell *g_param)
+static void	execute_in_child(t_minishell *param)
 {
 	int			status;
 	pid_t		pid;
@@ -11,10 +11,12 @@ static void	execute_in_child(t_minishell *g_param)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		run_cmd(g_param->first_cmd, g_param);
+		signal(SIGQUIT, SIG_DFL);
+		run_cmd(param->first_cmd, param);
 		exit(g_exit_status);
 	}
 	signal(SIGINT, handle_signal_during_execution);
+	signal(SIGQUIT, handle_signal_during_execution);
 	waitpid(pid, &status, 0);
 	handle_exit_status(status);
 	setup_parent_signals();
@@ -23,12 +25,12 @@ static void	execute_in_child(t_minishell *g_param)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	t_minishell	*g_param;
+	t_minishell	*param;
 
 	(void)argc;
 	(void)argv;
-	g_exit_status = 0;
-	g_param = init_param(envp);
+	param = NULL;
+	param = init_param(envp);
 	setup_parent_signals();
 	while (1)
 	{
@@ -36,15 +38,15 @@ int	main(int argc, char **argv, char **envp)
 		if (!line || ft_strcmp(line, "exit") == 0)
 			break ;
 		add_history(line);
-		trim_line(line, g_param);
-		if (is_executable(g_param->first_cmd, g_param))
+		trim_line(line, param);
+		if (is_executable(param->first_cmd, param))
 		{
-			if (is_cd_export_unset(g_param->first_cmd))
-				run_cd_export_unset(g_param->first_cmd, g_param);
+			if (is_cd_export_unset(param->first_cmd))
+				run_cd_export_unset(param->first_cmd, param);
 			else
-				execute_in_child(g_param);
+				execute_in_child(param);
 		}
-		ft_clean_all(line, g_param);
+		ft_clean_all(line, param);
 	}
-	handle_exit(line, g_param);
+	handle_exit(line, param);
 }

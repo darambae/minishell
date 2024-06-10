@@ -52,17 +52,16 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	return (NULL);
 }
 
-void	execute_cmd(char **cmds, t_minishell *g_param)
+void	execute_cmd(char **cmds, t_minishell *param)
 {
 	char	*cmd_path;
 
 	cmd_path = NULL;
-	cmd_path = get_cmd_path(cmds[0], g_param->env_variables);
-	execve(cmd_path, cmds, g_param->env_variables);
-	execve(cmds[0], cmds, g_param->env_variables);
+	cmd_path = get_cmd_path(cmds[0], param->env_variables);
+	execve(cmd_path, cmds, param->env_variables);
+	execve(cmds[0], cmds, param->env_variables);
 	free(cmd_path);
-	errno = EXIT_FAILURE;
-	perror("ERROR");
+	ft_error("command not found", 127);
 	exit(127);
 }
 
@@ -72,6 +71,6 @@ int	fork1(void)
 
 	pid = fork();
 	if (pid == -1)
-		perror("fork failed");
+		ft_error("fork error", 1);
 	return (pid);
 }
