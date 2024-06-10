@@ -66,7 +66,6 @@ void	execute_cmd(char **cmds, t_minishell *g_param)
 	exit(127);
 }
 
-
 int	fork1(void)
 {
 	int	pid;

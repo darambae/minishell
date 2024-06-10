@@ -13,7 +13,7 @@ static int	count_correspon(char **env, char **argv)
 		j = 0;
 		while (env[j])
 		{
-			if (!ft_strncmp(env[j] ,argv[i], ft_strlen(argv[i])))
+			if (!ft_strncmp(env[j], argv[i], ft_strlen(argv[i])))
 			{
 				count++;
 				break ;

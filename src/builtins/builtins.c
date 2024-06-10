@@ -5,7 +5,6 @@ bool	is_cd_export_unset(t_cmd *cmd)
 	t_execcmd	*res;
 
 	res = (t_execcmd *)cmd;
-
 	if (!ft_strcmp(res->argv[0], "cd") || !ft_strcmp(res->argv[0], "export") \
 		|| !ft_strcmp(res->argv[0], "unset"))
 		return (true);
@@ -45,4 +44,3 @@ void	run_builtin(char **argv, t_minishell *g_param)
 		ft_exit(argv);
 	exit(g_param->exit_status);
 }
-

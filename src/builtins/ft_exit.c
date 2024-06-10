@@ -14,8 +14,6 @@ static bool	only_digit(char *num)
 	return (true);
 }
 
-
-
 void	ft_exit(char **cmds)
 {
 	if (cmds[2])
@@ -38,4 +36,3 @@ void	ft_exit(char **cmds)
 		exit(1);
 	}
 }
-

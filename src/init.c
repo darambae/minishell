@@ -12,7 +12,6 @@ char	**make_copy(char **env)
 		return (NULL);
 	copy = malloc((i + 1) * sizeof(char *));
 	if (!copy)
-
 		return (NULL);
 	i = 0;
 	while (env[i])
@@ -46,7 +45,6 @@ t_minishell	*init_param(char **envp)
 	g_param->arg_to_clean = NULL;
 	return (g_param);
 }
-
 
 void	trim_line(char *line, t_minishell *g_param)
 {

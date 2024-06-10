@@ -1,14 +1,6 @@
-
 #include "../minishell.h"
 
-int g_exit_status;
-
-int	ft_error(char *msg)
-{
-	ft_putstr_fd(msg, 2);
-	g_exit_status = EXIT_FAILURE;
-	return (0);
-}
+int	g_exit_status;
 
 static void	execute_in_child(t_minishell *g_param)
 {
@@ -26,7 +18,6 @@ static void	execute_in_child(t_minishell *g_param)
 	waitpid(pid, &status, 0);
 	handle_exit_status(status);
 	setup_parent_signals();
-	//ft_clean_all(g_param);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -53,8 +44,7 @@ int	main(int argc, char **argv, char **envp)
 			else
 				execute_in_child(g_param);
 		}
-		ft_clean_all(g_param);
-		free(line);
+		ft_clean_all(line, g_param);
 	}
 	handle_exit(line, g_param);
 }

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 t_cmd	*parse_redire(t_cmd *cmd, t_minishell *g_param);

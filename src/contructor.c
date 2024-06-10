@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 t_cmd	*execcmd(void)
@@ -10,39 +9,47 @@ t_cmd	*execcmd(void)
 	execcmd->type = EXEC;
 	return ((t_cmd *)execcmd);
 }
-t_cmd *redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param) {
-    t_redircmd *redircmd;
 
-    redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
-    if (!redircmd) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
-    ft_memset(redircmd, 0, sizeof(*redircmd));
-    redircmd->type = REDIR;
-    redircmd->cmd = sub_cmd;
-    redircmd->start_file = g_param->start_t;
-    redircmd->end_file = g_param->end_t;
-    redircmd->token = token;
-    if (token == '[') {  // Input redirection
-        redircmd->mode = O_RDONLY;
-    } else if (token == ']') {  // Output redirection
-        redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
-    } else if (token == '{') {  // Here document
-        redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
-    } else if (token == '}') {  // Append output redirection
-        redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
-    } else {
-        perror("Unknown redirection token");
-    }
-    // Open the file and store the file descriptor
-    if ((redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777)) < 0)
+int	redir_file(t_redircmd *redircmd, int token)
+{
+	if (token == '[')
+		redircmd->mode = O_RDONLY;
+	else if (token == ']')
+		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
+	else if (token == '{')
+		redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
+	else if (token == '}')
+		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
+	else
+		return (ft_error("syntax error near unexpected token"));
+	redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777);
+	return (0);
+}
+
+t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param)
+{
+	t_redircmd	*redircmd;
+
+	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
+	if (!redircmd)
 	{
-        perror("open");
-        free(redircmd);
-        exit(EXIT_FAILURE);
-    }
-    return (t_cmd *)redircmd;
+		ft_error("malloc");
+		exit(EXIT_FAILURE);
+	}
+	ft_memset(redircmd, 0, sizeof(*redircmd));
+	redircmd->type = REDIR;
+	redircmd->cmd = sub_cmd;
+	redircmd->start_file = g_param->start_t;
+	redircmd->end_file = g_param->end_t;
+	redircmd->token = token;
+	redir_file(redircmd, token);
+	if ((redircmd->fd) < 0)
+	{
+		ft_error("open");
+		free_cmd((t_cmd *)redircmd);
+		exit(EXIT_FAILURE);
+	}
+	return ((t_cmd *) redircmd);
 }
 
 t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
@@ -55,35 +62,4 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	pipecmd->left = left;
 	pipecmd->right = right;
 	return ((t_cmd *)pipecmd);
-}
-
-t_cmd	*nul_terminator(t_cmd *cmd)
-{
-	t_execcmd	*execcmd;
-	t_redircmd	*redircmd;
-	t_pipecmd	*pipecmd;
-	int			i;
-
-	if (!cmd)
-		return (0);
-	if (cmd->type == EXEC)
-	{
-		execcmd = (t_execcmd *)cmd;
-		i = 0;
-		while (execcmd->argv[i])
-			execcmd->end_argv[i++] = 0;
-	}
-	else if (cmd->type == REDIR)
-	{
-		redircmd = (t_redircmd *)cmd;
-		nul_terminator(redircmd->cmd);
-		*redircmd->end_file = 0;
-	}
-	else if (cmd->type == PIPE)
-	{
-		pipecmd = (t_pipecmd *)cmd;
-		nul_terminator(pipecmd->left);
-		nul_terminator(pipecmd->right);
-	}
-	return (cmd);
 }

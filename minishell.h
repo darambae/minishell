@@ -20,7 +20,6 @@ enum e_token
 	EXEC,
 	PIPE,
 	REDIR,
-	ENVIRONMENT,
 };
 
 extern int	g_exit_status;
@@ -76,12 +75,10 @@ void		trim_line(char *line, t_minishell *g_param);
 t_minishell	*init_param(char **envp);
 char		**make_copy(char **env);
 
-
 int			ft_error(char *msg);
 int			is_executable(t_cmd *cmd, t_minishell *g_param);
 
 //constructor
-void		ft_clean_all(t_minishell *g_param);
 
 t_cmd		*execcmd(void);
 t_cmd		*redircmd(t_cmd *sub_cmd, int mode, t_minishell *g_param);
@@ -116,13 +113,13 @@ bool		is_cd_export_unset(t_cmd *cmd);
 void		run_cd_export_unset(t_cmd *cmd, t_minishell *g_param);
 void		run_builtin(char **argv, t_minishell *g_param);
 void		ft_exit(char **cmds);
-void		handle_exit(char *line, t_minishell *g_param);
 int			ft_echo(char **argv);
 int			ft_env(char **argv, t_minishell *g_param);
 int			ft_pwd(void);
 void		ft_cd(t_execcmd *cmd, t_minishell *g_param);
 void		ft_export(t_execcmd *cmd, t_minishell *g_param);
 void		ft_unset(t_execcmd *cmd, t_minishell *g_param);
+
 //signal
 void		handle_exit_status(int status);
 void		handle_signal_before(int sig);
@@ -131,6 +128,12 @@ void		handle_signal_heredoc(int sig);
 void		setup_parent_signals(void);
 
 //clean
-void	free_cmd(t_cmd *cmd);
+void		free_cmd(t_cmd *cmd);
+void		ft_clean_all(char *line, t_minishell *g_param);
+void		handle_exit(char *line, t_minishell *g_param);
+
+//utils
+char		**create_double_arr(int size);
+int			len_arr(char **arr);
 
 #endif

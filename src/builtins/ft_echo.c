@@ -26,4 +26,3 @@ int	ft_echo(char **argv)
 		printf("\n");
 	return (0);
 }
-
