@@ -39,7 +39,7 @@ t_cmd *redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param) {
     if ((redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777)) < 0)
 	{
         perror("open");
-        free(redircmd);
+        free_cmd((t_cmd *)redircmd);
         exit(EXIT_FAILURE);
     }
     return (t_cmd *)redircmd;

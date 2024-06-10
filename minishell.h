@@ -20,7 +20,6 @@ enum e_token
 	EXEC,
 	PIPE,
 	REDIR,
-	ENVIRONMENT,
 };
 
 extern int	g_exit_status;
@@ -130,6 +129,11 @@ void		handle_signal_heredoc(int sig);
 void		setup_parent_signals(void);
 
 //clean
-void	free_cmd(t_cmd *cmd);
+void		free_cmd(t_cmd *cmd);
+
+//utils
+char		**create_double_arr(int size);
+int			len_arr(char **arr);
+
 
 #endif

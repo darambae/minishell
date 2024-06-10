@@ -69,6 +69,8 @@ void	free_cmd(t_cmd *cmd)
 		free_cmd(pcmd->right);
 		free(pcmd);
 	}
+	else
+		free(cmd);
 }
 
 void	ft_clean_all(t_minishell *g_param)
@@ -99,17 +101,20 @@ void	handle_exit(char *line, t_minishell *g_param)
 		if (g_param->save_in)
 			close(g_param->save_in);
 		if (g_param->cmd_line)
+		{
 			free(g_param->cmd_line);
+			g_param->cmd_line = NULL;
+		}
 		if (g_param->first_cmd)
 		{
 			free_cmd(g_param->first_cmd);
 			g_param->first_cmd = NULL;
 		}
-		if (g_param->start_t)
-		{
-			free(g_param->start_t);
-			g_param->start_t = NULL;
-		}
+		// if (g_param->start_t != NULL)
+		// {
+		// 	free(g_param->start_t);
+		// 	g_param->start_t = NULL;
+		// }
 		free(g_param);
 		g_param = NULL;
 		printf("exit\n");

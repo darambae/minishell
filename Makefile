@@ -27,7 +27,7 @@ clean:
 	@$(RM) -f $(OBJ)
 
 fclean: clean
-	@$(MAKE) fclean -C ./libft 
+	@echo "Minishell Fcleaned"
 	@$(RM) -f $(NAME)
 
 re: fclean all

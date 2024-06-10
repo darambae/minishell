@@ -42,6 +42,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 	s++;
 	if (*s == '?')
 	{
+		//printf("%d", g_exit_status);
 		s++;
 		cur = s;
 		s = ft_itoa(g_exit_status);
