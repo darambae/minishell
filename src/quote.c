@@ -25,6 +25,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 	temp[i++] = s;
 	temp[i] = NULL;
 	free(g_param->arg_to_clean);
+	g_param->arg_to_clean = NULL;
 	return (temp);
 }
 
