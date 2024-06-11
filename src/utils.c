@@ -65,7 +65,12 @@ int	len_arr(char **arr)
 
 int	ft_error(char *msg, int exit_code)
 {
-	errno = exit_code;
+	if (exit_code == 1)
+		errno = EPERM;
+	else if (exit_code == 2)
+		errno = ENOENT;
+	else
+		errno = exit_code;
 	perror(msg);
 	g_exit_status = exit_code;
 	return (0);

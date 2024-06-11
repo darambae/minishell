@@ -74,7 +74,7 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 	if (WIFEXITED(g_exit_status))
 		return (WEXITSTATUS(g_exit_status));
 	else
-		return (1);
+		return (EXIT_FAILURE);
 }
 
 static void	run_redire(t_cmd *cmd, t_minishell *g_param)
