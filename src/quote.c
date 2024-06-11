@@ -38,7 +38,7 @@ void	skip_whitespace(char **cur, t_minishell *g_param)
 int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 {
 	cur++;
-	if (save)
+	if (save && (cur - 2) != param->start_t)
 		param->start_t = cur;
 	while (*cur && *cur != quote)
 	{
