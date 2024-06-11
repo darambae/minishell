@@ -22,7 +22,7 @@ static int	grep_only_num(const char *nptr)
 		if (nptr[i] == '"')
 			return (res * sign);
 		else
-			return (ft_error("exit syntax error", 1));
+			return (ft_error("exit syntax error", errno));
 	}
 	while (ft_isdigit(nptr[i]))
 		res = res * 10 + (nptr[i++] - 48);
@@ -65,6 +65,6 @@ void	ft_exit(char **cmds)
 	else if (cmds[1] && syntax_check(cmds[1]))
 		g_exit_status = grep_only_num(cmds[1]) % 256;
 	else if (!syntax_check(cmds[1]))
-		ft_error("exit: numeric argument required", 2);
+		ft_error("exit: numeric argument required", errno);
 	//exit(g_exit_status);
 }

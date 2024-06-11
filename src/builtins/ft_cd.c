@@ -32,7 +32,7 @@ static void	execute_chdir(char *path, t_minishell *param)
 	current_path = NULL;
 	current_path = getcwd(NULL, 0);
 	if (chdir(path) == -1)
-		ft_error("cd: no such file or directory", EXIT_FAILURE);
+		ft_error("cd: no such file or directory", errno);
 	else
 	{
 		update_env("OLDPWD=", current_path, param);
@@ -56,14 +56,14 @@ int	ft_cd(t_execcmd *cmd, t_minishell *param)
 		if (!ft_strcmp(cmd->argv[1], "-"))
 			path = get_path("OLDPWD=", param);
 		else if (cmd->argv[1][0] == '-' && ft_strlen(cmd->argv[1]) > 1)
-			return (ft_error("cd: invalid option", 1));
+			return (ft_error("cd: invalid option", errno));
 		else
 			path = ft_strdup(cmd->argv[1]);
 	}
 	else if (!ft_strcmp(cmd->argv[1], "--") && cmd->argv[2][0] == '-')
 		path = ft_strdup(cmd->argv[2]);
 	else
-		return (ft_error("cd: too many arguments", 1));
+		return (ft_error("cd: too many arguments", errno));
 	execute_chdir(path, param);
 	free(path);
 	return (0);
