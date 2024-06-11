@@ -1,29 +1,31 @@
 #include "../minishell.h"
 
-void	save_arg_to_clean(char *s, t_minishell *g_param)
+char	**save_arg_to_clean(char *s, t_minishell *g_param)
 {
 	int	i;
+	char	**temp;
 
+	temp = NULL;
 	i = 0;
-	if (g_param->arg_to_clean)
+	while (g_param->arg_to_clean[i])
+		i++;
+	i++;
+	temp = malloc ((i + 1) * sizeof(char *));
+	if (!temp)
 	{
-		while (g_param->arg_to_clean[i])
-			i++;
-		ft_free_tab(g_param->arg_to_clean);
+		ft_error("a malloc failed in save_arg_to_clean function\n");
+		return (NULL);
 	}
-	if (i < 1)
-		i = 1;
-	if (!g_param->arg_to_clean)
+	i = 0;
+	while (g_param->arg_to_clean[i])
 	{
-		g_param->arg_to_clean = malloc ((i + 1) * sizeof(char *));
-		if (!g_param->arg_to_clean)
-			ft_error("arg_to_clean malloc failed\n");
+		temp[i] = g_param->arg_to_clean[i];
+		i++;
 	}
-	if (s)
-	{
-		g_param->arg_to_clean[i - 1] = s;
-		g_param->arg_to_clean[i] = NULL;
-	}
+	temp[i++] = s;
+	temp[i] = NULL;
+	free(g_param->arg_to_clean);
+	return (temp);
 }
 
 void	skip_whitespace(char **cur, t_minishell *g_param)
@@ -85,7 +87,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *g_param)
 		return (get_token(save, g_param));
 	g_param->start_t = s;
 	g_param->end_t = s + strlen(s);
-	save_arg_to_clean(s, g_param);
+	g_param->arg_to_clean = save_arg_to_clean(s, g_param);
 	return ('a');
 }
 
