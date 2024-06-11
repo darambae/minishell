@@ -8,12 +8,7 @@ int	ft_echo(char **argv)
 
 	i = 1;
 	n = 0;
-	if (!argv[1])
-	{
-		printf("\n");
-		return (0);
-	}
-	if (ft_strncmp(argv[i], "-n", 2) == 0)
+	if (argv[i] && ft_strncmp(argv[i], "-n", 2) == 0)
 	{
 		if (!argv[i][2])
 		{
