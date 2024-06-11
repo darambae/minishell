@@ -82,20 +82,25 @@ void	ft_clean_all(char *line, t_minishell *param)
 
 void	handle_exit(char *line, t_minishell *param)
 {
-	if (line == NULL || ft_strcmp(line, "exit") == 0)
+	char **arr;
+
+	if (line && ft_strncmp(line, "exit", 4) == 0)
 	{
-		if (param->env_variables)
-			ft_free_tab(param->env_variables);
-		if (param->save_out)
-			close(param->save_out);
-		if (param->save_in)
-			close(param->save_in);
-		ft_clean_all(line, param);
-		free(param->arg_to_clean);
-		param->arg_to_clean = NULL;
-		free(param);
-		param = NULL;
-		printf("exit\n");
-		exit(0);
+		arr = ft_split(line, ' ');
+		ft_exit(arr);
+		ft_free_tab(arr);
 	}
+	if (param->env_variables)
+		ft_free_tab(param->env_variables);
+	if (param->save_out)
+		close(param->save_out);
+	if (param->save_in)
+		close(param->save_in);
+	ft_clean_all(line, param);
+	free(param->arg_to_clean);
+	param->arg_to_clean = NULL;
+	free(param);
+	param = NULL;
+	printf("exit\n");
+	exit(g_exit_status);
 }

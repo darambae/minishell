@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (!line || ft_strcmp(line, "exit") == 0)
+		if (!line || ft_strncmp(line, "exit", 4) == 0)
 			break ;
 		add_history(line);
 		trim_line(line, param);

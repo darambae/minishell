@@ -56,7 +56,6 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 	pid_t		first_pid;
 	pid_t		second_pid;
 	int			p[2];
-	int			g_exit_status;
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
