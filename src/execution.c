@@ -25,6 +25,7 @@ static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 {
 	t_redircmd	*rcmd;
 
+	close(p[1]);
 	if (pcmd->right->type == REDIR)
 	{
 		rcmd = (t_redircmd *) pcmd->right;
@@ -35,10 +36,11 @@ static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 			ft_dup2(rcmd, STDIN_FILENO);
 			pcmd->right = rcmd->cmd;
 		}
+		else
+			dup2(p[0], STDIN_FILENO);
 	}
 	else
 		dup2(p[0], STDIN_FILENO);
-	close(p[1]);
 	close(p[0]);
 	run_cmd(pcmd->right, param);
 }
