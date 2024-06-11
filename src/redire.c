@@ -67,6 +67,7 @@ void	here_doc(t_redircmd *rcmd, t_minishell *param)
 	int		status;
 
 	dup2(param->save_in, STDIN_FILENO);
+	wait(0);
 	pid = fork1();
 	if (pid == 0)
 		run_heredoc(rcmd);
