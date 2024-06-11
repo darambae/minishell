@@ -11,7 +11,7 @@ int	peek(char *c, t_minishell *param)
 	while (tmp < param->end_line && ft_strchr(" \t\n\v\r", *tmp))
 		tmp++;
 	param->start_line = tmp;
-	if (tmp == param->end_line)
+	if (tmp >= param->end_line)
 		return (-1);
 	return (*tmp && ft_strchr(c, *tmp));
 }
