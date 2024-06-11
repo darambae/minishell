@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 14:20:03 by dabae             #+#    #+#             */
-/*   Updated: 2024/03/05 08:20:57 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/10 08:33:14 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ char	**ft_free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 	return (NULL);
 }

@@ -1,76 +1,86 @@
 #include "../minishell.h"
 
-bool	pcmd_syntax_check(t_pipecmd *pcmd)
+static void	free_rcmd(t_cmd *cmd)
 {
-	t_execcmd	*ecmd;
+	t_redircmd	*rcmd;
 
-	if (pcmd->left->type == EXEC)
-	{
-		ecmd = (t_execcmd *) pcmd->left;
-		if (!ecmd->argv[0])
-			return (false);
-	}
-	if (pcmd->right->type == EXEC)
-	{
-		ecmd = (t_execcmd *) pcmd->right;
-		if (!ecmd->argv[0])
-			return (false);
-	}
-	return (true);
-}
-
-int	is_executable(t_cmd *cmd, t_minishell *g_param)
-{
-	t_execcmd	*ecmd;
-	t_pipecmd	*pcmd;
-
-	if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *) cmd;
-		if (!pcmd_syntax_check(pcmd))
-			return (ft_error("syntax error near unexpected token '|'"));
-		if (pcmd->right->type == PIPE)
-			return (is_executable(pcmd->right, g_param));
-	}
-	if (cmd->type == EXEC)
-	{
-		ecmd = (t_execcmd *) cmd;
-		if (!ecmd->argv[0])
-			return (0);
-	}
-	return (1);
+	rcmd = (t_redircmd *) cmd;
+	if (rcmd->token == '{')
+		unlink(rcmd->start_file);
+	free_cmd(rcmd->cmd);
+	free(rcmd);
 }
 
 void	free_cmd(t_cmd *cmd)
 {
-	t_redircmd	*rcmd;
 	t_pipecmd	*pcmd;
+	t_execcmd	*execcmd;
 
+	if (!cmd)
+		return ;
 	if (cmd->type == EXEC)
-		free(cmd);
-	else if (cmd->type == REDIR)
 	{
-		rcmd = (t_redircmd *) cmd;
-		if (rcmd->token == '{')
-			unlink(rcmd->start_file);
-		free_cmd(rcmd->cmd);
-		free(cmd);
+		execcmd = (t_execcmd *) cmd;
+		free(execcmd);
 	}
+	else if (cmd->type == REDIR)
+		free_rcmd(cmd);
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *) cmd;
 		free_cmd(pcmd->left);
 		free_cmd(pcmd->right);
+		free(pcmd);
+	}
+	else
 		free(cmd);
+}
+
+void	ft_clean_all(char *line, t_minishell *param)
+{
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
+	if (param)
+	{
+		if (param->first_cmd)
+		{
+			free_cmd(param->first_cmd);
+			param->first_cmd = NULL;
+		}
+		if (param->cmd_line)
+		{
+			free(param->cmd_line);
+			param->cmd_line = NULL;
+		}
 	}
 }
 
-void	ft_clean_all(t_minishell *g_param)
+void	handle_exit(char *line, t_minishell *param)
 {
-	if (g_param)
+	if (line == NULL || ft_strcmp(line, "exit") == 0)
 	{
-		if (g_param->first_cmd)
-			free_cmd(g_param->first_cmd);
-		free(g_param->cmd_line);
+		if (param->env_variables)
+			ft_free_tab(param->env_variables);
+		if (param->save_out)
+			close(param->save_out);
+		if (param->save_in)
+			close(param->save_in);
+		if (param->cmd_line)
+		{
+			free(param->cmd_line);
+			param->cmd_line = NULL;
+		}
+		if (param->first_cmd)
+		{
+			free_cmd(param->first_cmd);
+			param->first_cmd = NULL;
+		}
+		free(param);
+		param = NULL;
+		printf("exit\n");
+		exit(0);
 	}
 }

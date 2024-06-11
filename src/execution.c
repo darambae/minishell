@@ -1,10 +1,33 @@
 #include "../minishell.h"
 
-static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *param)
+static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 {
-	t_redircmd *rcmd;
+	t_redircmd	*rcmd;
 
-	if (in_out)
+	if (pcmd->right->type == REDIR)
+	{
+		rcmd = (t_redircmd *) pcmd->right;
+		rcmd = exchange_cmd_order(rcmd);
+		if (rcmd->token == '{')
+		{
+			dup2(param->save_in, STDIN_FILENO);
+			here_doc(rcmd);
+			ft_dup2(rcmd, STDIN_FILENO);
+			pcmd->right = rcmd->cmd;
+		}
+	}
+	else
+		dup2(p[0], STDIN_FILENO);
+	close(p[1]);
+	close(p[0]);
+	run_cmd(pcmd->right, param);
+}
+
+static void	handle_dup(int *p, int left, t_pipecmd *pcmd, t_minishell *param)
+{
+	t_redircmd	*rcmd;
+
+	if (left)
 	{
 		close(p[0]);
 		if (pcmd->left->type == REDIR)
@@ -24,25 +47,7 @@ static void	handle_dup(int *p, int in_out, t_pipecmd *pcmd, t_minishell *param)
 		run_cmd(pcmd->left, param);
 	}
 	else
-	{
-		if (pcmd->right->type == REDIR)
-		{
-			rcmd = (t_redircmd *) pcmd->right;
-			rcmd = exchange_cmd_order(rcmd);
-			if (rcmd->token == '{')
-			{
-				dup2(param->save_in, STDIN_FILENO);
-				here_doc(rcmd);
-				ft_dup2(rcmd, STDIN_FILENO);
-				pcmd->right = rcmd->cmd;
-			}
-		}
-		else
-			dup2(p[0], STDIN_FILENO);
-		close(p[1]);
-		close(p[0]);
-		run_cmd(pcmd->right, param);
-	}
+		handle_right(p, pcmd, param);
 }
 
 static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
@@ -55,7 +60,7 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
-		perror("pipe failed");
+		ft_error("pipe error", 1);
 	first_pid = fork1();
 	if (first_pid == 0)
 		handle_dup(p, 1, pcmd, g_param);
@@ -78,9 +83,9 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 
 	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
-	if (rcmd->token == '{') // here_doc
+	if (rcmd->token == '{')
 		here_doc(rcmd);
-	if (rcmd->token == '{' || rcmd->token == '[') // redire infile
+	if (rcmd->token == '{' || rcmd->token == '[')
 		ft_dup2(rcmd, STDIN_FILENO);
 	else
 	{
