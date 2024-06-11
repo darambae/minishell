@@ -2,7 +2,7 @@
 
 char	**save_arg_to_clean(char *s, t_minishell *g_param)
 {
-	int	i;
+	int		i;
 	char	**temp;
 
 	temp = NULL;

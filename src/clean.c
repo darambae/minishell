@@ -1,5 +1,24 @@
 #include "../minishell.h"
 
+void	init_arg_to_clean(t_minishell *param)
+{
+	int	i;
+
+	i = 0;
+	while (param->arg_to_clean[i])
+	{
+		free(param->arg_to_clean[i]);
+		param->arg_to_clean[i] = NULL;
+		i++;
+	}
+	free(param->arg_to_clean);
+	param->arg_to_clean = NULL;
+	param->arg_to_clean = malloc(sizeof(char *));
+	if (!param->arg_to_clean)
+		ft_error("malloc failed in ft_clean_all function", 1);
+	param->arg_to_clean[0] = NULL;
+}
+
 static void	free_rcmd(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
@@ -42,9 +61,6 @@ void	free_cmd(t_cmd *cmd)
 
 void	ft_clean_all(char *line, t_minishell *param)
 {
-	int i;
-
-	i = 0;
 	if (line)
 	{
 		free(line);
@@ -58,20 +74,7 @@ void	ft_clean_all(char *line, t_minishell *param)
 			param->first_cmd = NULL;
 		}
 		if (param->arg_to_clean)
-		{
-			while (param->arg_to_clean[i])
-			{
-				free(param->arg_to_clean[i]);
-				param->arg_to_clean[i] = NULL;
-				i++;
-			}
-			free(param->arg_to_clean);
-			param->arg_to_clean = NULL;
-			param->arg_to_clean = malloc(sizeof(char *));
-			if (!param->arg_to_clean)
-				ft_error("malloc failed in ft_clean_all function", 1);
-			param->arg_to_clean[0] = NULL;
-		}
+			init_arg_to_clean(param);
 		if (param->cmd_line)
 		{
 			free(param->cmd_line);

@@ -26,6 +26,21 @@ int	redir_file(t_redircmd *redircmd, int token)
 	return (0);
 }
 
+t_cmd	*multiple_redire(t_cmd *sub_cmd, t_redircmd *last_rcmd)
+{
+	t_redircmd	*first_rcmd;
+
+	first_rcmd = (t_redircmd *)sub_cmd;
+	while (first_rcmd->cmd->type == REDIR)
+		first_rcmd = (t_redircmd *)first_rcmd->cmd;
+	if (first_rcmd->cmd->type == EXEC)
+	{
+		last_rcmd->cmd = first_rcmd->cmd;
+		first_rcmd->cmd = (t_cmd *)last_rcmd;
+	}
+	return (sub_cmd);
+}
+
 t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 {
 	t_redircmd	*redircmd;
@@ -38,7 +53,6 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	}
 	ft_memset(redircmd, 0, sizeof(*redircmd));
 	redircmd->type = REDIR;
-	redircmd->cmd = sub_cmd;
 	redircmd->start_file = param->start_t;
 	redircmd->end_file = param->end_t;
 	redircmd->token = token;
@@ -49,6 +63,10 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 		free_cmd((t_cmd *)redircmd);
 		exit(EXIT_FAILURE);
 	}
+	if (sub_cmd->type == EXEC)
+		redircmd->cmd = sub_cmd;
+	if (sub_cmd->type == REDIR)
+		return (multiple_redire(sub_cmd, redircmd));
 	return ((t_cmd *) redircmd);
 }
 

@@ -30,10 +30,7 @@ t_minishell	*init_param(char **envp)
 	param = NULL;
 	param = (t_minishell *)malloc(sizeof(t_minishell));
 	if (param == NULL)
-	{
 		ft_error("malloc error", 1);
-		exit(1);
-	}
 	g_exit_status = 0;
 	param->end_line = NULL;
 	param->end_t = NULL;
