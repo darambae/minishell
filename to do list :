@@ -7,3 +7,4 @@ to do list :
 - (AMAZING)our minishell works with bonus part (echo '"$USER"')
 - (DONE)echo with global variable makes memory leaks
 - 'echo fjoiewjo | rev | exit 66' doesn't update g_exit_code to 66(but it's 1)
+- manage quote under a "word"
