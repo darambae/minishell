@@ -37,36 +37,39 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-void	here_doc(t_redircmd *rcmd, t_minishell *param)
+void	run_heredoc(t_redircmd *rcmd)
 {
 	char	*line;
+
+	line = NULL;
+	signal(SIGINT, SIG_DFL);
+	rcmd->fd = open(rcmd->start_file, rcmd->mode);
+	if (rcmd->fd < 0)
+	{
+		printf("failed to open %s\n", rcmd->start_file);
+		exit(EXIT_FAILURE);
+	}
+	line = readline("> ");
+	while (ft_strcmp(line, rcmd->start_file))
+	{
+		ft_putstr_fd(ft_strjoin(line, "\n"), rcmd->fd);
+		free(line);
+		line = readline("> ");
+	}
+	free(line);
+	close(rcmd->fd);
+	exit(g_exit_status);
+}
+
+void	here_doc(t_redircmd *rcmd, t_minishell *param)
+{
 	pid_t	pid;
 	int		status;
 
 	dup2(param->save_in, STDIN_FILENO);
-	// if (param->fd_out)
-	// 	dup2(param->save_out, STDOUT_FILENO);
 	pid = fork1();
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		rcmd->fd = open(rcmd->start_file, rcmd->mode);
-		if (rcmd->fd < 0)
-		{
-			printf("failed to open %s\n", rcmd->start_file);
-			exit(EXIT_FAILURE);
-		}
-		line = readline("> ");
-		while (ft_strcmp(line, rcmd->start_file))
-		{
-			ft_putstr_fd(ft_strjoin(line, "\n"), rcmd->fd);
-			free(line);
-			line = readline("> ");
-		}
-		free(line);
-		close(rcmd->fd);
-		exit(g_exit_status);
-	}
+		run_heredoc(rcmd);
 	signal(SIGINT, handle_signal_heredoc);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
