@@ -105,7 +105,7 @@ void		execute_cmd(char **cmds, t_minishell *param);
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 void		ft_dup2(t_redircmd *rcmd, int std);
-void		here_doc(t_redircmd *rcmd);
+void		here_doc(t_redircmd *rcmd, t_minishell *param);
 
 //builtins
 bool		is_builtin(char *cmd);

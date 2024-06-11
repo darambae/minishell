@@ -37,12 +37,13 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	close(rcmd->fd);
 }
 
-void	here_doc(t_redircmd *rcmd)
+void	here_doc(t_redircmd *rcmd, t_minishell *param)
 {
 	char	*line;
 	pid_t	pid;
 	int		status;
 
+	dup2(param->save_in, STDIN_FILENO);
 	// if (param->fd_out)
 	// 	dup2(param->save_out, STDOUT_FILENO);
 	pid = fork1();

@@ -10,8 +10,7 @@ static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 		rcmd = exchange_cmd_order(rcmd);
 		if (rcmd->token == '{')
 		{
-			dup2(param->save_in, STDIN_FILENO);
-			here_doc(rcmd);
+			here_doc(rcmd, param);
 			ft_dup2(rcmd, STDIN_FILENO);
 			pcmd->right = rcmd->cmd;
 		}
@@ -36,8 +35,7 @@ static void	handle_dup(int *p, int left, t_pipecmd *pcmd, t_minishell *param)
 			rcmd = exchange_cmd_order(rcmd);
 			if (rcmd->token == '{')
 			{
-				dup2(param->save_in, STDIN_FILENO);
-				here_doc(rcmd);
+				here_doc(rcmd, param);
 				ft_dup2(rcmd, STDIN_FILENO);
 				pcmd->left = rcmd->cmd;
 			}
@@ -84,7 +82,7 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 	rcmd = (t_redircmd *)cmd;
 	close(rcmd->fd);
 	if (rcmd->token == '{')
-		here_doc(rcmd);
+		here_doc(rcmd, g_param);
 	if (rcmd->token == '{' || rcmd->token == '[')
 		ft_dup2(rcmd, STDIN_FILENO);
 	else
