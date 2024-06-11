@@ -36,52 +36,52 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd);
 }
 
-void	ft_clean_all(char *line, t_minishell *g_param)
+void	ft_clean_all(char *line, t_minishell *param)
 {
 	if (line)
 	{
 		free(line);
 		line = NULL;
 	}
-	if (g_param)
+	if (param)
 	{
-		if (g_param->first_cmd)
+		if (param->first_cmd)
 		{
-			free_cmd(g_param->first_cmd);
-			g_param->first_cmd = NULL;
+			free_cmd(param->first_cmd);
+			param->first_cmd = NULL;
 		}
-		if (g_param->arg_to_clean)
-			ft_free_tab(g_param->arg_to_clean);
-		if (g_param->cmd_line)
+		if (param->arg_to_clean)
+			ft_free_tab(param->arg_to_clean);
+		if (param->cmd_line)
 		{
-			free(g_param->cmd_line);
-			g_param->cmd_line = NULL;
+			free(param->cmd_line);
+			param->cmd_line = NULL;
 		}
 	}
 }
 
-void	handle_exit(char *line, t_minishell *g_param)
+void	handle_exit(char *line, t_minishell *param)
 {
 	if (line == NULL || ft_strcmp(line, "exit") == 0)
 	{
-		if (g_param->env_variables)
-			ft_free_tab(g_param->env_variables);
-		if (g_param->save_out)
-			close(g_param->save_out);
-		if (g_param->save_in)
-			close(g_param->save_in);
-		if (g_param->cmd_line)
+		if (param->env_variables)
+			ft_free_tab(param->env_variables);
+		if (param->save_out)
+			close(param->save_out);
+		if (param->save_in)
+			close(param->save_in);
+		if (param->cmd_line)
 		{
-			free(g_param->cmd_line);
-			g_param->cmd_line = NULL;
+			free(param->cmd_line);
+			param->cmd_line = NULL;
 		}
-		if (g_param->first_cmd)
+		if (param->first_cmd)
 		{
-			free_cmd(g_param->first_cmd);
-			g_param->first_cmd = NULL;
+			free_cmd(param->first_cmd);
+			param->first_cmd = NULL;
 		}
-		free(g_param);
-		g_param = NULL;
+		free(param);
+		param = NULL;
 		printf("exit\n");
 		exit(0);
 	}

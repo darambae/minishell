@@ -21,31 +21,31 @@ int	redir_file(t_redircmd *redircmd, int token)
 	else if (token == '}')
 		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
 	else
-		return (ft_error("syntax error near unexpected token"));
+		return (ft_error("syntax error near unexpected token", 0));
 	redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777);
 	return (0);
 }
 
-t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *g_param)
+t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 {
 	t_redircmd	*redircmd;
 
 	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
 	if (!redircmd)
 	{
-		ft_error("malloc");
+		ft_error("malloc", 1);
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(redircmd, 0, sizeof(*redircmd));
 	redircmd->type = REDIR;
 	redircmd->cmd = sub_cmd;
-	redircmd->start_file = g_param->start_t;
-	redircmd->end_file = g_param->end_t;
+	redircmd->start_file = param->start_t;
+	redircmd->end_file = param->end_t;
 	redircmd->token = token;
 	redir_file(redircmd, token);
 	if ((redircmd->fd) < 0)
 	{
-		ft_error("open");
+		ft_error("open", 1);
 		free_cmd((t_cmd *)redircmd);
 		exit(EXIT_FAILURE);
 	}

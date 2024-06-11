@@ -25,34 +25,38 @@ char	**make_copy(char **env)
 
 t_minishell	*init_param(char **envp)
 {
-	t_minishell	*g_param;
+	t_minishell	*param;
 
-	g_param = (t_minishell *)malloc(sizeof(t_minishell));
-	if (g_param == NULL)
+	param = NULL;
+	param = (t_minishell *)malloc(sizeof(t_minishell));
+	if (param == NULL)
 	{
-		perror("malloc");
+		ft_error("malloc error", 1);
 		exit(1);
 	}
-	g_param->end_line = NULL;
-	g_param->end_t = NULL;
-	g_param->start_line = NULL;
-	g_param->start_t = NULL;
-	g_param->env_variables = make_copy(envp);
-	g_param->exit_status = 0;
-	g_param->cmd_line = NULL;
-	g_param->save_out = dup(STDOUT_FILENO);
-	g_param->save_in = dup(STDIN_FILENO);
-	g_param->arg_to_clean = malloc(sizeof(char *));
-	if (!g_param->arg_to_clean)
-		ft_error("a malloc failed in init_param function\n");
-	g_param->arg_to_clean[0] = NULL;
-	return (g_param);
+	g_exit_status = 0;
+	param->end_line = NULL;
+	param->end_t = NULL;
+	param->start_line = NULL;
+	param->start_t = NULL;
+	param->first_cmd = NULL;
+	param->env_variables = NULL;
+	param->env_variables = make_copy(envp);
+	param->exit_status = 0;
+	param->cmd_line = NULL;
+	param->save_out = dup(STDOUT_FILENO);
+	param->save_in = dup(STDIN_FILENO);
+	param->arg_to_clean = malloc(sizeof(char *));
+	if (!param->arg_to_clean)
+		ft_error("a malloc failed in init_param function\n", 1);
+	param->arg_to_clean[0] = NULL;
+	return (param);
 }
 
-void	trim_line(char *line, t_minishell *g_param)
+void	trim_line(char *line, t_minishell *param)
 {
-	g_param->cmd_line = ft_strdup(line);
-	g_param->end_line = g_param->cmd_line + ft_strlen(g_param->cmd_line);
-	g_param->start_line = g_param->cmd_line;
-	g_param->first_cmd = parse(g_param);
+	param->cmd_line = ft_strdup(line);
+	param->end_line = param->cmd_line + ft_strlen(param->cmd_line);
+	param->start_line = param->cmd_line;
+	param->first_cmd = parse(param);
 }

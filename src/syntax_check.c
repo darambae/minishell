@@ -19,7 +19,7 @@ static bool	pcmd_syntax_check(t_pipecmd *pcmd)
 	return (true);
 }
 
-int	is_executable(t_cmd *cmd, t_minishell *g_param)
+int	is_executable(t_cmd *cmd, t_minishell *param)
 {
 	t_execcmd	*ecmd;
 	t_pipecmd	*pcmd;
@@ -28,9 +28,9 @@ int	is_executable(t_cmd *cmd, t_minishell *g_param)
 	{
 		pcmd = (t_pipecmd *) cmd;
 		if (!pcmd_syntax_check(pcmd))
-			return (ft_error("syntax error near unexpected token '|'"));
+			return (ft_error("syntax error near unexpected token '|'", 1));
 		if (pcmd->right->type == PIPE)
-			return (is_executable(pcmd->right, g_param));
+			return (is_executable(pcmd->right, param));
 	}
 	if (cmd->type == EXEC)
 	{

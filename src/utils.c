@@ -63,11 +63,15 @@ int	len_arr(char **arr)
 	return (i);
 }
 
-int	ft_error(char *msg)
+int	ft_error(char *msg, int exit_code)
 {
-	errno = 1;
+	if (exit_code == 1)
+		errno = EPERM;
+	else if (exit_code == 2)
+		errno = ENOENT;
+	else
+		errno = exit_code;
 	perror(msg);
-	//ft_putstr_fd(msg, 2);
-	g_exit_status = EXIT_FAILURE;
+	g_exit_status = exit_code;
 	return (0);
 }

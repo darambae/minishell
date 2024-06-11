@@ -43,8 +43,8 @@ void	here_doc(t_redircmd *rcmd)
 	pid_t	pid;
 	int		status;
 
-	// if (g_param->fd_out)
-	// 	dup2(g_param->save_out, STDOUT_FILENO);
+	// if (param->fd_out)
+	// 	dup2(param->save_out, STDOUT_FILENO);
 	pid = fork1();
 	if (pid == 0)
 	{

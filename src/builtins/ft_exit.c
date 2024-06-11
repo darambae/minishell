@@ -18,8 +18,7 @@ void	ft_exit(char **cmds)
 {
 	if (cmds[2])
 	{
-		errno = 1;
-		perror("too many arguments");
+		ft_error("exit: too many arguments", 1);
 		exit(1);
 	}
 	else if (!cmds[1])
@@ -31,8 +30,7 @@ void	ft_exit(char **cmds)
 		exit(ft_atoi(cmds[1]) % 256);
 	else if (!only_digit(cmds[1]))
 	{
-		errno = 1;
-		perror("numeric argument required");
+		ft_error("exit: numeric argument required", 255);
 		exit(1);
 	}
 }

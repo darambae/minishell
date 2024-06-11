@@ -25,7 +25,7 @@ static int	count_correspon(char **env, char **argv)
 	return (count);
 }
 
-static void	copy_except(char **new_env, char **argv, t_minishell *g_param)
+static void	copy_except(char **new_env, char **argv, t_minishell *param)
 {
 	int		i;
 	int		j;
@@ -34,42 +34,42 @@ static void	copy_except(char **new_env, char **argv, t_minishell *g_param)
 
 	i = -1;
 	k = 0;
-	while (g_param->env_variables[++i])
+	while (param->env_variables[++i])
 	{
 		should_copy = true;
 		j = 0;
 		while (argv[++j])
 		{
-			if (!strncmp(g_param->env_variables[i], argv[j], strlen(argv[j])))
+			if (!strncmp(param->env_variables[i], argv[j], strlen(argv[j])))
 				should_copy = false;
 			if (should_copy)
-				new_env[k++] = strdup(g_param->env_variables[i]);
+				new_env[k++] = strdup(param->env_variables[i]);
 		}
 	}
 	new_env[k] = NULL;
 }
 
-static char	**renew_arr(char **argv, int len_arr, t_minishell *g_param)
+static char	**renew_arr(char **argv, int len_arr, t_minishell *param)
 {
 	char	**new_env;
 
 	new_env = (char **)malloc(sizeof(char *) * \
-		(len_arr + 1 - count_correspon(g_param->env_variables, argv)));
+		(len_arr + 1 - count_correspon(param->env_variables, argv)));
 	if (!new_env)
 		return (NULL);
-	copy_except(new_env, argv, g_param);
-	ft_free_tab(g_param->env_variables);
+	copy_except(new_env, argv, param);
+	ft_free_tab(param->env_variables);
 	return (new_env);
 }
 
-void	ft_unset(t_execcmd *cmd, t_minishell *g_param)
+void	ft_unset(t_execcmd *cmd, t_minishell *param)
 {
 	int	len_env;
 
 	len_env = 0;
-	while (g_param->env_variables[len_env])
+	while (param->env_variables[len_env])
 		len_env++;
-	if (count_correspon(g_param->env_variables, cmd->argv) > 0)
-		g_param->env_variables = renew_arr(cmd->argv, len_env, g_param);
+	if (count_correspon(param->env_variables, cmd->argv) > 0)
+		param->env_variables = renew_arr(cmd->argv, len_env, param);
 	g_exit_status = 0;
 }
