@@ -72,5 +72,5 @@ void	ft_export(t_execcmd *cmd, t_minishell *param)
 		g_exit_status = 0;
 	}
 	else
-		ft_error("export error", 1);
+		ft_error("export error", errno);
 }

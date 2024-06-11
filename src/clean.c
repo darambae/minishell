@@ -87,6 +87,7 @@ void	handle_exit(char *line, t_minishell *param)
 {
 	char **arr;
 
+	printf("exit\n");
 	if (line && ft_strncmp(line, "exit", 4) == 0)
 	{
 		arr = ft_split(line, ' ');
@@ -104,6 +105,5 @@ void	handle_exit(char *line, t_minishell *param)
 	param->arg_to_clean = NULL;
 	free(param);
 	param = NULL;
-	printf("exit\n");
 	exit(g_exit_status);
 }

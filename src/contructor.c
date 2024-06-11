@@ -48,7 +48,7 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	redircmd = (t_redircmd *)malloc(sizeof(*redircmd));
 	if (!redircmd)
 	{
-		ft_error("malloc", 1);
+		ft_error("malloc", errno);
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(redircmd, 0, sizeof(*redircmd));
@@ -59,7 +59,7 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	redir_file(redircmd, token);
 	if ((redircmd->fd) < 0)
 	{
-		ft_error("open", 1);
+		ft_error("open", errno);
 		free_cmd((t_cmd *)redircmd);
 		exit(EXIT_FAILURE);
 	}
