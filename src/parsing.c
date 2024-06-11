@@ -57,7 +57,7 @@ t_cmd	*parse_redire(t_cmd *cmd, t_minishell *param)
 	{
 		token = get_token(0, param);
 		if (get_token(1, param) != 'a')
-			ft_error("minishell: syntax error near unexpected token \n", 1);
+			ft_error("minishell: syntax error near unexpected token", 1);
 		cmd = redircmd(cmd, token, param);
 	}
 	return (cmd);
@@ -69,7 +69,7 @@ t_cmd	*parse(t_minishell *param)
 
 	cmd = parse_pipe(param);
 	if (param->start_line < param->end_line)
-		ft_error("syntax error\n", 1);
+		ft_error("syntax error", 1);
 	nul_terminator(cmd);
 	return (cmd);
 }
