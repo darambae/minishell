@@ -37,16 +37,36 @@ void	skip_whitespace(char **cur, t_minishell *g_param)
 
 int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 {
+	int	i;
+
+	i = 1;
 	cur++;
-	if (save && (cur - 2) != param->start_t)
+	if ((cur - 1) == param->start_t && save)
 		param->start_t = cur;
-	while (*cur && *cur != quote)
+	while (*cur && (*cur != quote ||
+		(*cur == quote && !ft_strchr(" \t\n\v\r", *(cur + 1))) ||
+		(quote == 'a' && !ft_strchr(" \t\n\v\r|><$", *(cur)))))
 	{
 		if (quote == '"' && *cur == '$')
 			return (dollars_parsing(cur, save, quote, param));
+		*(cur - i) = *cur;
+		if (*cur == quote)
+		{
+			quote = 'a';
+			// cur++;
+			// i++;
+		}
+		else if (quote == 'a' && ft_strchr("'\"", *(cur)))
+		{
+			quote = *cur;
+			cur++;
+			i++;
+		}
 		cur++;
 	}
-	if (*cur == '\0')
+	if (*cur == quote)
+			quote = 'a';
+	if (*cur == '\0' && quote != 'a')
 		return (ft_error("a quote is not closed", 1));
 	if (param->start_t == cur)
 	{
@@ -55,11 +75,11 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 		return (get_token(save, param));
 	}
 	if (save)
-		param->end_t = cur;
+		param->end_t = cur - i;
 	skip_whitespace(&cur, param);
 	param->start_line = cur;
-	if (param->start_t && param->end_t && *(param->end_t))
-		*(param->end_t) = '\0';
+	// if (param->start_t && param->end_t && *(param->end_t))
+	// 	*(param->end_t) = '\0';
 	return ('a');
 }
 
@@ -68,6 +88,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 	char	*s;
 
 	s = cur;
+	*cur = '\0';
 	s++;
 	if (*s == '?')
 	{
@@ -86,7 +107,14 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 	param->start_line = cur;
 	if (!s)
 		return (get_token(save, param));
-	param->start_t = s;
+	if (*(param->start_t) != '$')
+	{
+		cur = s;
+		s = ft_strjoin(param->start_t, s);
+		free(cur);
+	}
+	else
+		param->start_t = s;
 	param->end_t = s + strlen(s);
 	param->arg_to_clean = save_arg_to_clean(s, param);
 	return ('a');

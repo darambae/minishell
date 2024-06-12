@@ -59,6 +59,7 @@ typedef struct s_minishell
 {
 	char	**env_variables;
 	int		exit_status;
+	int		res;
 	char	*start_line;
 	char	*end_line;
 	char	*start_t;
@@ -90,6 +91,7 @@ t_cmd		*nul_terminator(t_cmd *cmd);
 or False if not or if there is no carac*/
 int			peek(char *c, t_minishell *param);
 int			get_token(int save, t_minishell *param);
+void		handle_token(char **cur, int save, t_minishell *param);
 t_cmd		*parse(t_minishell *param);
 int			quote_parsing(char *cur, int save, char quote, t_minishell *param);
 void		skip_whitespace(char **cur, t_minishell *param);

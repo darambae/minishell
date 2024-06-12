@@ -8,7 +8,10 @@ static void	exec_nullset(t_cmd *cmd)
 	execcmd = (t_execcmd *)cmd;
 	i = 0;
 	while (execcmd->argv[i])
-		execcmd->end_argv[i++] = 0;
+	{
+		*(execcmd->end_argv[i]) = '\0';
+		i++;
+	}
 }
 
 t_cmd	*nul_terminator(t_cmd *cmd)
