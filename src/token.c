@@ -59,7 +59,7 @@ void	handle_token(char **cur, int save, t_minishell *param)
 	{
 		if (**cur == '$')
 		{
-			param->res = dollars_parsing(*cur, save, '\0', param);
+			param->res = dollars_parsing(*cur, save, 'a', param);
 			return ;
 		}
 		if (**cur == '\'' || **cur == '"')

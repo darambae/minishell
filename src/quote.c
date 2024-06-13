@@ -44,17 +44,16 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 	if ((cur - 1) == param->start_t && save)
 		param->start_t = cur;
 	while (*cur && (*cur != quote ||
-		(*cur == quote && !ft_strchr(" \t\n\v\r", *(cur + 1))) ||
-		(quote == 'a' && !ft_strchr(" \t\n\v\r|><$", *(cur)))))
+		(*cur == quote && !*(cur + 1) && !ft_strchr(" \t\n\v\r|<>", *(cur + 1))) ||
+		(quote == 'a' && !ft_strchr(" \t\n\v\r|><", *(cur)))))
 	{
 		if (quote == '"' && *cur == '$')
 			return (dollars_parsing(cur, save, quote, param));
-		*(cur - i) = *cur;
-		if (*cur == quote)
+		if (*cur == quote && quote != 'a')
 		{
 			quote = 'a';
-			// cur++;
-			// i++;
+			cur++;
+			i++;
 		}
 		else if (quote == 'a' && ft_strchr("'\"", *(cur)))
 		{
@@ -62,7 +61,11 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 			cur++;
 			i++;
 		}
-		cur++;
+		else if (*cur)
+		{
+			*(cur - i) = *cur;
+			cur++;
+		}
 	}
 	if (*cur == quote)
 			quote = 'a';
@@ -86,9 +89,12 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 {
 	char	*s;
+	char	*temp;
 
+	temp = NULL;
 	s = cur;
-	*cur = '\0';
+	if (*cur != '$')
+		*cur = '\0';
 	s++;
 	if (*s == '?')
 	{
@@ -98,25 +104,43 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 	else
 	{
 		while (cur < param->end_line && !ft_strchr(" \t\n\v\r", *cur) \
-				&& *cur != quote)
+				&& (*cur != quote || quote == 'a'))
 			cur++;
+		if (*cur == quote && quote != 'a')
+		{
+				quote = 'a';
+				cur++;
+		}
 		*cur = '\0';
 		s = get_path(ft_strjoin(s, "="), param);
 		cur++;
 	}
-	param->start_line = cur;
-	if (!s)
-		return (get_token(save, param));
 	if (*(param->start_t) != '$')
-	{
-		cur = s;
-		s = ft_strjoin(param->start_t, s);
-		free(cur);
-	}
+		{
+			temp = s;
+			s = ft_strjoin(param->start_t, s);
+			free(temp);
+		}
 	else
 		param->start_t = s;
-	param->end_t = s + strlen(s);
 	param->arg_to_clean = save_arg_to_clean(s, param);
+	if (quote == 'a' && (ft_strchr(" \t\n\v\r", *cur) ||
+		!ft_strchr("|><$'\"", *cur) || !*cur))
+	{
+		param->end_t = s + strlen(s);
+		skip_whitespace(&cur, param);
+		param->start_line = cur;
+	}
+	else if (quote != 'a' && !*cur)
+	// if (!s)
+	// 	return (get_token(save, param));
+		return (ft_error("a quote is not closed", 1));
+	else//quote not close and string continue
+	{
+		cur = ft_strjoin(s, cur);
+		free(s);
+		return (quote_parsing(cur, save, quote, param));
+	}
 	return ('a');
 }
 
