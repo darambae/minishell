@@ -93,9 +93,11 @@ int			peek(char *c, t_minishell *param);
 int			get_token(int save, t_minishell *param);
 void		handle_token(char **cur, int save, t_minishell *param);
 t_cmd		*parse(t_minishell *param);
-int			quote_parsing(char *cur, int save, char quote, t_minishell *param);
+char		*dollars_exit(char **cur);
+char		*dollars_env(char **cur, char quote, t_minishell *param);
+int			quote_parsing(char **cur, int i, t_minishell *param, char *quote);
 void		skip_whitespace(char **cur, t_minishell *param);
-int			dollars_parsing(char *cur, int save, char q, t_minishell *param);
+void		dollars_parsing(char **cur, char quote, t_minishell *param);
 char		*get_path(char *s_redircmd, t_minishell *param);
 //void		give_token(char **cur, int *res);
 

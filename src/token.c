@@ -55,30 +55,21 @@ static void	give_token(char **cur, t_minishell *param)
 
 void	handle_token(char **cur, int save, t_minishell *param)
 {
+	int	i;
+	char	quote;
+
+	i = 0;
+	quote = 'a';
 	if (param->res == 'a')
-	{
-		if (**cur == '$')
-		{
-			param->res = dollars_parsing(*cur, save, 'a', param);
-			return ;
-		}
-		if (**cur == '\'' || **cur == '"')
-		{
-			param->res = quote_parsing(*cur, save, **cur, param);
-			return ;
-		}
-		while (*cur < param->end_line && !ft_strchr(" \t\n\v\r", **cur) \
-			&& !ft_strchr("|><$'\"", **cur))
-			(*cur)++;
-	}
+		i = quote_parsing(cur, i, param, &quote);
 	else
 		(*cur)++;
+	if (quote != 'a')
+		ft_error("a quote is not closed", 1);
 	if (save)
-		param->end_t = *cur;
+		param->end_t = *cur - i;
 	skip_whitespace(cur, param);
 	param->start_line = *cur;
-	// if (param->start_t && param->end_t && *(param->end_t))
-	// 	*(param->end_t) = '\0';
 }
 
 /*set start_t on the next non whitespace char, indentify this char and
