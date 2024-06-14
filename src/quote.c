@@ -41,10 +41,8 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 
 	i = 1;
 	cur++;
-	if ((cur - 1) == param->start_t && save)
-		param->start_t = cur;
 	while (*cur && (*cur != quote ||
-		(*cur == quote && !*(cur + 1) && !ft_strchr(" \t\n\v\r|<>", *(cur + 1))) ||
+		(*cur == quote && *(cur + 1) && !ft_strchr(" \t\n\v\r|<>", *(cur + 1))) ||
 		(quote == 'a' && !ft_strchr(" \t\n\v\r|><", *(cur)))))
 	{
 		if (quote == '"' && *cur == '$')
@@ -79,6 +77,7 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 	}
 	if (save)
 		param->end_t = cur - i;
+	cur++;
 	skip_whitespace(&cur, param);
 	param->start_line = cur;
 	// if (param->start_t && param->end_t && *(param->end_t))
