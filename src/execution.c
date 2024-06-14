@@ -102,7 +102,7 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 	t_execcmd	*ecmd;
 
 	if (!cmd)
-		perror("cdm is empty\n");
+		perror("cmd is empty");
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
