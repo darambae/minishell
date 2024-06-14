@@ -65,8 +65,12 @@ int	len_arr(char **arr)
 
 int	ft_error(char *msg, int exit_code)
 {
-	errno = exit_code;
-	perror(msg);
 	g_exit_status = exit_code;
+	//errno = exit_code;
+	if (errno == EPERM || errno == ENOENT || errno == ENOEXEC || errno == EACCES)
+		printf("%s: %s\n", msg, strerror(errno));
+	else
+		printf("%s\n", msg);
+	// perror(msg);
 	return (0);
 }

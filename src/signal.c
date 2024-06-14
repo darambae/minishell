@@ -7,7 +7,7 @@ void	handle_exit_status(int status)
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		g_exit_status = 130;
 	else
-		g_exit_status = EXIT_FAILURE;
+		g_exit_status = errno;
 }
 
 void	handle_signal_during_execution(int sig)

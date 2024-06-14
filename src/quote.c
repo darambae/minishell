@@ -1,15 +1,44 @@
 #include "../minishell.h"
 
-void	skip_whitespace(char **cur, t_minishell *param)
+char	**save_arg_to_clean(char *s, t_minishell *g_param)
 {
-	while (*cur < param->end_line && ft_strchr(" \t\n\v\r", **cur))
+	int		i;
+	char	**temp;
+
+	temp = NULL;
+	i = 0;
+	while (g_param->arg_to_clean[i])
+		i++;
+	i++;
+	temp = malloc ((i + 1) * sizeof(char *));
+	if (!temp)
+	{
+		ft_error("a malloc failed in save_arg_to_clean function\n", 1);
+		return (NULL);
+	}
+	i = 0;
+	while (g_param->arg_to_clean[i])
+	{
+		temp[i] = g_param->arg_to_clean[i];
+		i++;
+	}
+	temp[i++] = s;
+	temp[i] = NULL;
+	free(g_param->arg_to_clean);
+	g_param->arg_to_clean = NULL;
+	return (temp);
+}
+
+void	skip_whitespace(char **cur, t_minishell *g_param)
+{
+	while (*cur < g_param->end_line && ft_strchr(" \t\n\v\r", **cur))
 		(*cur)++;
 }
 
 int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 {
 	cur++;
-	if (save)
+	if (save && (cur - 2) != param->start_t)
 		param->start_t = cur;
 	while (*cur && *cur != quote)
 	{
@@ -18,7 +47,7 @@ int	quote_parsing(char *cur, int save, char quote, t_minishell *param)
 		cur++;
 	}
 	if (*cur == '\0')
-		return (ft_error("a quote is not closed\n", 1));
+		return (ft_error("a quote is not closed", 1));
 	if (param->start_t == cur)
 	{
 		cur++;
@@ -42,8 +71,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 	s++;
 	if (*s == '?')
 	{
-		s++;
-		cur = s;
+		cur = ++s;
 		s = ft_itoa(g_exit_status);
 	}
 	else
@@ -60,6 +88,7 @@ int	dollars_parsing(char *cur, int save, char quote, t_minishell *param)
 		return (get_token(save, param));
 	param->start_t = s;
 	param->end_t = s + strlen(s);
+	param->arg_to_clean = save_arg_to_clean(s, param);
 	return ('a');
 }
 
@@ -86,5 +115,6 @@ char	*get_path(char *s_redircmd, t_minishell *param)
 		free(env);
 		return (NULL);
 	}
+	free(s_redircmd);
 	return (env);
 }

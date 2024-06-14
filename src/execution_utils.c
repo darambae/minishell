@@ -34,6 +34,8 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	char	**path_arr;
 
 	path_arr = whole_paths(envp);
+	if (!path_arr)
+		ft_error("No path found", 126);
 	j = 0;
 	while (path_arr[j])
 	{
@@ -58,6 +60,11 @@ void	execute_cmd(char **cmds, t_minishell *param)
 
 	cmd_path = NULL;
 	cmd_path = get_cmd_path(cmds[0], param->env_variables);
+	if (!cmd_path)
+	{
+		ft_error("command not found", 126);
+		exit(126);
+	}
 	execve(cmd_path, cmds, param->env_variables);
 	execve(cmds[0], cmds, param->env_variables);
 	free(cmd_path);

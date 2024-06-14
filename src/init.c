@@ -30,10 +30,7 @@ t_minishell	*init_param(char **envp)
 	param = NULL;
 	param = (t_minishell *)malloc(sizeof(t_minishell));
 	if (param == NULL)
-	{
 		ft_error("malloc error", 1);
-		exit(1);
-	}
 	g_exit_status = 0;
 	param->end_line = NULL;
 	param->end_t = NULL;
@@ -46,6 +43,10 @@ t_minishell	*init_param(char **envp)
 	param->cmd_line = NULL;
 	param->save_out = dup(STDOUT_FILENO);
 	param->save_in = dup(STDIN_FILENO);
+	param->arg_to_clean = malloc(sizeof(char *));
+	if (!param->arg_to_clean)
+		ft_error("a malloc failed in init_param function\n", 1);
+	param->arg_to_clean[0] = NULL;
 	return (param);
 }
 

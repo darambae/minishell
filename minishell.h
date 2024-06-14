@@ -67,6 +67,7 @@ typedef struct s_minishell
 	t_cmd	*first_cmd;
 	int		save_out;
 	int		save_in;
+	char	**arg_to_clean;
 }				t_minishell;
 
 //init
@@ -104,7 +105,7 @@ void		execute_cmd(char **cmds, t_minishell *param);
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
 void		ft_dup2(t_redircmd *rcmd, int std);
-void		here_doc(t_redircmd *rcmd);
+void		here_doc(t_redircmd *rcmd, t_minishell *param);
 
 //builtins
 bool		is_builtin(char *cmd);

@@ -35,12 +35,12 @@ bool	is_builtin(char *cmd)
 void	run_builtin(char **argv, t_minishell *param)
 {
 	if (!ft_strcmp(argv[0], "echo"))
-		param->exit_status = ft_echo(argv);
+		g_exit_status = ft_echo(argv);
 	else if (!ft_strcmp(argv[0], "pwd"))
-		param->exit_status = ft_pwd();
+		g_exit_status = ft_pwd();
 	else if (!ft_strcmp(argv[0], "env"))
-		param->exit_status = ft_env(argv, param);
+		g_exit_status = ft_env(argv, param);
 	else if (!ft_strcmp(argv[0], "exit"))
 		ft_exit(argv);
-	exit(param->exit_status);
+	exit(g_exit_status);
 }

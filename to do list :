@@ -1,8 +1,10 @@
 to do list :
-- heredoc, cmd after pipe dont have the good behaviour if here is done before
-- 'cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr > analysis_report.txt
+- (DONE)heredoc, cmd after pipe dont have the good behaviour if here is done before
+- (DONE)'cat access.log | grep "GET" | awk '{print $7}' | sort | uniq -c | sort -nr > analysis_report.txt
 ' works only till before '>' redirection. the file is empty.
-- 'cat | cat | ls' doesn't work
-- memory leaks with echo $? (because of reducing size of the string '$? -> one digit')
-- our minishell works with bonus part (echo '"$USER"')
-- echo with global variable makes memory leaks
+- (DONE)'cat | cat | ls' doesn't work
+- (DONE)memory leaks with echo $? (because of reducing size of the string '$? -> one digit')
+- (AMAZING)our minishell works with bonus part (echo '"$USER"')
+- (DONE)echo with global variable makes memory leaks
+- 'echo fjoiewjo | rev | exit 66' doesn't update g_exit_code to 66(but it's 1)
+- manage quote under a "word"
