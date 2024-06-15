@@ -55,7 +55,7 @@ static void	give_token(char **cur, t_minishell *param)
 
 void	handle_token(char **cur, int save, t_minishell *param)
 {
-	int	i;
+	int		i;
 	char	quote;
 
 	i = 0;

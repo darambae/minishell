@@ -85,7 +85,7 @@ void	ft_clean_all(char *line, t_minishell *param)
 
 void	handle_exit(char *line, t_minishell *param)
 {
-	char **arr;
+	char	**arr;
 
 	printf("exit\n");
 	if (line && ft_strncmp(line, "exit", 4) == 0)

@@ -37,8 +37,8 @@ void	skip_whitespace(char **cur, t_minishell *g_param)
 
 int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 {
-	while (**cur && (*quote != 'a' ||
-		(*quote == 'a' && !ft_strchr(" \t\n\v\r|><", **cur))))
+	while (**cur && (*quote != 'a'
+		|| (*quote == 'a' && !ft_strchr(" \t\n\v\r|><", **cur))))
 	{
 		if (*quote != '\'' && **cur == '$')
 			dollars_parsing(cur, *quote, &i, param);
@@ -83,7 +83,7 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 	s = ft_strjoin(param->start_t, s);
 	free(temp);
 	param->start_t = ft_strjoin(s, *cur);
-	*cur = param->start_t + ft_strlen(s) + 1;
+	*cur = param->start_t + ft_strlen(s);
 	free(s);
 	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
 }

@@ -80,7 +80,7 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 	if (first_pid == 0)
 		handle_left(p, pcmd, g_param);
 	if (heredoc_in_branch(pcmd->left) == 0)
-			waitpid(first_pid, &g_exit_status, 0);
+		waitpid(first_pid, &g_exit_status, 0);
 	second_pid = fork1();
 	if (second_pid == 0)
 		handle_right(p, pcmd, g_param);
