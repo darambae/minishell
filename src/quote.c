@@ -41,7 +41,7 @@ int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 		(*quote == 'a' && !ft_strchr(" \t\n\v\r|><", **cur))))
 	{
 		if (*quote != '\'' && **cur == '$')
-			dollars_parsing(cur, *quote, param);
+			dollars_parsing(cur, *quote, &i, param);
 		else if (**cur == *quote && *quote != 'a')
 		{
 			*quote = 'a';
@@ -63,28 +63,25 @@ int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 	return (i);
 }
 
-void	dollars_parsing(char **cur, char quote, t_minishell *param)
+void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
 	char	*s;
 	char	*temp;
 
 	temp = NULL;
 	s = NULL;
-	if (*(param->start_t) != '$')
-		**cur = '\0';
+	*((*cur) - *i) = '\0';
+	*i = 0;
 	(*cur)++;
 	if (**cur == '?')
 		s = dollars_exit(cur);
 	else
 		s = dollars_env(cur, quote, param);
-	if (s == NULL)
-		return;
-	if (*(param->start_t) != '$')
-		{
-			temp = s;
-			s = ft_strjoin(param->start_t, s);
-			free(temp);
-		}
+	// if (s == NULL)
+	// 	return;
+	temp = s;
+	s = ft_strjoin(param->start_t, s);
+	free(temp);
 	param->start_t = ft_strjoin(s, *cur);
 	*cur = param->start_t + ft_strlen(s) + 1;
 	free(s);

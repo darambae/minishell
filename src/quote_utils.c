@@ -13,12 +13,20 @@ char	*dollars_exit(char **cur)
 char	*dollars_env(char **cur, char quote, t_minishell *param)
 {
 	char	*s;
+	int		i;
+	char	*temp;
 
-	s = *cur;
+	i = 0;
+	s = ft_strdup(*cur);
 	while (*cur < param->end_line && !ft_strchr(" \t\n\v\r|><", **cur) \
 				&& (**cur != quote || quote == 'a'))
-			(*cur)++;
-	s[*cur - s] = '\0';
+	{
+		(*cur)++;
+		i++;
+	}
+	s[i] = '\0';
+	temp = s;
 	s = get_path(ft_strjoin(s, "="), param);
+	free(temp);
 	return (s);
 }
