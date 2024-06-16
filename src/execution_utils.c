@@ -62,8 +62,8 @@ void	execute_cmd(char **cmds, t_minishell *param)
 	cmd_path = get_cmd_path(cmds[0], param->env_variables);
 	if (!cmd_path)
 	{
-		ft_error("command not found", 126);
-		exit(126);
+		ft_error("command not found", 127);
+		exit(127);
 	}
 	execve(cmd_path, cmds, param->env_variables);
 	execve(cmds[0], cmds, param->env_variables);

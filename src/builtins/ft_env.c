@@ -6,7 +6,7 @@ int	ft_env(char **argv, t_minishell *param)
 
 	if (argv[1])
 	{
-		ft_error("env: too many arguments", errno);
+		ft_error("env: too many arguments", EINVAL);
 		return (1);
 	}
 	i = 0;
