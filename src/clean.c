@@ -23,10 +23,13 @@ static void	free_rcmd(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
 
+	if (!cmd)
+		return ;
 	rcmd = (t_redircmd *) cmd;
 	if (rcmd->token == '{')
 		unlink(rcmd->start_file);
-	free_cmd(rcmd->cmd);
+	if (rcmd->cmd)
+		free_cmd(rcmd->cmd);
 	free(rcmd);
 	rcmd = NULL;
 }
@@ -36,6 +39,8 @@ void	free_cmd(t_cmd *cmd)
 	t_pipecmd	*pcmd;
 	t_execcmd	*execcmd;
 
+	if (!cmd)
+		return ;
 	if (cmd->type == EXEC)
 	{
 		execcmd = (t_execcmd *) cmd;
@@ -47,8 +52,10 @@ void	free_cmd(t_cmd *cmd)
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *) cmd;
-		free_cmd(pcmd->left);
-		free_cmd(pcmd->right);
+		if (pcmd->left)
+			free_cmd(pcmd->left);
+		if (pcmd->right)
+			free_cmd(pcmd->right);
 		free(pcmd);
 		pcmd = NULL;
 	}

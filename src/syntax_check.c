@@ -28,7 +28,7 @@ int	is_executable(t_cmd *cmd, t_minishell *param)
 	{
 		pcmd = (t_pipecmd *) cmd;
 		if (!pcmd_syntax_check(pcmd))
-			return (ft_error("syntax error near unexpected token '|'", 1));
+			return (ft_error("syntax error near unexpected token '|'", EINVAL));
 		if (pcmd->right->type == PIPE)
 			return (is_executable(pcmd->right, param));
 	}

@@ -11,6 +11,8 @@ int	heredoc_in_branch(t_cmd *branch)
 		rcmd = (t_redircmd *)branch;
 		while (rcmd->token != '{')
 		{
+			if (rcmd->cmd == NULL)
+				return (1);
 			if (rcmd->cmd->type == EXEC)
 				return (1);
 			rcmd = (t_redircmd *)rcmd->cmd;
@@ -112,6 +114,7 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 		ft_dup2(rcmd, STDOUT_FILENO);
 	}
 	run_cmd(rcmd->cmd, g_param);
+	
 }
 
 void	run_cmd(t_cmd *cmd, t_minishell *g_param)
@@ -119,7 +122,10 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 	t_execcmd	*ecmd;
 
 	if (!cmd)
-		perror("cdm is empty\n");
+	{
+		perror("cmd is empty");
+		return ;
+	}
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *)cmd;
@@ -135,3 +141,4 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 	else if (cmd->type == REDIR)
 		run_redire(cmd, g_param);
 }
+

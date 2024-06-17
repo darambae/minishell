@@ -17,16 +17,41 @@ static int	grep_only_num(const char *nptr)
 	}
 	if (nptr[i] == '"')
 	{
-		while (ft_isdigit(nptr[++i]))
-			res = res * 10 + (nptr[i] - 48);
+		i++;
+		if (nptr[i] == '-' || nptr[i] == '+')
+		{
+			if (nptr[i] == '-')
+				sign = -1;
+			i++;
+		}
+		while (ft_isdigit(nptr[i]))
+			res = res * 10 + (nptr[i++] - '0');
 		if (nptr[i] == '"')
 			return (res * sign);
 		else
-			return (ft_error("exit syntax error", errno));
+			return (ft_error("exit syntax error", 2));
 	}
 	while (ft_isdigit(nptr[i]))
-		res = res * 10 + (nptr[i++] - 48);
+		res = res * 10 + (nptr[i++] - '0');
 	return (res * sign);
+}
+
+static bool	check_quote(char *num, int i)
+{
+	if (num[i] == '"')
+	{
+		i++;
+		if (num[i] == '-' || num[i] == '+')
+			i++;
+		while (num[i] && ft_isdigit(num[i]))
+			i++;
+		if (num[i] == '"')
+			return (true);
+		else
+			return (false);
+	}
+	else
+		return (true);
 }
 
 static int	syntax_check(char *num)
@@ -34,24 +59,22 @@ static int	syntax_check(char *num)
 	int	i;
 
 	i = 0;
-	if (num[0] == '-' || num[0] == '+')
-	{
+	if (num[i] == '-' || num[i] == '+')
 		i++;
-		if (num[i] == '"')
-		{
-			while (ft_isdigit(num[i]))
-				i++;
-			if (num[i] == '"')
-				return (true);
-			else
-				return (false);
-		}
-	}
+	if (check_quote(num, i) == false)
+		return (false);
+	else
+		i++;
 	while (num[i])
 	{
-		if (!ft_isdigit(num[i]))
+		if (num[i] == '"')
+			break ;
+		if (num[i] == '-' || num[i] == '+')
+			i++;
+		else if (!ft_isdigit(num[i]))
 			return (false);
-		i++;
+		else
+			i++;
 	}
 	return (true);
 }
@@ -59,12 +82,11 @@ static int	syntax_check(char *num)
 void	ft_exit(char **cmds)
 {
 	if (cmds[2])
-		ft_error("exit: too many arguments", 1);
+		ft_error("too many arguments", 1);
 	else if (!cmds[1])
 		g_exit_status = 0;
 	else if (cmds[1] && syntax_check(cmds[1]))
 		g_exit_status = grep_only_num(cmds[1]) % 256;
 	else if (!syntax_check(cmds[1]))
-		ft_error("exit: numeric argument required", errno);
-	exit(g_exit_status);
+		ft_error("numeric argument required", 2);
 }

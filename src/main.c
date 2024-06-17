@@ -35,18 +35,23 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (!line || ft_strncmp(line, "exit", 4) == 0)
+		if (!line || !ft_strncmp(line, "exit", 4))
 			break ;
-		add_history(line);
-		trim_line(line, param);
-		if (is_executable(param->first_cmd, param))
+		if (ft_strlen(line))
 		{
-			if (is_cd_export_unset(param->first_cmd))
-				run_cd_export_unset(param->first_cmd, param);
+			add_history(line);
+			trim_line(line, param);
+			if (is_executable(param->first_cmd, param))
+			{
+				if (is_cd_export_unset(param->first_cmd))
+					run_cd_export_unset(param->first_cmd, param);
+				else
+					execute_in_child(param);
+			}
 			else
-				execute_in_child(param);
+				ft_error("command not found", 126);
+			ft_clean_all(line, param);
 		}
-		ft_clean_all(line, param);
 	}
 	handle_exit(line, param);
 }

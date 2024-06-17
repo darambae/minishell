@@ -7,7 +7,7 @@ static bool	check_export_syntax(char **cmd)
 	i = 0;
 	if (cmd[1])
 	{
-		if (ft_isdigit(cmd[1][0]))
+		if (ft_isdigit(cmd[1][0]) || !ft_isalpha(cmd[1][0]))
 			return (false);
 		while (cmd[1][i] && (ft_isalpha(cmd[1][i]) || ft_isdigit(cmd[1][i]) || \
 			ft_strchr("_", cmd[1][i])))
@@ -72,5 +72,5 @@ void	ft_export(t_execcmd *cmd, t_minishell *param)
 		g_exit_status = 0;
 	}
 	else
-		ft_error("export error", errno);
+		ft_error("not a valid identifier", 1);
 }

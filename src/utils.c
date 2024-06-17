@@ -69,11 +69,15 @@ int	len_arr(char **arr)
 int	ft_error(char *msg, int exit_code)
 {
 	g_exit_status = exit_code;
-	//errno = exit_code;
-	if (errno == EPERM || errno == ENOENT || errno == ENOEXEC || errno == EACCES)
+	if (errno == EPERM || errno == ENOENT || \
+		errno == ENOEXEC || errno == EACCES || errno == EINVAL || \
+		errno == EISDIR || errno == ENOTDIR || errno == ENAMETOOLONG || \
+		errno == ELOOP || errno == ENOEXEC)
+	{
+		errno = exit_code;
 		printf("%s: %s\n", msg, strerror(errno));
+	}
 	else
 		printf("%s\n", msg);
-	// perror(msg);
 	return (0);
 }
