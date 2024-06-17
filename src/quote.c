@@ -63,12 +63,15 @@ int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 	return (i);
 }
 
+
 void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
 	char	*s;
 	char	*temp;
+	int		to_free;
 
-	temp = NULL;
+	to_free = 0;
+	temp = param->start_t;
 	s = NULL;
 	*((*cur) - *i) = '\0';
 	*i = 0;
@@ -77,14 +80,16 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 		s = dollars_exit(cur);
 	else
 		s = dollars_env(cur, quote, param);
-	// if (s == NULL)
-	// 	return;
-	temp = s;
-	s = ft_strjoin(param->start_t, s);
-	free(temp);
-	param->start_t = ft_strjoin(s, *cur);
-	*cur = param->start_t + ft_strlen(s);
-	free(s);
+	if (s)
+	{
+		temp = ft_strjoin(param->start_t, s);
+		param->arg_to_clean = save_arg_to_clean(s, param);
+		to_free = 1;
+	}
+	param->start_t = ft_strjoin(temp, *cur);
+	*cur = param->start_t + ft_strlen(temp);
+	if (to_free)
+		param->arg_to_clean = save_arg_to_clean(temp, param);
 	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
 }
 
