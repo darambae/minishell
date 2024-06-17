@@ -84,12 +84,12 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 	{
 		temp = ft_strjoin(param->start_t, s);
 		param->arg_to_clean = save_arg_to_clean(s, param);
-		to_free = 1;
 	}
+	else
+		temp = ft_strjoin(param->start_t, "$");
 	param->start_t = ft_strjoin(temp, *cur);
 	*cur = param->start_t + ft_strlen(temp);
-	if (to_free)
-		param->arg_to_clean = save_arg_to_clean(temp, param);
+	param->arg_to_clean = save_arg_to_clean(temp, param);
 	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
 }
 
