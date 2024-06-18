@@ -22,6 +22,7 @@ int	redir_file(t_redircmd *redircmd, int token)
 		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
 	else
 		return (ft_error("syntax error near unexpected token", EINVAL));
+	*(redircmd->end_file) = '\0';
 	redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777);
 	return (0);
 }

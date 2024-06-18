@@ -13,11 +13,11 @@ to do list :
 	exit: too many arguments
 	but exit anyway
 
-- Test  21: ❌ echo $?HELLO 
+- Test  21: ❌ echo $?HELLO
 mini output = (0 HELLO)
 bash output = (0HELLO)
 
-- Test 123: ❌ echo hi | echo >>./outfiles/outfile01 bye 
+- Test 123: ❌ echo hi | echo >>./outfiles/outfile01 bye
 Only in ./bash_outfiles: outfile01
 Only in ./mini_outfiles: outfile01 bye
 mini outfiles:
@@ -25,14 +25,15 @@ bash outfiles:
 bye
 mini exit code = failed to open: Permission denied
 bash exit code = 0
+when error in opening, exit program.
 
-- echo <"./test_files/infile" "bonjour       42" 
+- echo <"./test_files/infile" "bonjour       42"
 mini output = (open: Operation not permitted)
 bash output = (bonjour 42)
 mini exit code = 1
 bash exit code = 0
 
-- Test  53: ❌ env | sort | grep -v SHLVL | grep -v ^_ 
+- Test  53: ❌ env | sort | grep -v SHLVL | grep -v ^_
 mini exit code = 0 sY ! minishell$
 bash exit code = 0
 
