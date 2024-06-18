@@ -81,8 +81,8 @@ static int	syntax_check(char *num)
 
 void	ft_exit(char **cmds)
 {
-	if (cmds[2])
-		ft_error("too many arguments", 1);
+	if (cmds[1] && cmds[2])
+		ft_error("exit : too many arguments", 1);
 	else if (!cmds[1])
 		g_exit_status = 0;
 	else if (cmds[1] && syntax_check(cmds[1]))

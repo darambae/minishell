@@ -68,9 +68,9 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
 	char	*s;
 	char	*temp;
-	int		to_free;
+	// int		to_free;
 
-	to_free = 0;
+	// to_free = 0;
 	temp = param->start_t;
 	s = NULL;
 	*((*cur) - *i) = '\0';

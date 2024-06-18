@@ -12,5 +12,8 @@ to do list :
 	exit
 	exit: too many arguments
 	but exit anyway
+- Test  21: ❌ echo $?HELLO 
+mini output = (0 HELLO)
+bash output = (0HELLO)
 
 

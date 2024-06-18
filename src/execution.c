@@ -114,7 +114,6 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 		ft_dup2(rcmd, STDOUT_FILENO);
 	}
 	run_cmd(rcmd->cmd, g_param);
-	
 }
 
 void	run_cmd(t_cmd *cmd, t_minishell *g_param)

@@ -25,13 +25,15 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	rcmd->fd = open(rcmd->start_file, rcmd->mode);
 	if (rcmd->fd < 0)
 	{
-		printf("failed to open %s\n", rcmd->start_file);
+		ft_error("failed to open", errno);
+		//printf("failed to open %s\n", rcmd->start_file);
 		exit(1);
 	}
 	if (dup2(rcmd->fd, std) < 0)
 	{
 		close(rcmd->fd);
-		printf("failed to dup");
+		ft_error("failed to dup", errno);
+		//printf("failed to dup");
 		exit(1);
 	}
 	close(rcmd->fd);
@@ -46,7 +48,8 @@ void	run_heredoc(t_redircmd *rcmd)
 	rcmd->fd = open(rcmd->start_file, rcmd->mode);
 	if (rcmd->fd < 0)
 	{
-		printf("failed to open %s\n", rcmd->start_file);
+		ft_error("failed to open", errno);
+		//printf("failed to open %s\n", rcmd->start_file);
 		exit(EXIT_FAILURE);
 	}
 	line = readline("> ");
