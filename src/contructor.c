@@ -15,11 +15,11 @@ int	redir_file(t_redircmd *redircmd, int token)
 	if (token == '[')
 		redircmd->mode = O_RDONLY;
 	else if (token == ']')
-		redircmd->mode = O_WRONLY | O_CREAT | O_TRUNC;
+		redircmd->mode = O_RDWR | O_CREAT | O_TRUNC;
 	else if (token == '{')
 		redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
 	else if (token == '}')
-		redircmd->mode = O_WRONLY | O_CREAT | O_APPEND;
+		redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
 	else
 		return (ft_error("syntax error near unexpected token", EINVAL));
 	*(redircmd->end_file) = '\0';
@@ -62,7 +62,7 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	{
 		ft_error("open", 1);
 		free_cmd((t_cmd *)redircmd);
-		exit(g_exit_status);
+		//exit(g_exit_status);
 	}
 	if (sub_cmd->type == EXEC)
 		redircmd->cmd = sub_cmd;
