@@ -68,9 +68,7 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
 	char	*s;
 	char	*temp;
-	// int		to_free;
 
-	// to_free = 0;
 	temp = param->start_t;
 	s = NULL;
 	*((*cur) - *i) = '\0';
@@ -89,6 +87,7 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 		temp = ft_strjoin(param->start_t, "$");
 	param->start_t = ft_strjoin(temp, *cur);
 	*cur = param->start_t + ft_strlen(temp);
+	param->end_line = *cur + ft_strlen(*cur);
 	param->arg_to_clean = save_arg_to_clean(temp, param);
 	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
 }
