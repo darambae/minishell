@@ -56,7 +56,7 @@ int	ft_cd(t_execcmd *cmd, t_minishell *param)
 		if (!ft_strcmp(cmd->argv[1], "-"))
 			path = get_path("OLDPWD=", param);
 		else if (cmd->argv[1][0] == '-' && ft_strlen(cmd->argv[1]) > 1)
-			return (ft_error("cd: invalid option", EINVAL));
+			return (ft_error("cd: invalid option", 2));
 		else
 			path = ft_strdup(cmd->argv[1]);
 	}

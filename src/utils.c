@@ -69,10 +69,9 @@ int	len_arr(char **arr)
 int	ft_error(char *msg, int exit_code)
 {
 	g_exit_status = exit_code;
-    if (errno != 0) {
-        perror(msg); // Use perror to print the specific error message
-    } else {
-        printf("%s\n", msg); // Print the custom error message
-    }
-    return 0;
+	if (errno != 0)
+		perror(msg);
+	else
+		printf("%s\n", msg);
+	return (0);
 }

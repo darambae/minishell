@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(line);
 			trim_line(line, param);
-			if (is_executable(param->first_cmd, param))
+			if (param->first_cmd && is_executable(param->first_cmd, param))
 			{
 				if (is_cd_export_unset(param->first_cmd))
 					run_cd_export_unset(param->first_cmd, param);
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 					execute_in_child(param);
 			}
 			else
-				ft_error("command not found", 126);
+				ft_error("ERROR", 1);
 			ft_clean_all(line, param);
 		}
 	}

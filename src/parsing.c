@@ -15,6 +15,8 @@ t_cmd	*parse_exec(t_minishell *param)
 	res = execcmd();
 	cmd = (t_execcmd *)res;
 	res = parse_redire(res, param);
+	if (!res)
+		return (NULL);
 	while (peek("|", param) == 0 && param->start_line < param->end_line)
 	{
 		if (i >= 100)
@@ -25,6 +27,8 @@ t_cmd	*parse_exec(t_minishell *param)
 		cmd->end_argv[i] = param->end_t;
 		i++;
 		res = parse_redire(res, param);
+		if (!res)
+			return (NULL);
 	}
 	cmd->argv[i] = 0;
 	cmd->end_argv[i] = 0;
@@ -68,6 +72,8 @@ t_cmd	*parse(t_minishell *param)
 	t_cmd	*cmd;
 
 	cmd = parse_pipe(param);
+	if (!cmd)
+		return (NULL);
 	if (param->start_line < param->end_line)
 		ft_error("syntax error", 1);
 	nul_terminator(cmd);
