@@ -22,7 +22,7 @@ t_redircmd	*exchange_cmd_order(t_redircmd *rcmd)
 
 void	ft_dup2(t_redircmd *rcmd, int std)
 {
-	rcmd->fd = open(rcmd->start_file, rcmd->mode);
+	rcmd->fd = open(rcmd->start_file, rcmd->mode, 0777);
 	if (rcmd->fd < 0)
 	{
 		ft_error("failed to open", errno);
