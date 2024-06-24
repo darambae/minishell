@@ -48,8 +48,8 @@ int	main(int argc, char **argv, char **envp)
 				else
 					execute_in_child(param);
 			}
-			else
-				ft_error("ERROR", 1);
+			// else
+			// 	ft_error("ERROR", 1);if only space, we don't have to send error and exit code 1
 			ft_clean_all(line, param);
 		}
 	}
