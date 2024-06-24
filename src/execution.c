@@ -52,7 +52,7 @@ static void	handle_left(int *p, t_pipecmd *pcmd, t_minishell *param)
 	t_redircmd	*rcmd;
 
 	close(p[0]);
-	if (pcmd->left->type == REDIR)
+	if (pcmd->left && pcmd->left->type == REDIR)
 	{
 		rcmd = (t_redircmd *) pcmd->left;
 		rcmd = exchange_cmd_order(rcmd);
