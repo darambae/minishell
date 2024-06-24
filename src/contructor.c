@@ -60,8 +60,7 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	redir_file(redircmd, token);
 	if ((redircmd->fd) < 0)
 	{
-		//ft_error("open", errno);
-		free_cmd((t_cmd *)redircmd);
+		//free_cmd((t_cmd *)redircmd);
 		return (NULL);
 	}
 	if (sub_cmd->type == EXEC)

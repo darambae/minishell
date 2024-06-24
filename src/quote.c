@@ -13,7 +13,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 	temp = malloc ((i + 1) * sizeof(char *));
 	if (!temp)
 	{
-		ft_error("a malloc failed in save_arg_to_clean function\n", 1);
+		ft_error("a malloc failed in save_arg_to_clean function", 1);
 		return (NULL);
 	}
 	i = 0;
