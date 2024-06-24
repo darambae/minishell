@@ -101,7 +101,7 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	close(rcmd->fd);
+	//close(rcmd->fd);
 	if (rcmd->token == '{')
 		here_doc(rcmd, g_param);
 	if (rcmd->token == '{' || rcmd->token == '[')
