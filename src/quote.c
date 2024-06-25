@@ -70,17 +70,22 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 
 	temp = param->start_t;
 	s = NULL;
-	*((*cur) - *i) = '\0';
-	*i = 0;
 	(*cur)++;
+	if (ft_strchr(" \t\n\v\r", **cur))
+	{
+		(*cur)--;
+		*((*cur) - *i) = **cur;
+		(*cur)++;
+		return;
+	}
 	if (**cur == '?')
 		s = dollars_exit(cur);
-	else if (ft_strchr(" \t\n\v\r", **cur))
-		s = "$";
 	else
 		s = dollars_env(cur, quote, param);
 	if (s)
 	{
+		*((*cur) - *i) = '\0';
+		*i = 0;
 		temp = ft_strjoin(param->start_t, s);
 		param->arg_to_clean = save_arg_to_clean(s, param);
 	}
