@@ -37,7 +37,7 @@ int	is_executable(t_cmd *cmd, t_minishell *param)
 	if (cmd->type == EXEC)
 	{
 		ecmd = (t_execcmd *) cmd;
-		if (!ecmd->argv[0])
+		if (!ecmd->argv[0] || (!*(ecmd->argv[0]) && !ecmd->argv[1]))
 			return (0);
 	}
 	return (1);
