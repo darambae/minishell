@@ -75,6 +75,8 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 	(*cur)++;
 	if (**cur == '?')
 		s = dollars_exit(cur);
+	else if (ft_strchr(" \t\n\v\r", **cur))
+		s = "$";
 	else
 		s = dollars_env(cur, quote, param);
 	if (s)
@@ -83,7 +85,7 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 		param->arg_to_clean = save_arg_to_clean(s, param);
 	}
 	else
-		temp = ft_strjoin(param->start_t, "$");
+		temp = ft_strdup(param->start_t);
 	param->start_t = ft_strjoin(temp, *cur);
 	*cur = param->start_t + ft_strlen(temp);
 	param->end_line = *cur + ft_strlen(*cur);
