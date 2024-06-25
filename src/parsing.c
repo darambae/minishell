@@ -15,8 +15,6 @@ t_cmd	*parse_exec(t_minishell *param)
 	res = execcmd();
 	cmd = (t_execcmd *)res;
 	res = parse_redire(res, param);
-	if (!res)
-		return (NULL);
 	while (peek("|", param) == 0 && param->start_line < param->end_line)
 	{
 		if (i >= 100)

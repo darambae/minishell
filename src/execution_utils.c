@@ -81,3 +81,26 @@ int	fork1(void)
 		ft_error("fork error", 1);
 	return (pid);
 }
+
+int	heredoc_in_branch(t_cmd *branch)
+{
+	t_redircmd	*rcmd;
+
+	if (branch->type == EXEC)
+		return (1);
+	else
+	{
+		rcmd = (t_redircmd *)branch;
+		while (rcmd->token != '{')
+		{
+			if (rcmd->cmd == NULL)
+				return (1);
+			if (rcmd->cmd->type == EXEC)
+				return (1);
+			rcmd = (t_redircmd *)rcmd->cmd;
+		}
+		if (rcmd->token == '{')
+			return (0);
+	}
+	return (1);
+}

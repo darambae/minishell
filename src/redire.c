@@ -43,7 +43,7 @@ void	run_heredoc(t_redircmd *rcmd)
 
 	line = NULL;
 	signal(SIGINT, SIG_DFL);
-	rcmd->fd = open(rcmd->start_file, rcmd->mode);
+	rcmd->fd = open(rcmd->start_file, rcmd->mode, 0777);
 	if (rcmd->fd < 0)
 	{
 		ft_error("failed to open", errno);

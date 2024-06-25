@@ -63,7 +63,6 @@ int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 	return (i);
 }
 
-
 void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
 	char	*s;

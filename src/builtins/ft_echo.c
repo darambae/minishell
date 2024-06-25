@@ -1,4 +1,5 @@
 #include "../../minishell.h"
+
 void	return_line(char **argv, int *i, int *n)
 {
 	int	j;
@@ -15,7 +16,7 @@ void	return_line(char **argv, int *i, int *n)
 			(*i)++;
 		}
 		else
-			break;
+			break ;
 	}
 }
 

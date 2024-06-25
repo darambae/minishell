@@ -1,28 +1,5 @@
 #include "../minishell.h"
 
-int	heredoc_in_branch(t_cmd *branch)
-{
-	t_redircmd	*rcmd;
-
-	if (branch->type == EXEC)
-		return (1);
-	else
-	{
-		rcmd = (t_redircmd *)branch;
-		while (rcmd->token != '{')
-		{
-			if (rcmd->cmd == NULL)
-				return (1);
-			if (rcmd->cmd->type == EXEC)
-				return (1);
-			rcmd = (t_redircmd *)rcmd->cmd;
-		}
-		if (rcmd->token == '{')
-			return (0);
-	}
-	return (1);
-}
-
 static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 {
 	t_redircmd	*rcmd;
@@ -140,4 +117,3 @@ void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 	else if (cmd->type == REDIR)
 		run_redire(cmd, g_param);
 }
-

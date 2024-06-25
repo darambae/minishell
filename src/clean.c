@@ -37,15 +37,11 @@ static void	free_rcmd(t_cmd *cmd)
 void	free_cmd(t_cmd *cmd)
 {
 	t_pipecmd	*pcmd;
-	t_execcmd	*execcmd;
 
-	if (!cmd)
-		return ;
 	if (cmd->type == EXEC)
 	{
-		execcmd = (t_execcmd *) cmd;
-		free(execcmd);
-		execcmd = NULL;
+		free(cmd);
+		cmd = NULL;
 	}
 	else if (cmd->type == REDIR)
 		free_rcmd(cmd);
@@ -58,11 +54,6 @@ void	free_cmd(t_cmd *cmd)
 			free_cmd(pcmd->right);
 		free(pcmd);
 		pcmd = NULL;
-	}
-	else
-	{
-		free(cmd);
-		cmd = NULL;
 	}
 }
 
