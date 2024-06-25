@@ -73,7 +73,6 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 
 	if (ft_strchr(" \t\n\v\r", *(*cur + 1)))
 	{
-		(*cur)--;
 		*((*cur) - *i) = **cur;
 		(*cur)++;
 		return;
