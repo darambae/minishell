@@ -70,8 +70,8 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 
 	temp = param->start_t;
 	s = NULL;
-	(*cur)++;
-	if (ft_strchr(" \t\n\v\r", **cur))
+
+	if (ft_strchr(" \t\n\v\r", *(*cur + 1)))
 	{
 		(*cur)--;
 		*((*cur) - *i) = **cur;
@@ -80,6 +80,7 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 	}
 	*((*cur) - *i) = '\0';
 		*i = 0;
+	(*cur)++;
 	if (**cur == '?')
 		s = dollars_exit(cur);
 	else
