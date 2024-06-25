@@ -78,14 +78,15 @@ void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 		(*cur)++;
 		return;
 	}
+	*((*cur) - *i) = '\0';
+		*i = 0;
 	if (**cur == '?')
 		s = dollars_exit(cur);
 	else
 		s = dollars_env(cur, quote, param);
 	if (s)
 	{
-		*((*cur) - *i) = '\0';
-		*i = 0;
+
 		temp = ft_strjoin(param->start_t, s);
 		param->arg_to_clean = save_arg_to_clean(s, param);
 	}
