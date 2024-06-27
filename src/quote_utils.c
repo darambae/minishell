@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:16 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:54:52 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:40:05 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*dollars_env(char **cur, char quote, t_minishell *param)
 	temp = s;
 	s = get_path(ft_strjoin(s, "="), param);
 	free(temp);
+	temp = NULL;
 	return (s);
 }
 
@@ -62,10 +63,8 @@ char	*get_path(char *s_redircmd, t_minishell *param)
 		j++;
 	}
 	if (!env)
-	{
-		free(env);
 		return (NULL);
-	}
 	free(s_redircmd);
+	s_redircmd = NULL;
 	return (env);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:51 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:31:52 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:27:50 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ t_minishell	*init_param(char **envp)
 	param->cmd_line = NULL;
 	param->save_out = dup(STDOUT_FILENO);
 	param->save_in = dup(STDIN_FILENO);
-	param->arg_to_clean = malloc(sizeof(char *));
-	if (!param->arg_to_clean)
-		ft_error("a malloc failed in init_param function\n", 1);
-	param->arg_to_clean[0] = NULL;
+	// param->arg_to_clean = malloc(sizeof(char *));
+	// if (!param->arg_to_clean)
+	// 	ft_error("a malloc failed in init_param function\n", 1);
+	param->arg_to_clean = NULL;
 	return (param);
 }
 

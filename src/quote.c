@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:49:54 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 15:17:36 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:45:19 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 
 	temp = NULL;
 	i = 0;
-	while (g_param->arg_to_clean[i])
+	while (g_param->arg_to_clean && g_param->arg_to_clean[i])
 		i++;
 	i++;
 	temp = malloc((i + 1) * sizeof(char *));
@@ -29,7 +29,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 		return (NULL);
 	}
 	i = 0;
-	while (g_param->arg_to_clean[i])
+	while (g_param->arg_to_clean && g_param->arg_to_clean[i])
 	{
 		temp[i] = g_param->arg_to_clean[i];
 		i++;
