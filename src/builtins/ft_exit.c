@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:31:12 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 14:36:38 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
+
+static void	set_minus(const char *nptr, int *i, int *sign)
+{
+	if (nptr[*i] == '-' || nptr[*i] == '+')
+	{
+		if (nptr[*i] == '-')
+			*sign = -1;
+		(*i)++;
+	}
+}
 
 static int	grep_only_num(const char *nptr)
 {
@@ -9,21 +31,11 @@ static int	grep_only_num(const char *nptr)
 	sign = 1;
 	res = 0;
 	i = 0;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i] == '-')
-			sign = -1;
-		i++;
-	}
+	set_minus(nptr, &i, &sign);
 	if (nptr[i] == '"')
 	{
 		i++;
-		if (nptr[i] == '-' || nptr[i] == '+')
-		{
-			if (nptr[i] == '-')
-				sign = -1;
-			i++;
-		}
+		set_minus(nptr, &i, &sign);
 		while (ft_isdigit(nptr[i]))
 			res = res * 10 + (nptr[i++] - '0');
 		if (nptr[i] == '"')
@@ -81,12 +93,15 @@ static int	syntax_check(char *num)
 
 void	ft_exit(char **cmds)
 {
+	if (!syntax_check(cmds[1]))
+	{
+		ft_error("numeric argument required", 2);		
+		return ;
+	}
 	if (cmds[1] && cmds[2])
 		ft_error("exit : too many arguments", 1);
 	else if (!cmds[1])
 		g_exit_status = 0;
 	else if (cmds[1] && syntax_check(cmds[1]))
 		g_exit_status = grep_only_num(cmds[1]) % 256;
-	else if (!syntax_check(cmds[1]))
-		ft_error("numeric argument required", 2);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:31:42 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 11:31:46 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
@@ -78,7 +90,6 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	//close(rcmd->fd);
 	if (rcmd->token == '{')
 		here_doc(rcmd, g_param);
 	if (rcmd->token == '{' || rcmd->token == '[')

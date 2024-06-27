@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   contructor.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:31:25 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 13:45:29 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_cmd	*execcmd(void)
@@ -24,8 +36,6 @@ int	redir_file(t_redircmd *redircmd, int token)
 		redircmd->mode = O_RDWR | O_CREAT | O_APPEND;
 	else
 		return (ft_error("syntax error near unexpected token", 1));
-	//*(redircmd->end_file) = '\0';
-	//redircmd->fd = open(redircmd->start_file, redircmd->mode, 0777);
 	return (0);
 }
 
@@ -60,12 +70,6 @@ t_cmd	*redircmd(t_cmd *sub_cmd, int token, t_minishell *param)
 	redircmd->end_file = param->end_t;
 	redircmd->token = token;
 	redir_file(redircmd, token);
-	// if ((redircmd->fd) < 0)
-	// {
-	// 	//ft_error("open", errno);
-	// 	free_cmd((t_cmd *)redircmd);
-	// 	return (NULL);
-	// }
 	if (sub_cmd->type == EXEC)
 		redircmd->cmd = sub_cmd;
 	if (sub_cmd->type == REDIR)

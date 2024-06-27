@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clean.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:31:22 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 15:17:55 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	init_arg_to_clean(t_minishell *param)
@@ -13,10 +25,10 @@ void	init_arg_to_clean(t_minishell *param)
 	}
 	free(param->arg_to_clean);
 	param->arg_to_clean = NULL;
-	param->arg_to_clean = malloc(sizeof(char *));
-	if (!param->arg_to_clean)
-		ft_error("malloc failed in ft_clean_all function", 1);
-	param->arg_to_clean[0] = NULL;
+	// param->arg_to_clean = malloc(sizeof(char *));
+	// if (!param->arg_to_clean)
+	// 	ft_error("malloc failed in ft_clean_all function", 1);
+	// param->arg_to_clean[0] = NULL;
 }
 
 static void	free_rcmd(t_cmd *cmd)

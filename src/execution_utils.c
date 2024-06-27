@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:31:39 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 13:49:37 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 //temporary functions to get path
@@ -60,11 +72,6 @@ void	execute_cmd(char **cmds, t_minishell *param)
 
 	cmd_path = NULL;
 	cmd_path = get_cmd_path(cmds[0], param->env_variables);
-	// if (!cmd_path)
-	// {
-	// 	ft_error("command not found", 127);
-	// 	exit(127);
-	// } if i let this the absolute path don't work
 	execve(cmd_path, cmds, param->env_variables);
 	execve(cmds[0], cmds, param->env_variables);
 	free(cmd_path);

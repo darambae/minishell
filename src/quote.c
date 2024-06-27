@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 13:49:54 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 15:17:36 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	**save_arg_to_clean(char *s, t_minishell *g_param)
@@ -10,7 +22,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 	while (g_param->arg_to_clean[i])
 		i++;
 	i++;
-	temp = malloc ((i + 1) * sizeof(char *));
+	temp = malloc((i + 1) * sizeof(char *));
 	if (!temp)
 	{
 		ft_error("a malloc failed in save_arg_to_clean function", 1);
@@ -63,65 +75,43 @@ int	quote_parsing(char **cur, int i, t_minishell *param, char *quote)
 	return (i);
 }
 
-void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
+void	dollar_return(t_minishell *param, char *s, char **cur)
 {
-	char	*s;
 	char	*temp;
 
-	temp = param->start_t;
-	s = NULL;
-
-	if (ft_strchr(" \t\n\v\r", *(*cur + 1)) || *(*cur + 1) == quote)
-	{
-		*((*cur) - *i) = **cur;
-		(*cur)++;
-		return;
-	}
-	*((*cur) - *i) = '\0';
-		*i = 0;
-	(*cur)++;
-	if (**cur == '?')
-		s = dollars_exit(cur);
-	else
-		s = dollars_env(cur, quote, param);
 	if (s)
 	{
-
 		temp = ft_strjoin(param->start_t, s);
-		param->arg_to_clean = save_arg_to_clean(s, param);
+		free(s);
+		s = NULL;
 	}
 	else
 		temp = ft_strdup(param->start_t);
 	param->start_t = ft_strjoin(temp, *cur);
 	*cur = param->start_t + ft_strlen(temp);
 	param->end_line = *cur + ft_strlen(*cur);
-	param->arg_to_clean = save_arg_to_clean(temp, param);
 	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
+	free(temp);
+	temp = NULL;
 }
 
-char	*get_path(char *s_redircmd, t_minishell *param)
+void	dollars_parsing(char **cur, char quote, int *i, t_minishell *param)
 {
-	int		j;
-	char	*env;
-	int		len;
+	char	*s;
 
-	j = 0;
-	len = ft_strlen(s_redircmd);
-	env = NULL;
-	while (param->env_variables[j])
+	s = NULL;
+	if (ft_strchr(" \t\n\v\r", *(*cur + 1)) || *(*cur + 1) == quote)
 	{
-		if (ft_strncmp(s_redircmd, param->env_variables[j], len) == 0)
-		{
-			env = ft_strdup(param->env_variables[j] + len);
-			break ;
-		}
-		j++;
+		*((*cur) - *i) = **cur;
+		(*cur)++;
+		return ;
 	}
-	if (!env)
-	{
-		free(env);
-		return (NULL);
-	}
-	free(s_redircmd);
-	return (env);
+	*((*cur) - *i) = '\0';
+	*i = 0;
+	(*cur)++;
+	if (**cur == '?')
+		s = dollars_exit(cur);
+	else
+		s = dollars_env(cur, quote, param);
+	dollar_return(param, s, cur);
 }

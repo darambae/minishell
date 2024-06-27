@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 11:30:43 by dabae             #+#    #+#             */
+/*   Updated: 2024/06/27 11:30:44 by dabae            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -105,7 +117,7 @@ char		*get_path(char *s_redircmd, t_minishell *param);
 int			fork1(void);
 void		run_cmd(t_cmd *cmd, t_minishell *param);
 void		execute_cmd(char **cmds, t_minishell *param);
-int	heredoc_in_branch(t_cmd *branch);
+int			heredoc_in_branch(t_cmd *branch);
 
 //redirection util function
 t_redircmd	*exchange_cmd_order(t_redircmd *rcmd);
