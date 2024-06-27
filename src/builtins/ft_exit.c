@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:12 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 14:36:38 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/27 16:38:08 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ static int	syntax_check(char *num)
 
 void	ft_exit(char **cmds)
 {
+	if (!cmds[1])
+	{
+		g_exit_status = 0;
+		return ;	
+	}
 	if (!syntax_check(cmds[1]))
 	{
 		ft_error("numeric argument required", 2);		
@@ -100,8 +105,6 @@ void	ft_exit(char **cmds)
 	}
 	if (cmds[1] && cmds[2])
 		ft_error("exit : too many arguments", 1);
-	else if (!cmds[1])
-		g_exit_status = 0;
 	else if (cmds[1] && syntax_check(cmds[1]))
 		g_exit_status = grep_only_num(cmds[1]) % 256;
 }
