@@ -6,13 +6,13 @@
 /*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:49:54 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 15:45:19 by kbrener-         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:53:29 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**save_arg_to_clean(char *s, t_minishell *g_param)
+void	save_arg_to_clean(char *s, t_minishell *g_param)
 {
 	int		i;
 	char	**temp;
@@ -26,7 +26,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 	if (!temp)
 	{
 		ft_error("a malloc failed in save_arg_to_clean function", 1);
-		return (NULL);
+		return ;
 	}
 	i = 0;
 	while (g_param->arg_to_clean && g_param->arg_to_clean[i])
@@ -37,8 +37,7 @@ char	**save_arg_to_clean(char *s, t_minishell *g_param)
 	temp[i++] = s;
 	temp[i] = NULL;
 	free(g_param->arg_to_clean);
-	g_param->arg_to_clean = NULL;
-	return (temp);
+	g_param->arg_to_clean = temp;
 }
 
 void	skip_whitespace(char **cur, t_minishell *g_param)
@@ -90,7 +89,7 @@ void	dollar_return(t_minishell *param, char *s, char **cur)
 	param->start_t = ft_strjoin(temp, *cur);
 	*cur = param->start_t + ft_strlen(temp);
 	param->end_line = *cur + ft_strlen(*cur);
-	param->arg_to_clean = save_arg_to_clean(param->start_t, param);
+	save_arg_to_clean(param->start_t, param);
 	free(temp);
 	temp = NULL;
 }

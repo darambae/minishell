@@ -6,7 +6,7 @@
 /*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:16 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 15:40:05 by kbrener-         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:52:54 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,25 @@ char	*dollars_env(char **cur, char quote, t_minishell *param)
 	return (s);
 }
 
-char	*get_path(char *s_redircmd, t_minishell *param)
+char	*get_path(char *s, t_minishell *param)
 {
 	int		j;
 	char	*env;
 	int		len;
 
 	j = 0;
-	len = ft_strlen(s_redircmd);
+	len = ft_strlen(s);
 	env = NULL;
 	while (param->env_variables[j])
 	{
-		if (ft_strncmp(s_redircmd, param->env_variables[j], len) == 0)
+		if (ft_strncmp(s, param->env_variables[j], len) == 0)
 		{
 			env = ft_strdup(param->env_variables[j] + len);
 			break ;
 		}
 		j++;
 	}
-	if (!env)
-		return (NULL);
-	free(s_redircmd);
-	s_redircmd = NULL;
+	free(s);
+	s = NULL;
 	return (env);
 }

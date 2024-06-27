@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
+/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:22 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 15:17:55 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/27 16:45:18 by kbrener-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ void	handle_exit(char *line, t_minishell *param)
 	if (param->save_in)
 		close(param->save_in);
 	ft_clean_all(line, param);
-	free(param->arg_to_clean);
-	param->arg_to_clean = NULL;
+	// free(param->arg_to_clean);
+	// param->arg_to_clean = NULL;
 	free(param);
 	param = NULL;
 	exit(g_exit_status);
