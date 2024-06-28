@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:55:20 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:55:21 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 08:35:36 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_exit_status(int status)
 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		g_exit_status = 130;
 	else
-		g_exit_status = errno;
+		g_exit_status = 126;
 }
 
 void	handle_signal_during_execution(int sig)

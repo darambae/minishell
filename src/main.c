@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:06 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 14:51:03 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 09:07:52 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	param = NULL;
-	param = init_param(envp);
 	line = NULL;
+	param = (t_minishell *)malloc(sizeof(t_minishell));
+	if (param == NULL)
+		ft_error("malloc", 1);
+	g_exit_status = 0;
+	init_param(envp, param);
 	setup_parent_signals();
 	show_prompt(&line, param);
 	handle_exit(line, param);

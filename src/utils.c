@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:55:36 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:55:37 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 08:48:46 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ int	ft_error(char *msg, int exit_code)
 	if (errno != 0)
 		perror(msg);
 	else
-		printf("%s\n", msg);
+		printf("minishell: %s\n", msg);
 	return (0);
 }

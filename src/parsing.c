@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:12 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:32:13 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 08:18:44 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*parse_redire(t_cmd *cmd, t_minishell *param)
 	{
 		token = get_token(0, param);
 		if (get_token(1, param) != 'a')
-			ft_error("minishell: syntax error near unexpected token", 1);
+			ft_error("syntax error near unexpected token", 1);
 		cmd = redircmd(cmd, token, param);
 	}
 	return (cmd);

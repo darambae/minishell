@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:49:54 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 16:53:29 by kbrener-         ###   ########.fr       */
+/*   Updated: 2024/06/28 08:19:01 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	save_arg_to_clean(char *s, t_minishell *g_param)
 	temp = malloc((i + 1) * sizeof(char *));
 	if (!temp)
 	{
-		ft_error("a malloc failed in save_arg_to_clean function", 1);
+		ft_error("malloc", 1);
 		return ;
 	}
 	i = 0;

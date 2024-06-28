@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:51 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 15:27:50 by kbrener-         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:13:40 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**make_copy(char **env)
+
+/*copy the environtment variables in param*/
+static char	**make_copy(char **env)
 {
 	char	**copy;
 	int		i;
@@ -35,15 +37,8 @@ char	**make_copy(char **env)
 	return (copy);
 }
 
-t_minishell	*init_param(char **envp)
+void	init_param(char **envp, t_minishell *param)
 {
-	t_minishell	*param;
-
-	param = NULL;
-	param = (t_minishell *)malloc(sizeof(t_minishell));
-	if (param == NULL)
-		ft_error("malloc error", 1);
-	g_exit_status = 0;
 	param->end_line = NULL;
 	param->end_t = NULL;
 	param->start_line = NULL;
@@ -55,11 +50,7 @@ t_minishell	*init_param(char **envp)
 	param->cmd_line = NULL;
 	param->save_out = dup(STDOUT_FILENO);
 	param->save_in = dup(STDIN_FILENO);
-	// param->arg_to_clean = malloc(sizeof(char *));
-	// if (!param->arg_to_clean)
-	// 	ft_error("a malloc failed in init_param function\n", 1);
 	param->arg_to_clean = NULL;
-	return (param);
 }
 
 void	trim_line(char *line, t_minishell *param)

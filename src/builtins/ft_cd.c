@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:01 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:31:02 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 08:51:30 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	execute_chdir(char *path, t_minishell *param)
 	current_path = NULL;
 	current_path = getcwd(NULL, 0);
 	if (chdir(path) == -1)
-		ft_error("cd", ENOENT);
+		ft_error("cd", errno);
 	else
 	{
 		update_env("OLDPWD=", current_path, param);

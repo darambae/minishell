@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:55:17 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:55:18 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 08:20:03 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	ft_dup2(t_redircmd *rcmd, int std)
 	rcmd->fd = open(rcmd->start_file, rcmd->mode, 0777);
 	if (rcmd->fd < 0)
 	{
-		ft_error("failed to open", errno);
+		ft_error("dup2", errno);
 		exit(1);
 	}
 	if (dup2(rcmd->fd, std) < 0)
 	{
 		close(rcmd->fd);
-		ft_error("failed to dup", errno);
+		ft_error("dup2", errno);
 		exit(1);
 	}
 	close(rcmd->fd);
@@ -95,7 +95,7 @@ void	here_doc(t_redircmd *rcmd, t_minishell *param)
 	else
 	{
 		close(rcmd->fd);
-		printf("minishell: warning: here-document delimited by end-of-file\n");
+		printf("warning: here-document delimited by end-of-file\n");
 		g_exit_status = 0;
 	}
 }

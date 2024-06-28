@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:43 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:30:44 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 09:05:30 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_minishell
 
 //init
 void		trim_line(char *line, t_minishell *param);
-t_minishell	*init_param(char **envp);
+void		init_param(char **envp, t_minishell *param);
 char		**make_copy(char **env);
 
 int			ft_error(char *msg, int exit_code);

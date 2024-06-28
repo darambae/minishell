@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kbrener- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:22 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 16:45:18 by kbrener-         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:01:01 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@ void	init_arg_to_clean(t_minishell *param)
 	}
 	free(param->arg_to_clean);
 	param->arg_to_clean = NULL;
-	// param->arg_to_clean = malloc(sizeof(char *));
-	// if (!param->arg_to_clean)
-	// 	ft_error("malloc failed in ft_clean_all function", 1);
-	// param->arg_to_clean[0] = NULL;
 }
 
 static void	free_rcmd(t_cmd *cmd)
@@ -111,8 +107,6 @@ void	handle_exit(char *line, t_minishell *param)
 	if (param->save_in)
 		close(param->save_in);
 	ft_clean_all(line, param);
-	// free(param->arg_to_clean);
-	// param->arg_to_clean = NULL;
 	free(param);
 	param = NULL;
 	exit(g_exit_status);
