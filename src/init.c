@@ -6,14 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:51 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 09:13:40 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:36:15 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-/*copy the environtment variables in param*/
+/*copy the env variables in param*/
 static char	**make_copy(char **env)
 {
 	char	**copy;
@@ -53,7 +52,8 @@ void	init_param(char **envp, t_minishell *param)
 	param->arg_to_clean = NULL;
 }
 
-void	trim_line(char *line, t_minishell *param)
+/*save the line from the prompt and parse it*/
+void	init_parse_line(char *line, t_minishell *param)
 {
 	param->cmd_line = ft_strdup(line);
 	param->end_line = param->cmd_line + ft_strlen(param->cmd_line);

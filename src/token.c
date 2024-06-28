@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:55:32 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:55:33 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:17:00 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	assign_token(char **cur, t_minishell *param)
 	}
 }
 
+/*assign a token for pipe and redirections*/
 static void	give_token(char **cur, t_minishell *param)
 {
 	param->res = **cur;

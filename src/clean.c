@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:22 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 09:01:01 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:25:13 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_arg_to_clean(t_minishell *param)
 	param->arg_to_clean = NULL;
 }
 
+/*free rcmd*/
 static void	free_rcmd(t_cmd *cmd)
 {
 	t_redircmd	*rcmd;
@@ -42,6 +43,7 @@ static void	free_rcmd(t_cmd *cmd)
 	rcmd = NULL;
 }
 
+/*free all of the cmd nodes(recursive function)*/
 void	free_cmd(t_cmd *cmd)
 {
 	t_pipecmd	*pcmd;
@@ -65,7 +67,7 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	ft_clean_all(char *line, t_minishell *param)
+void	clean_for_next(char *line, t_minishell *param)
 {
 	if (line)
 	{
@@ -89,7 +91,7 @@ void	ft_clean_all(char *line, t_minishell *param)
 	}
 }
 
-void	handle_exit(char *line, t_minishell *param)
+void	clean_all(char *line, t_minishell *param)
 {
 	char	**arr;
 
@@ -106,7 +108,7 @@ void	handle_exit(char *line, t_minishell *param)
 		close(param->save_out);
 	if (param->save_in)
 		close(param->save_in);
-	ft_clean_all(line, param);
+	clean_for_next(line, param);
 	free(param);
 	param = NULL;
 	exit(g_exit_status);

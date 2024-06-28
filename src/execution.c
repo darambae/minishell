@@ -6,12 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:42 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:31:46 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 14:18:15 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*run the command line on the right side of the pipe*/
 static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 {
 	t_redircmd	*rcmd;
@@ -36,6 +37,7 @@ static void	handle_right(int *p, t_pipecmd *pcmd, t_minishell *param)
 	run_cmd(pcmd->right, param);
 }
 
+/*run the command line on the left side of the pipe*/
 static void	handle_left(int *p, t_pipecmd *pcmd, t_minishell *param)
 {
 	t_redircmd	*rcmd;
@@ -82,7 +84,7 @@ static int	run_pipe(t_cmd *cmd, t_minishell *g_param)
 	if (WIFEXITED(g_exit_status))
 		return (WEXITSTATUS(g_exit_status));
 	else
-		return (EXIT_FAILURE);
+		return (g_exit_status);
 }
 
 static void	run_redire(t_cmd *cmd, t_minishell *g_param)
@@ -104,6 +106,7 @@ static void	run_redire(t_cmd *cmd, t_minishell *g_param)
 	run_cmd(rcmd->cmd, g_param);
 }
 
+/*depending on the type of the cmd node, execute them respectively*/
 void	run_cmd(t_cmd *cmd, t_minishell *g_param)
 {
 	t_execcmd	*ecmd;

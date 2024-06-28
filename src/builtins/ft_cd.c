@@ -6,12 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:01 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 08:51:30 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 12:04:23 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+/*update the whole param->env_variables with given path*/
 static void	update_env(char *str, char *new, t_minishell *param)
 {
 	int		i;
@@ -62,11 +63,11 @@ int	ft_cd(t_execcmd *cmd, t_minishell *param)
 
 	path = NULL;
 	if (!cmd->argv[1] || (!ft_strcmp(cmd->argv[1], "~") && !cmd->argv[2]))
-		path = get_path("HOME=", param);
+		path = get_env_value("HOME=", param);
 	else if (cmd->argv[1] && !cmd->argv[2])
 	{
 		if (!ft_strcmp(cmd->argv[1], "-"))
-			path = get_path("OLDPWD=", param);
+			path = get_env_value("OLDPWD=", param);
 		else if (cmd->argv[1][0] == '-' && ft_strlen(cmd->argv[1]) > 1)
 			return (ft_error("cd: invalid option", 2));
 		else

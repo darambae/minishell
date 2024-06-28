@@ -6,13 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:39 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 08:46:06 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 15:03:45 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//temporary functions to get path
+/*retrieve all of the available paths on the system*/
 static char	**whole_paths(char **envp)
 {
 	int		j;
@@ -20,6 +20,8 @@ static char	**whole_paths(char **envp)
 	char	**path_arr;
 
 	j = 0;
+	whole_path = NULL;
+	path_arr = NULL;
 	while (envp[j])
 	{
 		if (ft_strncmp("PATH=", envp[j], 5) == 0)
@@ -29,15 +31,15 @@ static char	**whole_paths(char **envp)
 		}
 		j++;
 	}
-	free(whole_path);
-	if (!path_arr)
+	if (!whole_path)
 	{
-		ft_free_tab(path_arr);
-		return (NULL);
+		ft_error("No path found", 127);
+		exit(127);
 	}
 	return (path_arr);
 }
 
+/*find the right path for the specific command*/
 char	*get_cmd_path(char *cmd_name, char **envp)
 {
 	int		j;
@@ -46,10 +48,8 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 	char	**path_arr;
 
 	path_arr = whole_paths(envp);
-	if (!path_arr)
-		ft_error("No path found", 126);
-	j = 0;
-	while (path_arr[j])
+	j = -1;
+	while (path_arr[++j])
 	{
 		tmp = ft_strjoin(path_arr[j], "/");
 		cmd_path = ft_strjoin(tmp, cmd_name);
@@ -60,7 +60,6 @@ char	*get_cmd_path(char *cmd_name, char **envp)
 			return (cmd_path);
 		}
 		free(cmd_path);
-		j++;
 	}
 	ft_free_tab(path_arr);
 	return (NULL);
@@ -100,9 +99,7 @@ int	heredoc_in_branch(t_cmd *branch)
 		rcmd = (t_redircmd *)branch;
 		while (rcmd->token != '{')
 		{
-			if (rcmd->cmd == NULL)
-				return (1);
-			if (rcmd->cmd->type == EXEC)
+			if (rcmd->cmd == NULL || rcmd->cmd->type == EXEC)
 				return (1);
 			rcmd = (t_redircmd *)rcmd->cmd;
 		}

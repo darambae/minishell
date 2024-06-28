@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:12 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 08:18:44 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 12:05:32 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*parse_exec(t_minishell *param)
 	while (peek("|", param) == 0 && param->start_line < param->end_line)
 	{
 		if (i >= 100)
-			perror("too many args\n");
+			perror("too many args");
 		if (!get_token(1, param))
 			break ;
 		cmd->argv[i] = param->start_t;
@@ -77,6 +77,8 @@ t_cmd	*parse_redire(t_cmd *cmd, t_minishell *param)
 	return (cmd);
 }
 
+/*by parsing the line in the order of pipe, exec and redirection, 
+it creates nodes*/
 t_cmd	*parse(t_minishell *param)
 {
 	t_cmd	*cmd;

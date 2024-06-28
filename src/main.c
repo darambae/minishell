@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:06 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 09:07:52 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:02:38 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	show_prompt(char **line, t_minishell *param)
 		if (ft_strlen(*line))
 		{
 			add_history(*line);
-			trim_line(*line, param);
+			init_parse_line(*line, param);
 			if (param->first_cmd && is_executable(param->first_cmd, param))
 			{
 				if (is_cd_export_unset(param->first_cmd))
@@ -52,7 +52,7 @@ void	show_prompt(char **line, t_minishell *param)
 				else
 					execute_in_child(param);
 			}
-			ft_clean_all(*line, param);
+			clean_for_next(*line, param);
 		}
 	}
 }
@@ -73,5 +73,5 @@ int	main(int argc, char **argv, char **envp)
 	init_param(envp, param);
 	setup_parent_signals();
 	show_prompt(&line, param);
-	handle_exit(line, param);
+	clean_all(line, param);
 }

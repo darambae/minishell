@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:30:43 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 09:05:30 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:58:02 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,8 @@ typedef struct s_minishell
 }				t_minishell;
 
 //init
-void		trim_line(char *line, t_minishell *param);
+void		init_parse_line(char *line, t_minishell *param);
 void		init_param(char **envp, t_minishell *param);
-char		**make_copy(char **env);
 
 int			ft_error(char *msg, int exit_code);
 int			is_executable(t_cmd *cmd, t_minishell *param);
@@ -99,7 +98,7 @@ t_cmd		*pipecmd(t_cmd *left, t_cmd *right);
 t_cmd		*nul_terminator(t_cmd *cmd);
 
 // parsing
-/*peek : skip whitespace and tabs, return true if first carac == c
+/*peek : skip whitespace and tabs, return true if first charac == c
 or False if not or if there is no carac*/
 int			peek(char *c, t_minishell *param);
 int			get_token(int save, t_minishell *param);
@@ -110,8 +109,8 @@ char		*dollars_env(char **cur, char quote, t_minishell *param);
 int			quote_parsing(char **cur, int i, t_minishell *param, char *quote);
 void		skip_whitespace(char **cur, t_minishell *param);
 void		dollars_parsing(char **cur, char quote, int *i, t_minishell *param);
-char		*get_path(char *s_redircmd, t_minishell *param);
-//void		give_token(char **cur, int *res);
+char		*get_env_value(char *s_redircmd, t_minishell *param);
+void		save_arg_to_clean(char *s, t_minishell *param);
 
 //execution
 int			fork1(void);
@@ -146,8 +145,8 @@ void		setup_parent_signals(void);
 
 //clean
 void		free_cmd(t_cmd *cmd);
-void		ft_clean_all(char *line, t_minishell *param);
-void		handle_exit(char *line, t_minishell *param);
+void		clean_for_next(char *line, t_minishell *param);
+void		clean_all(char *line, t_minishell *param);
 
 //utils
 char		**create_double_arr(int size);

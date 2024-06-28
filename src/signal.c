@@ -6,12 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:55:20 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 08:35:36 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:40:05 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*Save exit status in global variable depending on exit status of the process */
 void	handle_exit_status(int status)
 {
 	if (WIFEXITED(status))

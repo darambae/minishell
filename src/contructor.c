@@ -6,12 +6,13 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:25 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 13:45:29 by dabae            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:28:01 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*create nodes for EXEC, REDIC, PIPE*/
 t_cmd	*execcmd(void)
 {
 	t_execcmd	*execcmd;
@@ -39,6 +40,7 @@ int	redir_file(t_redircmd *redircmd, int token)
 	return (0);
 }
 
+/*?*/
 t_cmd	*multiple_redire(t_cmd *sub_cmd, t_redircmd *last_rcmd)
 {
 	t_redircmd	*first_rcmd;
