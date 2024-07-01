@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:06 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 11:02:38 by dabae            ###   ########.fr       */
+/*   Updated: 2024/07/01 13:32:08 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	show_prompt(char **line, t_minishell *param)
 				else
 					execute_in_child(param);
 			}
-			clean_for_next(*line, param);
 		}
+		clean_for_next(*line, param);
 	}
 }
 

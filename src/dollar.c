@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:32:16 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 12:05:21 by dabae            ###   ########.fr       */
+/*   Updated: 2024/07/01 14:08:03 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*dollars_env(char **cur, char quote, t_minishell *param)
 	i = 0;
 	s = ft_strdup(*cur);
 	while (*cur < param->end_line && !ft_strchr(" \t\n\v\r|><", **cur) \
-				&& (**cur != quote || quote == 'a'))
+				&& (**cur != quote || quote == 'a') && ft_isalpha(**cur))
 	{
 		(*cur)++;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:15 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/27 11:31:16 by dabae            ###   ########.fr       */
+/*   Updated: 2024/07/01 11:33:37 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,21 @@ static void	replace_env(char *new, int l_env, int len_name, t_minishell *param)
 	if (!new_env)
 		return ;
 	i = -1;
-	j = 0;
+	j = -1;
 	while (++i < l_env)
 	{
 		if (!param->env_variables[i])
 		{
-			new_env[j] = ft_strdup(new);
+			new_env[++j] = ft_strdup(new);
 			break ;
 		}
 		if (!ft_strncmp(param->env_variables[i], new, len_name))
-			new_env[j] = ft_strdup(new);
+			new_env[++j] = ft_strdup(new);
 		else
-			new_env[j] = ft_strdup(param->env_variables[i]);
-		j++;
+			new_env[++j] = ft_strdup(param->env_variables[i]);
 	}
 	ft_free_tab(param->env_variables);
-	new_env[j] = NULL;
+	new_env[++j] = NULL;
 	param->env_variables = new_env;
 }
 

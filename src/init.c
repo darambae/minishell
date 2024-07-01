@@ -6,7 +6,7 @@
 /*   By: dabae <dabae@student.42perpignan.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:31:51 by dabae             #+#    #+#             */
-/*   Updated: 2024/06/28 11:36:15 by dabae            ###   ########.fr       */
+/*   Updated: 2024/07/01 11:19:27 by dabae            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	init_param(char **envp, t_minishell *param)
 	param->arg_to_clean = NULL;
 }
 
-/*save the line from the prompt and parse it*/
+/*save the input line of the prompt and parse it*/
 void	init_parse_line(char *line, t_minishell *param)
 {
 	param->cmd_line = ft_strdup(line);
